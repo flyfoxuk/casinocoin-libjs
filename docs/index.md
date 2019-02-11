@@ -2,22 +2,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 # CasinocoinAPI Reference
 
-- [Introduction](#introduction)
-  - [Boilerplate](#boilerplate)
-  - [Offline functionality](#offline-functionality)
-- [Basic Types](#basic-types)
-  - [Casinocoin Address](#casinocoin-address)
-  - [Account Sequence Number](#account-sequence-number)
-  - [Currency](#currency)
-  - [Value](#value)
-  - [Amount](#amount)
-- [Transaction Overview](#transaction-overview)
-  - [Transaction Types](#transaction-types)
-  - [Transaction Flow](#transaction-flow)
-  - [Transaction Fees](#transaction-fees)
-  - [Transaction Instructions](#transaction-instructions)
-  - [Transaction ID](#transaction-id)
-  - [Transaction Memos](#transaction-memos)
+- [Introduction CasinocoinAPI is the official client library to the Casinocoin Consensus Ledger. Currently, CasinocoinAPI is only available in JavaScript. Using CasinocoinAPI, you can: * [Query transactions from the network](#gettransaction) * Sign](#introduction-casinocoinapi-is-the-official-client-library-to-the-casinocoin-consensus-ledger-currently-casinocoinapi-is-only-available-in-javascript-using-casinocoinapi-you-can--query-transactions-from-the-networkgettransaction--sign)
+  - [Boilerplate Use the following boilerplate code to wrap your custom code using CasinocoinAPI. ```javascript const CasinocoinAPI = require('casinocoin-libjs').CasinocoinAPI; const api = new CasinocoinAPI({](#boilerplate-use-the-following-boilerplate-code-to-wrap-your-custom-code-using-casinocoinapi-javascript-const-casinocoinapi--requirecasinocoin-libjscasinocoinapi-const-api--new-casinocoinapi)
+  - [Offline functionality CasinocoinAPI can also function without internet connectivity. This can be useful in order to generate secrets and sign transactions from a secure, isolated machine. To instantiate CasinocoinAPI in offline mode, use the following](#offline-functionality-casinocoinapi-can-also-function-without-internet-connectivity-this-can-be-useful-in-order-to-generate-secrets-and-sign-transactions-from-a-secure-isolated-machine-to-instantiate-casinocoinapi-in-offline-mode-use-the-following)
+- [Basic Types ## Casinocoin Address ```json "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59" ``` Every Casinocoin account has an *address*, which is a base58-encoding of a hash of the account's public key. Casinocoin addresses always start with the lowercase letter](#basic-types--casinocoin-address-json-r9cza1mlk5r5am25arfxfmqgnwjzgnfk59--every-casinocoin-account-has-an-address-which-is-a-base58-encoding-of-a-hash-of-the-accounts-public-key-casinocoin-addresses-always-start-with-the-lowercase-letter)
+- [Transaction Overview ## Transaction Types A transaction type is specified by the strings in the first column in the table below. Type | Description ---- | ----------- payment | A `payment` transaction represents a transfer of value from](#transaction-overview--transaction-types-a-transaction-type-is-specified-by-the-strings-in-the-first-column-in-the-table-below-type--description-------------------payment--a-payment-transaction-represents-a-transfer-of-value-from)
 - [Transaction Specifications](#transaction-specifications)
   - [Payment](#payment)
   - [Trustline](#trustline)
@@ -31,11 +20,11 @@
   - [Payment Channel Fund](#payment-channel-fund)
   - [Payment Channel Claim](#payment-channel-claim)
 - [API Methods](#api-methods)
-  - [connect](#connect)
-  - [disconnect](#disconnect)
-  - [isConnected](#isconnected)
-  - [getServerInfo](#getserverinfo)
-  - [getFee](#getfee)
+  - [connect `connect(): Promise](#connect-connect-promise)
+  - [disconnect `disconnect(): Promise](#disconnect-disconnect-promise)
+  - [isConnected `isConnected(): boolean` Checks if the CasinocoinAPI instance is connected to its casinocoind server. ### Parameters This method has no parameters. ### Return Value This method returns `true` if connected and `false` if not connected.](#isconnected-isconnected-boolean-checks-if-the-casinocoinapi-instance-is-connected-to-its-casinocoind-server--parameters-this-method-has-no-parameters--return-value-this-method-returns-true-if-connected-and-false-if-not-connected)
+  - [getServerInfo `getServerInfo(): Promise<object>`](#getserverinfo-getserverinfo-promiseobject)
+  - [getFee `getFee(): Promise](#getfee-getfee-promise)
   - [getLedgerVersion](#getledgerversion)
   - [getTransaction](#gettransaction)
   - [getTransactions](#gettransactions)
@@ -63,78 +52,37 @@
   - [sign](#sign)
   - [combine](#combine)
   - [submit](#submit)
-  - [generateAddress](#generateaddress)
+  - [generateAddress `generateAddress(): {address: string, secret: string}` Generate a new Casinocoin address and corresponding secret. ### Parameters](#generateaddress-generateaddress-address-string-secret-string-generate-a-new-casinocoin-address-and-corresponding-secret--parameters)
   - [signPaymentChannelClaim](#signpaymentchannelclaim)
   - [verifyPaymentChannelClaim](#verifypaymentchannelclaim)
   - [computeLedgerHash](#computeledgerhash)
-- [API Events](#api-events)
-  - [ledger](#ledger)
-  - [error](#error)
-  - [connected](#connected)
-  - [disconnected](#disconnected)
+- [API Events ## ledger This event is emitted whenever a new ledger version is validated on the connected server. ### Return Value](#api-events--ledger-this-event-is-emitted-whenever-a-new-ledger-version-is-validated-on-the-connected-server--return-value)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Introduction
-
-CasinocoinAPI is the official client library to the Casinocoin Consensus Ledger. Currently, CasinocoinAPI is only available in JavaScript. 
-Using CasinocoinAPI, you can:
-
-* [Query transactions from the network](#gettransaction)
-* [Sign](#sign) transactions securely without connecting to any server
-* [Submit](#submit) transactions to the Casinocoin Consensus Ledger, including [Payments](#payment), [Orders](#order), [Settings changes](#settings), and [other types](#transaction-types)
-* [Generate a new Casinocoin Address](#generateaddress)
-* ... and [much more](#api-methods).
-
-CasinocoinAPI only provides access to *validated*, *immutable* transaction data.
-
-## Boilerplate
-
-Use the following [boilerplate code](https://en.wikipedia.org/wiki/Boilerplate_code) to wrap your custom code using CasinocoinAPI.
-
-```javascript
-const CasinocoinAPI = require('casinocoin-libjs').CasinocoinAPI;
-
-const api = new CasinocoinAPI({
-  server: 'wss://s1.casinocoin.org' // Public casinocoind server hosted by Casinocoin, Inc.
-});
-api.on('error', (errorCode, errorMessage) => {
-  console.log(errorCode + ': ' + errorMessage);
-});
-api.on('connected', () => {
-  console.log('connected');
-});
-api.on('disconnected', (code) => {
-  // code - [close code](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent) sent by the server
-  // will be 1000 if this was normal closure
-  console.log('disconnected, code:', code);
-});
-api.connect().then(() => {
-  /* insert code here */
-}).then(() => {
-  return api.disconnect();
-}).catch(console.error);
-```
-
-CasinocoinAPI is designed to work in [Node.js](https://nodejs.org) version **6.9.0** or later. CasinocoinAPI may work on older Node.js versions if you use [Babel](https://babeljs.io/) for [ECMAScript 6](https://babeljs.io/docs/learn-es2015/) support.
-
-The code samples in this documentation are written with ECMAScript 6 (ES6) features, but `CasinocoinAPI` also works with ECMAScript 5 (ES5). Regardless of whether you use ES5 or ES6, the methods that return Promises return [ES6-style promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+# Introduction CasinocoinAPI is the official client library to the Casinocoin Consensus Ledger. Currently, CasinocoinAPI is only available in JavaScript. Using CasinocoinAPI, you can: * [Query transactions from the network](#gettransaction) * [Sign](#sign)
+transactions securely without connecting to any server * [Submit](#submit) transactions to the Casinocoin Consensus Ledger, including [Payments](#payment), [Orders](#order), [Settings changes](#settings), and [other types](#transaction-types) * [Generate
+a new Casinocoin Address](#generateaddress) * ... and [much more](#api-methods). CasinocoinAPI only provides access to *validated*, *immutable* transaction data.
+## Boilerplate Use the following [boilerplate code](https://en.wikipedia.org/wiki/Boilerplate_code) to wrap your custom code using CasinocoinAPI. ```javascript const CasinocoinAPI = require('casinocoin-libjs').CasinocoinAPI; const api = new CasinocoinAPI({
+server: 'wss://s1.casinocoin.org' // Public casinocoind server hosted by Casinocoin, Inc. }); api.on('error', (errorCode, errorMessage) => { console.log(errorCode + ': ' + errorMessage); }); api.on('connected', () => { console.log('connected'); }); api.on('disconnected',
+(code) => { // code - [close code](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent) sent by the server // will be 1000 if this was normal closure console.log('disconnected, code:', code); }); api.connect().then(() => { /* insert code here
+*/ }).then(() => { return api.disconnect(); }).catch(console.error); ``` CasinocoinAPI is designed to work in [Node.js](https://nodejs.org) version **6.9.0** or later. CasinocoinAPI may work on older Node.js versions if you use [Babel](https://babeljs.io/)
+for [ECMAScript 6](https://babeljs.io/docs/learn-es2015/) support. The code samples in this documentation are written with ECMAScript 6 (ES6) features, but `CasinocoinAPI` also works with ECMAScript 5 (ES5). Regardless of whether you use ES5 or ES6, the
+methods that return Promises return [ES6-style promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 <aside class="notice">
-All the code snippets in this documentation assume that you have surrounded them with this boilerplate.
+    All the code snippets in this documentation assume that you have surrounded them with this boilerplate.
 </aside>
 
 <aside class="notice">
-If you omit the "catch" section, errors may not be visible.
+    If you omit the "catch" section, errors may not be visible.
 </aside>
 
 <aside class="notice">
-The "error" event is emitted whenever an error occurs that cannot be associated with a specific request. If the listener is not registered, an exception will be thrown whenever the event is emitted.
+    The "error" event is emitted whenever an error occurs that cannot be associated with a specific request. If the listener is not registered, an exception will be thrown whenever the event is emitted.
 </aside>
 
-### Parameters
-
-The CasinocoinAPI constructor optionally takes one argument, an object with the following options:
+### Parameters The CasinocoinAPI constructor optionally takes one argument, an object with the following options:
 
 Name | Type | Description
 ---- | ---- | -----------
@@ -150,149 +98,46 @@ timeout | integer | *Optional* Timeout in milliseconds before considering a requ
 trace | boolean | *Optional* If true, log casinocoind requests and responses to stdout.
 trustedCertificates | array\<string\> | *Optional* Array of PEM-formatted SSL certificates to trust when connecting to a proxy. This is useful if you want to use a self-signed certificate on the proxy server. Note: Each element must contain a single certificate; concatenated certificates are not valid.
 
-If you omit the `server` parameter, CasinocoinAPI operates [offline](#offline-functionality).
+    If you omit the `server` parameter, CasinocoinAPI operates [offline](#offline-functionality). ### Installation ### 1. Install [Node.js](https://nodejs.org) and the Node Package Manager (npm). Most Linux distros have a package for Node.js, but make sure
+    you have version **6.9.0** or higher. 2. Use npm to install CasinocoinAPI: `npm install casinocoin-libjs` After you have installed casinocoin-libjs, you can create scripts using the [boilerplate](#boilerplate) and run them using the Node.js executable,
+    typically named `node`: `node script.js`
+## Offline functionality CasinocoinAPI can also function without internet connectivity. This can be useful in order to generate secrets and sign transactions from a secure, isolated machine. To instantiate CasinocoinAPI in offline mode, use the following
+boilerplate code: ```javascript const CasinocoinAPI = require('casinocoin-libjs').CasinocoinAPI; const api = new CasinocoinAPI(); /* insert code here */ ``` Methods that depend on the state of the Casinocoin Consensus Ledger are unavailable in offline
+mode. To prepare transactions offline, you **must** specify the `fee`, `sequence`, and `maxLedgerVersion` parameters in the [transaction instructions](#transaction-instructions). The following methods should work offline: * [preparePayment](#preparepayment)
+* [prepareTrustline](#preparetrustline) * [prepareOrder](#prepareorder) * [prepareOrderCancellation](#prepareordercancellation) * [prepareSettings](#preparesettings) * [prepareEscrowCreation](#prepareescrowcreation) * [prepareEscrowCancellation](#prepareescrowcancellation)
+* [prepareEscrowExecution](#prepareescrowexecution) * [sign](#sign) * [generateAddress](#generateaddress) * [computeLedgerHash](#computeledgerhash)
+# Basic Types ## Casinocoin Address ```json "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59" ``` Every Casinocoin account has an *address*, which is a base58-encoding of a hash of the account's public key. Casinocoin addresses always start with the lowercase letter
+`r`. ## Account Sequence Number Every Casinocoin account has a *sequence number* that is used to keep transactions in order. Every transaction must have a sequence number. A transaction can only be executed if it has the next sequence number in order,
+of the account sending it. This prevents one transaction from executing twice and transactions executing out of order. The sequence number starts at `1` and increments for each transaction that the account makes. ## Currency Currencies are represented
+as either 3-character currency codes or 40-character uppercase hexadecimal strings. We recommend using uppercase [ISO 4217 Currency Codes](http://www.xe.com/iso4217.php) only. The string "CSC" is disallowed on trustlines because it is reserved for the
+Casinocoin native currency. The following characters are permitted: all uppercase and lowercase letters, digits, as well as the symbols `?`, `!`, `@`, `#`, `$`, `%`, `^`, `&`, `*`, `
+<`, `>`, `(`, `)`, `{`, `}`, `[`, `]`, and `|`. ## Value A *value* is a quantity of a currency represented as a decimal string. Be careful: JavaScript's native number format does not have sufficient precision to represent all values. CSC has different precision
+    from other currencies. **CSC** has 6 significant digits past the decimal point. In other words, CSC cannot be divided into positive values smaller than `0.000001` (1e-6). CSC has a maximum value of `100000000000` (1e11). **Non-CSC values** have 16
+    decimal digits of precision, with a maximum value of `9999999999999999e80`. The smallest positive non-CSC value is `1e-81`. ## Amount Example amount: ```json { "currency": "USD", "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM", "value": "100"
+    } ``` Example CSC amount: ```json { "currency": "CSC", "value": "2000" } ``` An *amount* is data structure representing a currency, a quantity of that currency, and the counterparty on the trustline that holds the value. For CSC, there is no counterparty.
+    A *lax amount* allows the counterparty to be omitted for all currencies. If the counterparty is not specified in an amount within a transaction specification, then any counterparty may be used for that amount. A *lax lax amount* allows either or both
+    the counterparty and value to be omitted. A *balance* is an amount than can have a negative value.
 
-
-### Installation ###
-
-1. Install [Node.js](https://nodejs.org) and the Node Package Manager (npm). Most Linux distros have a package for Node.js, but make sure you have version **6.9.0** or higher.
-2. Use npm to install CasinocoinAPI:
-      `npm install casinocoin-libjs`
-
-After you have installed casinocoin-libjs, you can create scripts using the [boilerplate](#boilerplate) and run them using the Node.js executable, typically named `node`:
-
-      `node script.js`
-
-## Offline functionality
-
-CasinocoinAPI can also function without internet connectivity. This can be useful in order to generate secrets and sign transactions from a secure, isolated machine.
-
-To instantiate CasinocoinAPI in offline mode, use the following boilerplate code:
-
-```javascript
-const CasinocoinAPI = require('casinocoin-libjs').CasinocoinAPI;
-
-const api = new CasinocoinAPI();
-/* insert code here */
-```
-
-Methods that depend on the state of the Casinocoin Consensus Ledger are unavailable in offline mode. To prepare transactions offline, you **must** specify  the `fee`, `sequence`, and `maxLedgerVersion` parameters in the [transaction instructions](#transaction-instructions). The following methods should work offline:
-
-* [preparePayment](#preparepayment)
-* [prepareTrustline](#preparetrustline)
-* [prepareOrder](#prepareorder)
-* [prepareOrderCancellation](#prepareordercancellation)
-* [prepareSettings](#preparesettings)
-* [prepareEscrowCreation](#prepareescrowcreation)
-* [prepareEscrowCancellation](#prepareescrowcancellation)
-* [prepareEscrowExecution](#prepareescrowexecution)
-* [sign](#sign)
-* [generateAddress](#generateaddress)
-* [computeLedgerHash](#computeledgerhash)
-
-# Basic Types
-
-## Casinocoin Address
-
-```json
-"r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59"
-```
-
-Every Casinocoin account has an *address*, which is a base58-encoding of a hash of the account's public key. Casinocoin addresses always start with the lowercase letter `r`.
-
-## Account Sequence Number
-
-Every Casinocoin account has a *sequence number* that is used to keep transactions in order. Every transaction must have a sequence number. A transaction can only be executed if it has the next sequence number in order, of the account sending it. This prevents one transaction from executing twice and transactions executing out of order. The sequence number starts at `1` and increments for each transaction that the account makes.
-
-## Currency
-
-Currencies are represented as either 3-character currency codes or 40-character uppercase hexadecimal strings. We recommend using uppercase [ISO 4217 Currency Codes](http://www.xe.com/iso4217.php) only. The string "CSC" is disallowed on trustlines because it is reserved for the Casinocoin native currency. The following characters are permitted: all uppercase and lowercase letters, digits, as well as the symbols `?`, `!`, `@`, `#`, `$`, `%`, `^`, `&`, `*`, `<`, `>`, `(`, `)`, `{`, `}`, `[`, `]`, and `|`.
-
-## Value
-A *value* is a quantity of a currency represented as a decimal string. Be careful: JavaScript's native number format does not have sufficient precision to represent all values. CSC has different precision from other currencies.
-
-**CSC** has 6 significant digits past the decimal point. In other words, CSC cannot be divided into positive values smaller than `0.000001` (1e-6). CSC has a maximum value of `100000000000` (1e11).
-
-**Non-CSC values** have 16 decimal digits of precision, with a maximum value of `9999999999999999e80`. The smallest positive non-CSC value is `1e-81`.
-
-
-## Amount
-
-Example amount:
-
-```json
-{
-  "currency": "USD",
-  "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-  "value": "100"
-}
-```
-
-Example CSC amount:
-```json
-{
-  "currency": "CSC",
-  "value": "2000"
-}
-```
-
-An *amount* is data structure representing a currency, a quantity of that currency, and the counterparty on the trustline that holds the value. For CSC, there is no counterparty.
-
-A *lax amount* allows the counterparty to be omitted for all currencies. If the counterparty is not specified in an amount within a transaction specification, then any counterparty may be used for that amount.
-
-A *lax lax amount* allows either or both the counterparty and value to be omitted.
-
-A *balance* is an amount than can have a negative value.
-
-Name | Type | Description
+    Name | Type | Description
 ---- | ---- | -----------
 currency | [currency](#currency) | The three-character code or hexadecimal string used to denote currencies
 counterparty | [address](#casinocoin-address) | *Optional* The Casinocoin address of the account that owes or is owed the funds (omitted if `currency` is "CSC")
 value | [value](#value) | *Optional* The quantity of the currency, denoted as a string to retain floating point precision
-
-# Transaction Overview
-
-## Transaction Types
-
-A transaction type is specified by the strings in the first column in the table below.
-
-Type | Description
----- | -----------
-[payment](#payment) | A `payment` transaction represents a transfer of value from one account to another. Depending on the [path](https://casinocoin.org/build/paths/) taken, additional exchanges of value may occur atomically to facilitate the payment.
-[order](#order) | An `order` transaction creates a limit order. It defines an intent to exchange currencies, and creates an order in the Casinocoin Consensus Ledger's order book if not completely fulfilled when placed. Orders can be partially fulfilled.
-[orderCancellation](#order-cancellation) | An `orderCancellation` transaction cancels an order in the Casinocoin Consensus Ledger's order book.
-[trustline](#trustline) | A `trustline` transactions creates or modifies a trust line between two accounts.
-[settings](#settings) | A `settings` transaction modifies the settings of an account in the Casinocoin Consensus Ledger.
-[escrowCreation](#escrow-creation) | An `escrowCreation` transaction creates an escrow on the ledger, which locks CSC until a cryptographic condition is met or it expires. It is like an escrow service where the Casinocoin network acts as the escrow agent.
-[escrowCancellation](#escrow-cancellation) | An `escrowCancellation` transaction unlocks the funds in an escrow and sends them back to the creator of the escrow, but it will only work after the escrow expires.
-[escrowExecution](#escrow-execution) | An `escrowExecution` transaction unlocks the funds in an escrow and sends them to the destination of the escrow, but it will only work if the cryptographic condition is provided.
-
-## Transaction Flow
-
-Executing a transaction with `CasinocoinAPI` requires the following four steps:
-
-1. Prepare - Create an unsigned transaction based on a [specification](#transaction-specifications) and [instructions](#transaction-instructions). There is a method to prepare each type of transaction:
-    * [preparePayment](#preparepayment)
-    * [prepareTrustline](#preparetrustline)
-    * [prepareOrder](#prepareorder)
-    * [prepareOrderCancellation](#prepareordercancellation)
-    * [prepareSettings](#preparesettings)
-    * [prepareEscrowCreation](#prepareescrowcreation)
-    * [prepareEscrowCancellation](#prepareescrowcancellation)
-    * [prepareEscrowExecution](#prepareescrowexecution)
-2. [Sign](#sign) - Cryptographically sign the transaction locally and save the [transaction ID](#transaction-id). Signing is how the owner of an account authorizes a transaction to take place. For multisignature transactions, the `signedTransaction` fields returned by `sign` must be collected and passed to the [combine](#combine) method.
-3. [Submit](#submit) - Submit the transaction to the connected server.
-4. Verify - Verify that the transaction got validated by querying with [getTransaction](#gettransaction). This is necessary because transactions may fail even if they were successfully submitted.
-
-## Transaction Fees
-
-Every transaction must destroy a small amount of CSC as a cost to send the transaction. This is also called a *transaction fee*. The transaction cost is designed to increase along with the load on the Casinocoin network, making it very expensive to deliberately or inadvertently overload the network.
-
-You can choose the size of the fee you want to pay or let a default be used. You can get an estimate of the fee required to be included in the next ledger closing with the [getFee](#getfee) method.
-
-## Transaction Instructions
-
-Transaction instructions indicate how to execute a transaction, complementary with the [transaction specification](#transaction-specifications).
+# Transaction Overview ## Transaction Types A transaction type is specified by the strings in the first column in the table below. Type | Description ---- | ----------- [payment](#payment) | A `payment` transaction represents a transfer of value from
+one account to another. Depending on the [path](https://casinocoin.org/build/paths/) taken, additional exchanges of value may occur atomically to facilitate the payment. [order](#order) | An `order` transaction creates a limit order. It defines an intent
+to exchange currencies, and creates an order in the Casinocoin Consensus Ledger's order book if not completely fulfilled when placed. Orders can be partially fulfilled. [orderCancellation](#order-cancellation) | An `orderCancellation` transaction cancels
+an order in the Casinocoin Consensus Ledger's order book. [trustline](#trustline) | A `trustline` transactions creates or modifies a trust line between two accounts. [settings](#settings) | A `settings` transaction modifies the settings of an account
+in the Casinocoin Consensus Ledger. [escrowCreation](#escrow-creation) | An `escrowCreation` transaction creates an escrow on the ledger, which locks CSC until a cryptographic condition is met or it expires. It is like an escrow service where the Casinocoin
+network acts as the escrow agent. [escrowCancellation](#escrow-cancellation) | An `escrowCancellation` transaction unlocks the funds in an escrow and sends them back to the creator of the escrow, but it will only work after the escrow expires. [escrowExecution](#escrow-execution)
+| An `escrowExecution` transaction unlocks the funds in an escrow and sends them to the destination of the escrow, but it will only work if the cryptographic condition is provided. ## Transaction Flow Executing a transaction with `CasinocoinAPI` requires
+the following four steps: 1. Prepare - Create an unsigned transaction based on a [specification](#transaction-specifications) and [instructions](#transaction-instructions). There is a method to prepare each type of transaction: * [preparePayment](#preparepayment)
+* [prepareTrustline](#preparetrustline) * [prepareOrder](#prepareorder) * [prepareOrderCancellation](#prepareordercancellation) * [prepareSettings](#preparesettings) * [prepareEscrowCreation](#prepareescrowcreation) * [prepareEscrowCancellation](#prepareescrowcancellation)
+* [prepareEscrowExecution](#prepareescrowexecution) 2. [Sign](#sign) - Cryptographically sign the transaction locally and save the [transaction ID](#transaction-id). Signing is how the owner of an account authorizes a transaction to take place. For multisignature
+transactions, the `signedTransaction` fields returned by `sign` must be collected and passed to the [combine](#combine) method. 3. [Submit](#submit) - Submit the transaction to the connected server. 4. Verify - Verify that the transaction got validated
+by querying with [getTransaction](#gettransaction). This is necessary because transactions may fail even if they were successfully submitted. ## Transaction Fees Every transaction must destroy a small amount of CSC as a cost to send the transaction. This
+is also called a *transaction fee*. The transaction cost is designed to increase along with the load on the Casinocoin network, making it very expensive to deliberately or inadvertently overload the network. You can choose the size of the fee you want
+to pay or let a default be used. You can get an estimate of the fee required to be included in the next ledger closing with the [getFee](#getfee) method. ## Transaction Instructions Transaction instructions indicate how to execute a transaction, complementary
+with the [transaction specification](#transaction-specifications).
 
 Name | Type | Description
 ---- | ---- | -----------
@@ -303,28 +148,17 @@ maxLedgerVersionOffset | integer | *Optional* Offset from current validated legd
 sequence | [sequence](#account-sequence-number) | *Optional* The initiating account's sequence number for this transaction.
 signersCount | integer | *Optional* Number of signers that will be signing this transaction.
 
-We recommended that you specify a `maxLedgerVersion` so that you can quickly determine that a failed transaction will never succeeed in the future. It is impossible for a transaction to succeed after the network ledger version exceeds the transaction's `maxLedgerVersion`. If you omit `maxLedgerVersion`, the "prepare*" method automatically supplies a `maxLedgerVersion` equal to the current ledger plus 3, which it includes in the return value from the "prepare*" method.
+    We recommended that you specify a `maxLedgerVersion` so that you can quickly determine that a failed transaction will never succeeed in the future. It is impossible for a transaction to succeed after the network ledger version exceeds the transaction's
+    `maxLedgerVersion`. If you omit `maxLedgerVersion`, the "prepare*" method automatically supplies a `maxLedgerVersion` equal to the current ledger plus 3, which it includes in the return value from the "prepare*" method. ## Transaction ID ```json "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF"
+    ``` A transaction ID is a 64-bit hexadecimal string that uniquely identifies the transaction. The transaction ID is derived from the transaction instruction and specifications, using a strong hash function. You can look up a transaction by ID using
+    the [getTransaction](#gettransaction) method. ## Transaction Memos Every transaction can optionally have an array of memos for user applications. The `memos` field in each [transaction specification](#transaction-specifications) is an array of objects
+    with the following structure:
 
-## Transaction ID
-
-```json
-"F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF"
-```
-
-A transaction ID is a 64-bit hexadecimal string that uniquely identifies the transaction. The transaction ID is derived from the transaction instruction and specifications, using a strong hash function.
-
-You can look up a transaction by ID using the [getTransaction](#gettransaction) method.
-
-## Transaction Memos
-
-Every transaction can optionally have an array of memos for user applications. The `memos` field in each [transaction specification](#transaction-specifications) is an array of objects with the following structure:
-
-Name | Type | Description
+    Name | Type | Description
 ---- | ---- | -----------
 data | string | *Optional* Arbitrary string, conventionally containing the content of the memo.
 format | string | *Optional* Conventionally containing information on how the memo is encoded, for example as a [MIME type](http://www.iana.org/assignments/media-types/media-types.xhtml). Only characters allowed in URLs are permitted.
 type | string | *Optional* Conventionally, a unique relation (according to [RFC 5988](http://tools.ietf.org/html/rfc5988#section-4)) that defines the format of this memo. Only characters allowed in URLs are permitted.
-
 # Transaction Specifications
 
 A *transaction specification* specifies what a transaction should do. Each [Transaction Type](#transaction-types) has its own type of specification.
@@ -438,18 +272,18 @@ passive | boolean | *Optional* If enabled, the offer will not consume offers tha
 
 ```json
 {
-  "direction": "buy",
-  "quantity": {
-    "currency": "USD",
-    "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-    "value": "10.1"
-  },
-  "totalPrice": {
-    "currency": "CSC",
-    "value": "2"
-  },
-  "passive": true,
-  "fillOrKill": true
+    "direction": "buy",
+    "quantity": {
+        "currency": "USD",
+        "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+        "value": "10.1"
+    },
+    "totalPrice": {
+        "currency": "CSC",
+        "value": "2"
+    },
+    "passive": true,
+    "fillOrKill": true
 }
 ```
 
@@ -506,14 +340,12 @@ transferRate | number,null | *Optional*  The fee to charge when users transfer t
 
 ```json
 {
-  "domain": "casinocoin.org",
-  "memos": [
-    {
-      "type": "test",
-      "format": "plain/text",
-      "data": "texted data"
-    }
-  ]
+    "domain": "casinocoin.org",
+    "memos": [{
+        "type": "test",
+        "format": "plain/text",
+        "data": "texted data"
+    }]
 }
 ```
 
@@ -665,69 +497,15 @@ signature | string | *Optional* Signature of this claim.
 
 # API Methods
 
-## connect
-
-`connect(): Promise<void>`
-
-Tells the CasinocoinAPI instance to connect to its casinocoind server.
-
-### Parameters
-
-This method has no parameters.
-
-### Return Value
-
-This method returns a promise that resolves with a void value when a connection is established.
-
-### Example
-
-See [Boilerplate](#boilerplate) for code sample.
-
-## disconnect
-
-`disconnect(): Promise<void>`
-
-Tells the CasinocoinAPI instance to disconnect from its casinocoind server.
-
-### Parameters
-
-This method has no parameters.
-
-### Return Value
-
-This method returns a promise that resolves with a void value when a connection is destroyed.
-
-### Example
-
-See [Boilerplate](#boilerplate) for code sample
-
-## isConnected
-
-`isConnected(): boolean`
-
-Checks if the CasinocoinAPI instance is connected to its casinocoind server.
-
-### Parameters
-
-This method has no parameters.
-
-### Return Value
-
-This method returns `true` if connected and `false` if not connected.
-
-### Example
-
-```javascript
-return api.isConnected();
-```
-
-```json
-true
-```
-
-## getServerInfo
-
-`getServerInfo(): Promise<object>`
+## connect `connect(): Promise
+<void>` Tells the CasinocoinAPI instance to connect to its casinocoind server. ### Parameters This method has no parameters. ### Return Value This method returns a promise that resolves with a void value when a connection is established. ### Example See [Boilerplate](#boilerplate)
+    for code sample.
+## disconnect `disconnect(): Promise
+<void>` Tells the CasinocoinAPI instance to disconnect from its casinocoind server. ### Parameters This method has no parameters. ### Return Value This method returns a promise that resolves with a void value when a connection is destroyed. ### Example See
+    [Boilerplate](#boilerplate) for code sample
+## isConnected `isConnected(): boolean` Checks if the CasinocoinAPI instance is connected to its casinocoind server. ### Parameters This method has no parameters. ### Return Value This method returns `true` if connected and `false` if not connected. ###
+Example ```javascript return api.isConnected(); ``` ```json true ```
+## getServerInfo `getServerInfo(): Promise<object>`
 
 Get status information about the server that the CasinocoinAPI instance is connected to.
 
@@ -774,55 +552,33 @@ return api.getServerInfo().then(info => {/* ... */});
 
 ```json
 {
-  "buildVersion": "0.24.0-rc1",
-  "completeLedgers": "32570-6595042",
-  "hostID": "ARTS",
-  "ioLatencyMs": 1,
-  "lastClose": {
-    "convergeTimeS": 2.007,
-    "proposers": 4
-  },
-  "loadFactor": 1,
-  "peers": 53,
-  "pubkeyNode": "n94wWvFUmaKGYrKUGgpv1DyYgDeXRGdACkNQaSe7zJiy5Znio7UC",
-  "serverState": "full",
-  "validatedLedger": {
-    "age": 5,
-    "baseFeeCSC": "0.00001",
-    "hash": "4482DEE5362332F54A4036ED57EE1767C9F33CF7CE5A6670355C16CECE381D46",
-    "reserveBaseCSC": "20",
-    "reserveIncrementCSC": "5",
-    "ledgerVersion": 6595042
-  },
-  "validationQuorum": 3
+    "buildVersion": "0.24.0-rc1",
+    "completeLedgers": "32570-6595042",
+    "hostID": "ARTS",
+    "ioLatencyMs": 1,
+    "lastClose": {
+        "convergeTimeS": 2.007,
+        "proposers": 4
+    },
+    "loadFactor": 1,
+    "peers": 53,
+    "pubkeyNode": "n94wWvFUmaKGYrKUGgpv1DyYgDeXRGdACkNQaSe7zJiy5Znio7UC",
+    "serverState": "full",
+    "validatedLedger": {
+        "age": 5,
+        "baseFeeCSC": "0.00001",
+        "hash": "4482DEE5362332F54A4036ED57EE1767C9F33CF7CE5A6670355C16CECE381D46",
+        "reserveBaseCSC": "20",
+        "reserveIncrementCSC": "5",
+        "ledgerVersion": 6595042
+    },
+    "validationQuorum": 3
 }
 ```
 
-
-## getFee
-
-`getFee(): Promise<number>`
-
-Returns the estimated transaction fee for the casinocoind server the CasinocoinAPI instance is connected to.
-
-### Parameters
-
-This method has no parameters.
-
-### Return Value
-
-This method returns a promise that resolves with a string encoded floating point value representing the estimated fee to submit a transaction, expressed in CSC.
-
-### Example
-
-```javascript
-return api.getFee().then(fee => {/* ... */});
-```
-
-```json
-"0.012"
-```
-
+## getFee `getFee(): Promise
+<number>` Returns the estimated transaction fee for the casinocoind server the CasinocoinAPI instance is connected to. ### Parameters This method has no parameters. ### Return Value This method returns a promise that resolves with a string encoded floating point
+    value representing the estimated fee to submit a transaction, expressed in CSC. ### Example ```javascript return api.getFee().then(fee => {/* ... */}); ``` ```json "0.012" ```
 ## getLedgerVersion
 
 `getLedgerVersion(): Promise<number>`
@@ -906,96 +662,88 @@ return api.getTransaction(id).then(transaction => {
 
 ```json
 {
-  "type": "payment",
-  "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-  "sequence": 4,
-  "id": "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF",
-  "specification": {
-    "source": {
-      "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "maxAmount": {
-        "currency": "CSC",
-        "value": "1.112209"
-      }
-    },
-    "destination": {
-      "address": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-      "amount": {
-        "currency": "USD",
-        "value": "0.001"
-      }
-    },
-    "paths": "[[{\"currency\":\"USD\",\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"type\":48,\"type_hex\":\"0000000000000030\"},{\"account\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\",\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"type\":49,\"type_hex\":\"0000000000000031\"}]]"
-  },
-  "outcome": {
-    "result": "tesSUCCESS",
-    "timestamp": "2013-03-12T23:56:50.000Z",
-    "fee": "0.00001",
-    "deliveredAmount": {
-      "currency": "USD",
-      "value": "0.001",
-      "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM"
-    },
-    "balanceChanges": {
-      "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo": [
-        {
-          "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-          "currency": "USD",
-          "value": "-0.001"
+    "type": "payment",
+    "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+    "sequence": 4,
+    "id": "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF",
+    "specification": {
+        "source": {
+            "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "maxAmount": {
+                "currency": "CSC",
+                "value": "1.112209"
+            }
         },
-        {
-          "counterparty": "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr",
-          "currency": "USD",
-          "value": "0.001002"
-        }
-      ],
-      "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM": [
-        {
-          "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-          "currency": "USD",
-          "value": "0.001"
-        }
-      ],
-      "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [
-        {
-          "currency": "CSC",
-          "value": "-1.101208"
-        }
-      ],
-      "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr": [
-        {
-          "currency": "CSC",
-          "value": "1.101198"
+        "destination": {
+            "address": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+            "amount": {
+                "currency": "USD",
+                "value": "0.001"
+            }
         },
-        {
-          "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-          "currency": "USD",
-          "value": "-0.001002"
-        }
-      ]
+        "paths": "[[{\"currency\":\"USD\",\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"type\":48,\"type_hex\":\"0000000000000030\"},{\"account\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\",\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"type\":49,\"type_hex\":\"0000000000000031\"}]]"
     },
-    "orderbookChanges": {
-      "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr": [
-        {
-          "direction": "buy",
-          "quantity": {
-            "currency": "CSC",
-            "value": "1.101198"
-          },
-          "totalPrice": {
+    "outcome": {
+        "result": "tesSUCCESS",
+        "timestamp": "2013-03-12T23:56:50.000Z",
+        "fee": "0.00001",
+        "deliveredAmount": {
             "currency": "USD",
-            "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-            "value": "0.001002"
-          },
-          "makerExchangeRate": "1099",
-          "sequence": 58,
-          "status": "partially-filled"
-        }
-      ]
-    },
-    "ledgerVersion": 348860,
-    "indexInLedger": 0
-  }
+            "value": "0.001",
+            "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM"
+        },
+        "balanceChanges": {
+            "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo": [{
+                    "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+                    "currency": "USD",
+                    "value": "-0.001"
+                },
+                {
+                    "counterparty": "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr",
+                    "currency": "USD",
+                    "value": "0.001002"
+                }
+            ],
+            "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM": [{
+                "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+                "currency": "USD",
+                "value": "0.001"
+            }],
+            "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [{
+                "currency": "CSC",
+                "value": "-1.101208"
+            }],
+            "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr": [{
+                    "currency": "CSC",
+                    "value": "1.101198"
+                },
+                {
+                    "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+                    "currency": "USD",
+                    "value": "-0.001002"
+                }
+            ]
+        },
+        "orderbookChanges": {
+            "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr": [{
+                "direction": "buy",
+                "quantity": {
+                    "currency": "CSC",
+                    "value": "1.101198"
+                },
+                "totalPrice": {
+                    "currency": "USD",
+                    "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+                    "value": "0.001002"
+                },
+                "makerExchangeRate": "1099",
+                "sequence": 58,
+                "status": "partially-filled"
+            }]
+        },
+        "ledgerVersion": 348860,
+        "indexInLedger": 0
+    }
 }
 ```
 
@@ -1038,201 +786,180 @@ return api.getTransactions(address).then(transaction => {
 
 
 ```json
-[
-  {
-    "type": "payment",
-    "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-    "sequence": 4,
-    "id": "99404A34E8170319521223A6C604AF48B9F1E3000C377E6141F9A1BF60B0B865",
-    "specification": {
-      "memos": [
-        {
-          "type": "client",
-          "format": "rt1.5.2"
-        }
-      ],
-      "source": {
+[{
+        "type": "payment",
         "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-        "maxAmount": {
-          "currency": "CSC",
-          "value": "1.112209"
+        "sequence": 4,
+        "id": "99404A34E8170319521223A6C604AF48B9F1E3000C377E6141F9A1BF60B0B865",
+        "specification": {
+            "memos": [{
+                "type": "client",
+                "format": "rt1.5.2"
+            }],
+            "source": {
+                "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+                "maxAmount": {
+                    "currency": "CSC",
+                    "value": "1.112209"
+                }
+            },
+            "destination": {
+                "address": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+                "amount": {
+                    "currency": "USD",
+                    "value": "0.001"
+                }
+            },
+            "paths": "[[{\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\"},{\"account\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\"}]]"
+        },
+        "outcome": {
+            "result": "tesSUCCESS",
+            "fee": "0.00001",
+            "deliveredAmount": {
+                "currency": "USD",
+                "value": "0.001",
+                "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM"
+            },
+            "balanceChanges": {
+                "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo": [{
+                        "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+                        "currency": "USD",
+                        "value": "-0.001"
+                    },
+                    {
+                        "counterparty": "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr",
+                        "currency": "USD",
+                        "value": "0.001002"
+                    }
+                ],
+                "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM": [{
+                    "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+                    "currency": "USD",
+                    "value": "0.001"
+                }],
+                "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [{
+                    "currency": "CSC",
+                    "value": "-1.101208"
+                }],
+                "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr": [{
+                        "currency": "CSC",
+                        "value": "1.101198"
+                    },
+                    {
+                        "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+                        "currency": "USD",
+                        "value": "-0.001002"
+                    }
+                ]
+            },
+            "orderbookChanges": {
+                "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [{
+                    "direction": "buy",
+                    "quantity": {
+                        "currency": "CSC",
+                        "value": "1.101198"
+                    },
+                    "totalPrice": {
+                        "currency": "USD",
+                        "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+                        "value": "0.001002"
+                    },
+                    "makerExchangeRate": "1099",
+                    "sequence": 58,
+                    "status": "partially-filled"
+                }]
+            },
+            "ledgerVersion": 348859,
+            "indexInLedger": 0
         }
-      },
-      "destination": {
-        "address": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-        "amount": {
-          "currency": "USD",
-          "value": "0.001"
-        }
-      },
-      "paths": "[[{\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\"},{\"account\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\"}]]"
     },
-    "outcome": {
-      "result": "tesSUCCESS",
-      "fee": "0.00001",
-      "deliveredAmount": {
-        "currency": "USD",
-        "value": "0.001",
-        "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM"
-      },
-      "balanceChanges": {
-        "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo": [
-          {
-            "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-            "currency": "USD",
-            "value": "-0.001"
-          },
-          {
-            "counterparty": "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr",
-            "currency": "USD",
-            "value": "0.001002"
-          }
-        ],
-        "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM": [
-          {
-            "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-            "currency": "USD",
-            "value": "0.001"
-          }
-        ],
-        "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [
-          {
-            "currency": "CSC",
-            "value": "-1.101208"
-          }
-        ],
-        "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr": [
-          {
-            "currency": "CSC",
-            "value": "1.101198"
-          },
-          {
-            "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-            "currency": "USD",
-            "value": "-0.001002"
-          }
-        ]
-      },
-      "orderbookChanges": {
-        "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [
-          {
-            "direction": "buy",
-            "quantity": {
-              "currency": "CSC",
-              "value": "1.101198"
-            },
-            "totalPrice": {
-              "currency": "USD",
-              "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-              "value": "0.001002"
-            },
-            "makerExchangeRate": "1099",
-            "sequence": 58,
-            "status": "partially-filled"
-          }
-        ]
-      },
-      "ledgerVersion": 348859,
-      "indexInLedger": 0
-    }
-  },
-  {
-    "type": "payment",
-    "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-    "id": "99404A34E8170319521223A6C604AF48B9F1E3000C377E6141F9A1BF60B0B865",
-    "sequence": 4,
-    "specification": {
-      "memos": [
-        {
-          "type": "client",
-          "format": "rt1.5.2"
-        }
-      ],
-      "source": {
+    {
+        "type": "payment",
         "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-        "maxAmount": {
-          "currency": "CSC",
-          "value": "1.112209"
-        }
-      },
-      "destination": {
-        "address": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-        "amount": {
-          "currency": "USD",
-          "value": "0.001"
-        }
-      },
-      "paths": "[[{\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\"},{\"account\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\"}]]"
-    },
-    "outcome": {
-      "result": "tesSUCCESS",
-      "fee": "0.00001",
-      "deliveredAmount": {
-        "currency": "USD",
-        "value": "0.001",
-        "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM"
-      },
-      "balanceChanges": {
-        "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo": [
-          {
-            "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-            "currency": "USD",
-            "value": "-0.001"
-          },
-          {
-            "counterparty": "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr",
-            "currency": "USD",
-            "value": "0.001002"
-          }
-        ],
-        "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM": [
-          {
-            "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-            "currency": "USD",
-            "value": "0.001"
-          }
-        ],
-        "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [
-          {
-            "currency": "CSC",
-            "value": "-1.101208"
-          }
-        ],
-        "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr": [
-          {
-            "currency": "CSC",
-            "value": "1.101198"
-          },
-          {
-            "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-            "currency": "USD",
-            "value": "-0.001002"
-          }
-        ]
-      },
-      "orderbookChanges": {
-        "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [
-          {
-            "direction": "buy",
-            "quantity": {
-              "currency": "CSC",
-              "value": "1.101198"
+        "id": "99404A34E8170319521223A6C604AF48B9F1E3000C377E6141F9A1BF60B0B865",
+        "sequence": 4,
+        "specification": {
+            "memos": [{
+                "type": "client",
+                "format": "rt1.5.2"
+            }],
+            "source": {
+                "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+                "maxAmount": {
+                    "currency": "CSC",
+                    "value": "1.112209"
+                }
             },
-            "totalPrice": {
-              "currency": "USD",
-              "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-              "value": "0.001002"
+            "destination": {
+                "address": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+                "amount": {
+                    "currency": "USD",
+                    "value": "0.001"
+                }
             },
-            "makerExchangeRate": "1099",
-            "sequence": 58,
-            "status": "partially-filled"
-          }
-        ]
-      },
-      "ledgerVersion": 348858,
-      "indexInLedger": 0
+            "paths": "[[{\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\"},{\"account\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"issuer\":\"rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo\",\"currency\":\"USD\"}]]"
+        },
+        "outcome": {
+            "result": "tesSUCCESS",
+            "fee": "0.00001",
+            "deliveredAmount": {
+                "currency": "USD",
+                "value": "0.001",
+                "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM"
+            },
+            "balanceChanges": {
+                "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo": [{
+                        "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+                        "currency": "USD",
+                        "value": "-0.001"
+                    },
+                    {
+                        "counterparty": "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr",
+                        "currency": "USD",
+                        "value": "0.001002"
+                    }
+                ],
+                "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM": [{
+                    "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+                    "currency": "USD",
+                    "value": "0.001"
+                }],
+                "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [{
+                    "currency": "CSC",
+                    "value": "-1.101208"
+                }],
+                "r9tGqzZgKxVFvzKFdUqXAqTzazWBUia8Qr": [{
+                        "currency": "CSC",
+                        "value": "1.101198"
+                    },
+                    {
+                        "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+                        "currency": "USD",
+                        "value": "-0.001002"
+                    }
+                ]
+            },
+            "orderbookChanges": {
+                "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59": [{
+                    "direction": "buy",
+                    "quantity": {
+                        "currency": "CSC",
+                        "value": "1.101198"
+                    },
+                    "totalPrice": {
+                        "currency": "USD",
+                        "counterparty": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+                        "value": "0.001002"
+                    },
+                    "makerExchangeRate": "1099",
+                    "sequence": 58,
+                    "status": "partially-filled"
+                }]
+            },
+            "ledgerVersion": 348858,
+            "indexInLedger": 0
+        }
     }
-  }
 ]
 ```
 
@@ -1418,131 +1145,130 @@ return api.getBalances(address).then(balances =>
 
 
 ```json
-[
-  {
-    "value": "922.913243",
-    "currency": "CSC"
-  },
-  {
-    "value": "0",
-    "currency": "ASP",
-    "counterparty": "r3vi7mWxru9rJCxETCyA1CHvzL96eZWx5z"
-  },
-  {
-    "value": "0",
-    "currency": "XAU",
-    "counterparty": "r3vi7mWxru9rJCxETCyA1CHvzL96eZWx5z"
-  },
-  {
-    "value": "2.497605752725159",
-    "currency": "USD",
-    "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-  },
-  {
-    "value": "481.992867407479",
-    "currency": "MXN",
-    "counterparty": "rHpXfibHgSb64n8kK9QWDpdbfqSpYbM9a4"
-  },
-  {
-    "value": "0.793598266778297",
-    "currency": "EUR",
-    "counterparty": "rLEsXccBGNR3UPuPu2hUXPjziKC3qKSBun"
-  },
-  {
-    "value": "0",
-    "currency": "CNY",
-    "counterparty": "rnuF96W4SZoCJmbHYBFoJZpR8eCaxNvekK"
-  },
-  {
-    "value": "1.294889190631542",
-    "currency": "DYM",
-    "counterparty": "rGwUWgN5BEg3QGNY3RX2HfYowjUTZdid3E"
-  },
-  {
-    "value": "0.3488146605801446",
-    "currency": "CHF",
-    "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-  },
-  {
-    "value": "2.114103174931847",
-    "currency": "BTC",
-    "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-  },
-  {
-    "value": "0",
-    "currency": "USD",
-    "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-  },
-  {
-    "value": "-0.00111",
-    "currency": "BTC",
-    "counterparty": "rpgKWEmNqSDAGFhy5WDnsyPqfQxbWxKeVd"
-  },
-  {
-    "value": "-0.1010780000080207",
-    "currency": "BTC",
-    "counterparty": "rBJ3YjwXi2MGbg7GVLuTXUWQ8DjL7tDXh4"
-  },
-  {
-    "value": "1",
-    "currency": "USD",
-    "counterparty": "rLEsXccBGNR3UPuPu2hUXPjziKC3qKSBun"
-  },
-  {
-    "value": "8.07619790068559",
-    "currency": "CNY",
-    "counterparty": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA"
-  },
-  {
-    "value": "7.292695098901099",
-    "currency": "JPY",
-    "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-  },
-  {
-    "value": "0",
-    "currency": "AUX",
-    "counterparty": "r3vi7mWxru9rJCxETCyA1CHvzL96eZWx5z"
-  },
-  {
-    "value": "0",
-    "currency": "USD",
-    "counterparty": "r9vbV3EHvXWjSkeQ6CAcYVPGeq7TuiXY2X"
-  },
-  {
-    "value": "12.41688780720394",
-    "currency": "EUR",
-    "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-  },
-  {
-    "value": "35",
-    "currency": "USD",
-    "counterparty": "rfF3PNkwkq1DygW2wum2HK3RGfgkJjdPVD"
-  },
-  {
-    "value": "-5",
-    "currency": "JOE",
-    "counterparty": "rwUVoVMSURqNyvocPCcvLu3ygJzZyw8qwp"
-  },
-  {
-    "value": "0",
-    "currency": "USD",
-    "counterparty": "rE6R3DWF9fBD7CyiQciePF9SqK58Ubp8o2"
-  },
-  {
-    "value": "0",
-    "currency": "JOE",
-    "counterparty": "rE6R3DWF9fBD7CyiQciePF9SqK58Ubp8o2"
-  },
-  {
-    "value": "0",
-    "currency": "015841551A748AD2C1F76FF6ECB0CCCD00000000",
-    "counterparty": "rs9M85karFkCRjvc6KMWn8Coigm9cbcgcx"
-  },
-  {
-    "value": "0",
-    "currency": "USD",
-    "counterparty": "rEhDDUUNxpXgEHVJtC2cjXAgyx5VCFxdMF"
-  }
+[{
+        "value": "922.913243",
+        "currency": "CSC"
+    },
+    {
+        "value": "0",
+        "currency": "ASP",
+        "counterparty": "r3vi7mWxru9rJCxETCyA1CHvzL96eZWx5z"
+    },
+    {
+        "value": "0",
+        "currency": "XAU",
+        "counterparty": "r3vi7mWxru9rJCxETCyA1CHvzL96eZWx5z"
+    },
+    {
+        "value": "2.497605752725159",
+        "currency": "USD",
+        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+    },
+    {
+        "value": "481.992867407479",
+        "currency": "MXN",
+        "counterparty": "rHpXfibHgSb64n8kK9QWDpdbfqSpYbM9a4"
+    },
+    {
+        "value": "0.793598266778297",
+        "currency": "EUR",
+        "counterparty": "rLEsXccBGNR3UPuPu2hUXPjziKC3qKSBun"
+    },
+    {
+        "value": "0",
+        "currency": "CNY",
+        "counterparty": "rnuF96W4SZoCJmbHYBFoJZpR8eCaxNvekK"
+    },
+    {
+        "value": "1.294889190631542",
+        "currency": "DYM",
+        "counterparty": "rGwUWgN5BEg3QGNY3RX2HfYowjUTZdid3E"
+    },
+    {
+        "value": "0.3488146605801446",
+        "currency": "CHF",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+    },
+    {
+        "value": "2.114103174931847",
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+    },
+    {
+        "value": "0",
+        "currency": "USD",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+    },
+    {
+        "value": "-0.00111",
+        "currency": "BTC",
+        "counterparty": "rpgKWEmNqSDAGFhy5WDnsyPqfQxbWxKeVd"
+    },
+    {
+        "value": "-0.1010780000080207",
+        "currency": "BTC",
+        "counterparty": "rBJ3YjwXi2MGbg7GVLuTXUWQ8DjL7tDXh4"
+    },
+    {
+        "value": "1",
+        "currency": "USD",
+        "counterparty": "rLEsXccBGNR3UPuPu2hUXPjziKC3qKSBun"
+    },
+    {
+        "value": "8.07619790068559",
+        "currency": "CNY",
+        "counterparty": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA"
+    },
+    {
+        "value": "7.292695098901099",
+        "currency": "JPY",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+    },
+    {
+        "value": "0",
+        "currency": "AUX",
+        "counterparty": "r3vi7mWxru9rJCxETCyA1CHvzL96eZWx5z"
+    },
+    {
+        "value": "0",
+        "currency": "USD",
+        "counterparty": "r9vbV3EHvXWjSkeQ6CAcYVPGeq7TuiXY2X"
+    },
+    {
+        "value": "12.41688780720394",
+        "currency": "EUR",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+    },
+    {
+        "value": "35",
+        "currency": "USD",
+        "counterparty": "rfF3PNkwkq1DygW2wum2HK3RGfgkJjdPVD"
+    },
+    {
+        "value": "-5",
+        "currency": "JOE",
+        "counterparty": "rwUVoVMSURqNyvocPCcvLu3ygJzZyw8qwp"
+    },
+    {
+        "value": "0",
+        "currency": "USD",
+        "counterparty": "rE6R3DWF9fBD7CyiQciePF9SqK58Ubp8o2"
+    },
+    {
+        "value": "0",
+        "currency": "JOE",
+        "counterparty": "rE6R3DWF9fBD7CyiQciePF9SqK58Ubp8o2"
+    },
+    {
+        "value": "0",
+        "currency": "015841551A748AD2C1F76FF6ECB0CCCD00000000",
+        "counterparty": "rs9M85karFkCRjvc6KMWn8Coigm9cbcgcx"
+    },
+    {
+        "value": "0",
+        "currency": "USD",
+        "counterparty": "rEhDDUUNxpXgEHVJtC2cjXAgyx5VCFxdMF"
+    }
 ]
 ```
 
@@ -1705,61 +1431,60 @@ return api.getPaths(pathfind)
 
 
 ```json
-[
-  {
-    "source": {
-      "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "maxAmount": {
-        "currency": "JPY",
-        "value": "0.1117218827811721"
-      }
+[{
+        "source": {
+            "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "maxAmount": {
+                "currency": "JPY",
+                "value": "0.1117218827811721"
+            }
+        },
+        "destination": {
+            "address": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+            "amount": {
+                "currency": "USD",
+                "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+                "value": "100"
+            }
+        },
+        "paths": "[[{\"account\":\"rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6\"},{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rHHa9t2kLQyXRbdLkSzEgkzwf9unmFgZs9\"},{\"account\":\"rHHa9t2kLQyXRbdLkSzEgkzwf9unmFgZs9\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}]]"
     },
-    "destination": {
-      "address": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-      "amount": {
-        "currency": "USD",
-        "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-        "value": "100"
-      }
+    {
+        "source": {
+            "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "maxAmount": {
+                "currency": "USD",
+                "value": "0.001002"
+            }
+        },
+        "destination": {
+            "address": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+            "amount": {
+                "currency": "USD",
+                "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+                "value": "100"
+            }
+        },
+        "paths": "[[{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\"},{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}]]"
     },
-    "paths": "[[{\"account\":\"rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6\"},{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rHHa9t2kLQyXRbdLkSzEgkzwf9unmFgZs9\"},{\"account\":\"rHHa9t2kLQyXRbdLkSzEgkzwf9unmFgZs9\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}]]"
-  },
-  {
-    "source": {
-      "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "maxAmount": {
-        "currency": "USD",
-        "value": "0.001002"
-      }
-    },
-    "destination": {
-      "address": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-      "amount": {
-        "currency": "USD",
-        "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-        "value": "100"
-      }
-    },
-    "paths": "[[{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\"},{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\"},{\"currency\":\"CSC\"},{\"currency\":\"USD\",\"issuer\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}]]"
-  },
-  {
-    "source": {
-      "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "maxAmount": {
-        "currency": "CSC",
-        "value": "0.207669"
-      }
-    },
-    "destination": {
-      "address": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-      "amount": {
-        "currency": "USD",
-        "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-        "value": "100"
-      }
-    },
-    "paths": "[[{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"currency\":\"USD\",\"issuer\":\"rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc\"},{\"account\":\"rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc\"},{\"account\":\"rf9X8QoYnWLHMHuDfjkmRcD2UE5qX5aYV\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"currency\":\"USD\",\"issuer\":\"rDVdJ62foD1sn7ZpxtXyptdkBSyhsQGviT\"},{\"account\":\"rDVdJ62foD1sn7ZpxtXyptdkBSyhsQGviT\"},{\"account\":\"rfQPFZ3eLcaSUKjUy7A3LAmDNM4F9Hz9j1\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"currency\":\"USD\",\"issuer\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}]]"
-  }
+    {
+        "source": {
+            "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "maxAmount": {
+                "currency": "CSC",
+                "value": "0.207669"
+            }
+        },
+        "destination": {
+            "address": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+            "amount": {
+                "currency": "USD",
+                "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+                "value": "100"
+            }
+        },
+        "paths": "[[{\"currency\":\"USD\",\"issuer\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"currency\":\"USD\",\"issuer\":\"rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc\"},{\"account\":\"rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc\"},{\"account\":\"rf9X8QoYnWLHMHuDfjkmRcD2UE5qX5aYV\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"currency\":\"USD\",\"issuer\":\"rDVdJ62foD1sn7ZpxtXyptdkBSyhsQGviT\"},{\"account\":\"rDVdJ62foD1sn7ZpxtXyptdkBSyhsQGviT\"},{\"account\":\"rfQPFZ3eLcaSUKjUy7A3LAmDNM4F9Hz9j1\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}],[{\"currency\":\"USD\",\"issuer\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rpHgehzdpfWRXKvSv6duKvVuo1aZVimdaT\"},{\"account\":\"rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM\"}]]"
+    }
 ]
 ```
 
@@ -1801,345 +1526,344 @@ return api.getOrders(address).then(orders =>
 
 
 ```json
-[
-  {
-    "specification": {
-      "direction": "sell",
-      "quantity": {
-        "currency": "EUR",
-        "value": "17.70155237781915",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      },
-      "totalPrice": {
-        "currency": "USD",
-        "value": "1122.990930900328",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      }
+[{
+        "specification": {
+            "direction": "sell",
+            "quantity": {
+                "currency": "EUR",
+                "value": "17.70155237781915",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            },
+            "totalPrice": {
+                "currency": "USD",
+                "value": "1122.990930900328",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 719930,
+            "makerExchangeRate": "63.44025128030504"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 719930,
-      "makerExchangeRate": "63.44025128030504"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "EUR",
-        "value": "750",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      },
-      "totalPrice": {
-        "currency": "USD",
-        "value": "19.11697137482289",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "EUR",
+                "value": "750",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            },
+            "totalPrice": {
+                "currency": "USD",
+                "value": "19.11697137482289",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 756999,
+            "makerExchangeRate": "39.23215583132338"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 756999,
-      "makerExchangeRate": "39.23215583132338"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "19.50899530491766",
-        "counterparty": "rpDMez6pm6dBve2TJsmDpv7Yae6V5Pyvy2"
-      },
-      "totalPrice": {
-        "currency": "USD",
-        "value": "18.46856867857617",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "19.50899530491766",
+                "counterparty": "rpDMez6pm6dBve2TJsmDpv7Yae6V5Pyvy2"
+            },
+            "totalPrice": {
+                "currency": "USD",
+                "value": "18.46856867857617",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 757002,
+            "makerExchangeRate": "1.056334989703257"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 757002,
-      "makerExchangeRate": "1.056334989703257"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "1445.796633544794",
-        "counterparty": "rpDMez6pm6dBve2TJsmDpv7Yae6V5Pyvy2"
-      },
-      "totalPrice": {
-        "currency": "USD",
-        "value": "14.40727807030772",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "1445.796633544794",
+                "counterparty": "rpDMez6pm6dBve2TJsmDpv7Yae6V5Pyvy2"
+            },
+            "totalPrice": {
+                "currency": "USD",
+                "value": "14.40727807030772",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 757003,
+            "makerExchangeRate": "100.3518240218094"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 757003,
-      "makerExchangeRate": "100.3518240218094"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "750",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      },
-      "totalPrice": {
-        "currency": "NZD",
-        "value": "9.178557969538755",
-        "counterparty": "rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "750",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            },
+            "totalPrice": {
+                "currency": "NZD",
+                "value": "9.178557969538755",
+                "counterparty": "rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 782148,
+            "makerExchangeRate": "81.7121820757743"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 782148,
-      "makerExchangeRate": "81.7121820757743"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "500",
-        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-      },
-      "totalPrice": {
-        "currency": "USD",
-        "value": "9.94768291869523",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "500",
+                "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+            },
+            "totalPrice": {
+                "currency": "USD",
+                "value": "9.94768291869523",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 787368,
+            "makerExchangeRate": "50.26296114247091"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 787368,
-      "makerExchangeRate": "50.26296114247091"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "10000",
-        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-      },
-      "totalPrice": {
-        "currency": "USD",
-        "value": "9.994805759894176",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "10000",
+                "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+            },
+            "totalPrice": {
+                "currency": "USD",
+                "value": "9.994805759894176",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 787408,
+            "makerExchangeRate": "1000.519693952099"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 787408,
-      "makerExchangeRate": "1000.519693952099"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "MXN",
-        "value": "15834.53653918684",
-        "counterparty": "rG6FZ31hDHN1K5Dkbma3PSB5uVCuVVRzfn"
-      },
-      "totalPrice": {
-        "currency": "USD",
-        "value": "11.67691646304319",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "MXN",
+                "value": "15834.53653918684",
+                "counterparty": "rG6FZ31hDHN1K5Dkbma3PSB5uVCuVVRzfn"
+            },
+            "totalPrice": {
+                "currency": "USD",
+                "value": "11.67691646304319",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 803438,
+            "makerExchangeRate": "1356.054621894598"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 803438,
-      "makerExchangeRate": "1356.054621894598"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "3968.240250979598",
-        "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
-      },
-      "totalPrice": {
-        "currency": "XAU",
-        "value": "0.03206299605333101",
-        "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "3968.240250979598",
+                "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
+            },
+            "totalPrice": {
+                "currency": "XAU",
+                "value": "0.03206299605333101",
+                "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 807858,
+            "makerExchangeRate": "123763.8630020459"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 807858,
-      "makerExchangeRate": "123763.8630020459"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "4139.022125516302",
-        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-      },
-      "totalPrice": {
-        "currency": "XAU",
-        "value": "0.03347459066593226",
-        "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "4139.022125516302",
+                "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+            },
+            "totalPrice": {
+                "currency": "XAU",
+                "value": "0.03347459066593226",
+                "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 807896,
+            "makerExchangeRate": "123646.6837435794"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 807896,
-      "makerExchangeRate": "123646.6837435794"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "CSC",
-        "value": "115760.19"
-      },
-      "totalPrice": {
-        "currency": "NZD",
-        "value": "6.840555705",
-        "counterparty": "rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "CSC",
+                "value": "115760.19"
+            },
+            "totalPrice": {
+                "currency": "NZD",
+                "value": "6.840555705",
+                "counterparty": "rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 814018,
+            "makerExchangeRate": "16922.62953364839"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 814018,
-      "makerExchangeRate": "16922.62953364839"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "902.4050961259154",
-        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-      },
-      "totalPrice": {
-        "currency": "EUR",
-        "value": "14.40843766044656",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "902.4050961259154",
+                "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+            },
+            "totalPrice": {
+                "currency": "EUR",
+                "value": "14.40843766044656",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 827522,
+            "makerExchangeRate": "62.63032241192674"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 827522,
-      "makerExchangeRate": "62.63032241192674"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "181.4887131319798",
-        "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
-      },
-      "totalPrice": {
-        "currency": "XAG",
-        "value": "1.128432823485989",
-        "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "181.4887131319798",
+                "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
+            },
+            "totalPrice": {
+                "currency": "XAG",
+                "value": "1.128432823485989",
+                "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 833591,
+            "makerExchangeRate": "160.8325363767064"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 833591,
-      "makerExchangeRate": "160.8325363767064"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "1814.887131319799",
-        "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
-      },
-      "totalPrice": {
-        "currency": "XAG",
-        "value": "1.128432823485991",
-        "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "1814.887131319799",
+                "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
+            },
+            "totalPrice": {
+                "currency": "XAG",
+                "value": "1.128432823485991",
+                "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 833592,
+            "makerExchangeRate": "1608.325363767062"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 833592,
-      "makerExchangeRate": "1608.325363767062"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "USD",
-        "value": "118.6872603846736",
-        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-      },
-      "totalPrice": {
-        "currency": "XAG",
-        "value": "0.7283371225235964",
-        "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "USD",
+                "value": "118.6872603846736",
+                "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+            },
+            "totalPrice": {
+                "currency": "XAG",
+                "value": "0.7283371225235964",
+                "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 838954,
+            "makerExchangeRate": "162.9564891233845"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 838954,
-      "makerExchangeRate": "162.9564891233845"
-    }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "XAU",
-        "value": "1",
-        "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
-      },
-      "totalPrice": {
-        "currency": "CSC",
-        "value": "2229.229447"
-      }
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "XAU",
+                "value": "1",
+                "counterparty": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH"
+            },
+            "totalPrice": {
+                "currency": "CSC",
+                "value": "2229.229447"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 843730,
+            "makerExchangeRate": "0.0004485854972648762"
+        }
     },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 843730,
-      "makerExchangeRate": "0.0004485854972648762"
+    {
+        "specification": {
+            "direction": "buy",
+            "quantity": {
+                "currency": "EUR",
+                "value": "750",
+                "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+            },
+            "totalPrice": {
+                "currency": "USD",
+                "value": "17.77537376072202",
+                "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+            }
+        },
+        "properties": {
+            "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+            "sequence": 844068,
+            "makerExchangeRate": "42.19320561670911"
+        }
     }
-  },
-  {
-    "specification": {
-      "direction": "buy",
-      "quantity": {
-        "currency": "EUR",
-        "value": "750",
-        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-      },
-      "totalPrice": {
-        "currency": "USD",
-        "value": "17.77537376072202",
-        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-      }
-    },
-    "properties": {
-      "maker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-      "sequence": 844068,
-      "makerExchangeRate": "42.19320561670911"
-    }
-  }
 ]
 ```
 
@@ -2750,11 +2474,11 @@ return api.getSettings(address).then(settings =>
 
 ```json
 {
-  "requireDestinationTag": true,
-  "disallowIncomingCSC": true,
-  "emailHash": "23463B99B62A72F26ED677CC556C44E8",
-  "domain": "example.com",
-  "transferRate": 1.002
+    "requireDestinationTag": true,
+    "disallowIncomingCSC": true,
+    "emailHash": "23463B99B62A72F26ED677CC556C44E8",
+    "domain": "example.com",
+    "transferRate": 1.002
 }
 ```
 
@@ -2797,11 +2521,11 @@ return api.getAccountInfo(address).then(info =>
 
 ```json
 {
-  "sequence": 23,
-  "cscBalance": "922.913243",
-  "ownerCount": 1,
-  "previousAffectingTransactionID": "19899273706A9E040FDB5885EE991A1DC2BAD878A0D6E7DBCFB714E63BF737F7",
-  "previousAffectingTransactionLedgerVersion": 6614625
+    "sequence": 23,
+    "cscBalance": "922.913243",
+    "ownerCount": 1,
+    "previousAffectingTransactionID": "19899273706A9E040FDB5885EE991A1DC2BAD878A0D6E7DBCFB714E63BF737F7",
+    "previousAffectingTransactionLedgerVersion": 6614625
 }
 ```
 
@@ -2891,7 +2615,7 @@ ledgerHash | string | Unique identifying hash of the entire ledger.
 ledgerVersion | integer | The ledger version of this ledger.
 parentLedgerHash | string | Unique identifying hash of the ledger that came immediately before this one.
 parentCloseTime | date-time string | The time at which the previous ledger was closed.
-totalDrops | [value](#value) | Total number of drops (1/1,000,000th of an CSC) in the network, as a quoted integer. (This decreases as transaction fees cause CSC to be destroyed.)
+totalDrops | [value](#value) | Total number of drops (1/100,000,000th of an CSC) in the network, as a quoted integer. (This decreases as transaction fees cause CSC to be destroyed.)
 transactionHash | string | Hash of the transaction information included in this ledger.
 rawState | string | *Optional* A JSON string containing all state data for this ledger in casinocoind JSON format.
 rawTransactions | string | *Optional* A JSON string containing casinocoind format transaction JSON for all transactions that were validated in this ledger.
@@ -3094,18 +2818,18 @@ instructions | object | The instructions for how to execute the transaction afte
 ```javascript
 const address = 'r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59';
 const order = {
-  "direction": "buy",
-  "quantity": {
-    "currency": "USD",
-    "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
-    "value": "10.1"
-  },
-  "totalPrice": {
-    "currency": "CSC",
-    "value": "2"
-  },
-  "passive": true,
-  "fillOrKill": true
+    "direction": "buy",
+    "quantity": {
+        "currency": "USD",
+        "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+        "value": "10.1"
+    },
+    "totalPrice": {
+        "currency": "CSC",
+        "value": "2"
+    },
+    "passive": true,
+    "fillOrKill": true
 };
 return api.prepareOrder(address, order)
   .then(prepared => {/* ... */});
@@ -3211,14 +2935,12 @@ instructions | object | The instructions for how to execute the transaction afte
 ```javascript
 const address = 'r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59';
 const settings = {
-  "domain": "casinocoin.org",
-  "memos": [
-    {
-      "type": "test",
-      "format": "plain/text",
-      "data": "texted data"
-    }
-  ]
+    "domain": "casinocoin.org",
+    "memos": [{
+        "type": "test",
+        "format": "plain/text",
+        "data": "texted data"
+    }]
 };
 return api.prepareSettings(address, settings)
   .then(prepared => {/* ... */});
@@ -3227,14 +2949,12 @@ return api.prepareSettings(address, settings)
 
 ```json
 {
-  "domain": "casinocoin.org",
-  "memos": [
-    {
-      "type": "test",
-      "format": "plain/text",
-      "data": "texted data"
-    }
-  ]
+    "domain": "casinocoin.org",
+    "memos": [{
+        "type": "test",
+        "format": "plain/text",
+        "data": "texted data"
+    }]
 }
 ```
 
@@ -3690,13 +3410,7 @@ return api.submit(signedTransaction)
 ```
 
 
-## generateAddress
-
-`generateAddress(): {address: string, secret: string}`
-
-Generate a new Casinocoin address and corresponding secret.
-
-### Parameters
+## generateAddress `generateAddress(): {address: string, secret: string}` Generate a new Casinocoin address and corresponding secret. ### Parameters
 
 Name | Type | Description
 ---- | ---- | -----------
@@ -3704,29 +3418,22 @@ options | object | *Optional* Options to control how the address and secret are 
 *options.* algorithm | string | *Optional* The digital signature algorithm to generate an address for. Can be `ecdsa-secp256k1` (default) or `ed25519`.
 *options.* entropy | array\<integer\> | *Optional* The entropy to use to generate the seed.
 
-### Return Value
+    ### Return Value This method returns an object with the following structure:
 
-This method returns an object with the following structure:
-
-Name | Type | Description
+    Name | Type | Description
 ---- | ---- | -----------
 address | [address](#casinocoin-address) | A randomly generated Casinocoin account address.
 secret | secret string | The secret corresponding to the `address`.
 
-### Example
+        ### Example ```javascript return api.generateAddress(); ```
 
-```javascript
-return api.generateAddress();
-```
-
-
+        
 ```json
 {
   "address": "rGCkuB7PBr5tNy68tPEABEtcdno4hE6Y7f",
   "secret": "sp6JS7f14BuwFY8Mw6bTtLKWauoUs"
 }
 ```
-
 
 ## signPaymentChannelClaim
 
@@ -3829,7 +3536,7 @@ ledger | object | The ledger header to hash.
 *ledger.* ledgerVersion | integer | The ledger version of this ledger.
 *ledger.* parentLedgerHash | string | Unique identifying hash of the ledger that came immediately before this one.
 *ledger.* parentCloseTime | date-time string | The time at which the previous ledger was closed.
-*ledger.* totalDrops | [value](#value) | Total number of drops (1/1,000,000th of an CSC) in the network, as a quoted integer. (This decreases as transaction fees cause CSC to be destroyed.)
+*ledger.* totalDrops | [value](#value) | Total number of drops (1/100,000,000th of an CSC) in the network, as a quoted integer. (This decreases as transaction fees cause CSC to be destroyed.)
 *ledger.* transactionHash | string | Hash of the transaction information included in this ledger.
 *ledger.* rawState | string | *Optional* A JSON string containing all state data for this ledger in casinocoind JSON format.
 *ledger.* rawTransactions | string | *Optional* A JSON string containing casinocoind format transaction JSON for all transactions that were validated in this ledger.
@@ -3862,13 +3569,7 @@ return api.computeLedgerHash(ledger);
 "F4D865D83EB88C1A1911B9E90641919A1314F36E1B099F8E95FE3B7C77BE3349"
 ```
 
-# API Events
-
-## ledger
-
-This event is emitted whenever a new ledger version is validated on the connected server.
-
-### Return Value
+# API Events ## ledger This event is emitted whenever a new ledger version is validated on the connected server. ### Return Value
 
 Name | Type | Description
 ---- | ---- | -----------
@@ -3881,88 +3582,26 @@ transactionCount | integer | Number of new transactions included in this ledger.
 ledgerVersion | integer | Ledger version of the ledger that closed.
 validatedLedgerVersions | string | Range of ledgers that the server has available. This may be discontiguous.
 
-### Example
+    ### Example ```javascript api.on('ledger', ledger => { console.log(JSON.stringify(ledger, null, 2)); }); ```
 
-```javascript
-api.on('ledger', ledger => {
-  console.log(JSON.stringify(ledger, null, 2));
-});
-```
-
-
+    
 ```json
 {
-  "baseFeeCSC": "0.00001",
-  "ledgerVersion": 14804627,
-  "ledgerHash": "9141FA171F2C0CE63E609466AF728FF66C12F7ACD4B4B50B0947A7F3409D593A",
-  "ledgerTimestamp": "2015-07-23T05:50:40.000Z",
-  "reserveBaseCSC": "20",
-  "reserveIncrementCSC": "5",
-  "transactionCount": 19,
-  "validatedLedgerVersions": "13983423-14804627"
+    "baseFeeCSC": "0.00001",
+    "ledgerVersion": 14804627,
+    "ledgerHash": "9141FA171F2C0CE63E609466AF728FF66C12F7ACD4B4B50B0947A7F3409D593A",
+    "ledgerTimestamp": "2015-07-23T05:50:40.000Z",
+    "reserveBaseCSC": "20",
+    "reserveIncrementCSC": "5",
+    "transactionCount": 19,
+    "validatedLedgerVersions": "13983423-14804627"
 }
 ```
 
 
-## error
-
-This event is emitted when there is an error on the connection to the server that cannot be associated to a specific request.
-
-### Return Value
-
-The first parameter is a string indicating the error type:
-* `badMessage` - casinocoind returned a malformed message
-* `websocket` - the websocket library emitted an error
-* one of the error codes found in the [casinocoind Universal Errors](https://casinocoin.org/build/casinocoind-apis/#universal-errors).
-
-The second parameter is a message explaining the error.
-
-The third parameter is:
-* the message that caused the error for `badMessage`
-* the error object emitted for `websocket`
-* the parsed response for casinocoind errors
-
-### Example
-
-```javascript
-api.on('error', (errorCode, errorMessage, data) => {
-  console.log(errorCode + ': ' + errorMessage);
-});
-```
-
-```
-tooBusy: The server is too busy to help you now.
-```
-
-## connected
-
-This event is emitted after connection successfully opened.
-
-### Example
-
-```javascript
-api.on('connected', () => {
-  console.log('Connection is open now.');
-});
-```
-
-## disconnected
-
-This event is emitted when connection is closed.
-
-### Return Value
-
-The only parameter is a number containing the [close code](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent) send by the server.
-
-### Example
-
-```javascript
-api.on('disconnected', (code) => {
-  if (code !== 1000) {
-    console.log('Connection is closed due to error.');
-  } else {
-    console.log('Connection is closed normally.');
-  }
-});
-```
-
+        ## error This event is emitted when there is an error on the connection to the server that cannot be associated to a specific request. ### Return Value The first parameter is a string indicating the error type: * `badMessage` - casinocoind returned a
+        malformed message * `websocket` - the websocket library emitted an error * one of the error codes found in the [casinocoind Universal Errors](https://casinocoin.org/build/casinocoind-apis/#universal-errors). The second parameter is a message explaining
+        the error. The third parameter is: * the message that caused the error for `badMessage` * the error object emitted for `websocket` * the parsed response for casinocoind errors ### Example ```javascript api.on('error', (errorCode, errorMessage,
+        data) => { console.log(errorCode + ': ' + errorMessage); }); ``` ``` tooBusy: The server is too busy to help you now. ``` ## connected This event is emitted after connection successfully opened. ### Example ```javascript api.on('connected', ()
+        => { console.log('Connection is open now.'); }); ``` ## disconnected This event is emitted when connection is closed. ### Return Value The only parameter is a number containing the [close code](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent)
+        send by the server. ### Example ```javascript api.on('disconnected', (code) => { if (code !== 1000) { console.log('Connection is closed due to error.'); } else { console.log('Connection is closed normally.'); } }); ```
