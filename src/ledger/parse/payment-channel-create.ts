@@ -1,19 +1,20 @@
-import * as assert from "assert";
-import * as utils from "./utils";
-import parseAmount from "./amount";
+import * as assert from 'assert'
+import {parseTimestamp} from './utils'
+import {removeUndefined} from '../../common'
+import parseAmount from './amount'
 
 function parsePaymentChannelCreate(tx: any): Object {
-  assert(tx.TransactionType === "PaymentChannelCreate");
+  assert(tx.TransactionType === 'PaymentChannelCreate')
 
-  return utils.removeUndefined({
+  return removeUndefined({
     amount: parseAmount(tx.Amount).value,
-    cancelAfter: tx.CancelAfter && utils.parseTimestamp(tx.CancelAfter),
     destination: tx.Destination,
-    destinationTag: tx.DestinationTag,
-    publicKey: tx.PublicKey,
     settleDelay: tx.SettleDelay,
+    publicKey: tx.PublicKey,
+    cancelAfter: tx.CancelAfter && parseTimestamp(tx.CancelAfter),
     sourceTag: tx.SourceTag,
-  });
+    destinationTag: tx.DestinationTag
+  })
 }
 
-export default parsePaymentChannelCreate;
+export default parsePaymentChannelCreate

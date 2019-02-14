@@ -1,108 +1,103 @@
-import * as _ from "lodash";
-import * as utils from "./utils";
-import parseTransaction from "./parse/transaction";
-import { Connection } from "../common/connection";
+import * as _ from 'lodash'
+import * as utils from './utils'
+import parseTransaction from './parse/transaction'
+import {validate, errors} from '../common'
+import {Connection} from '../common'
 import {
-  TransactionType,
-  TransactionOptions,
-  TransactionResponse,
-} from "./transaction-types";
+  TransactionType, TransactionResponse, TransactionOptions
+} from './transaction-types'
 
-const { validate, errors } = utils.common;
-
-function attachTransactionDate(connection: Connection, tx: any,
+function attachTransactionDate(connection: Connection, tx: any
 ): Promise<TransactionType> {
   if (tx.date) {
-    return Promise.resolve(tx);
+    return Promise.resolve(tx)
   }
 
-  const ledgerVersion = tx.ledger_index || tx.LedgerSequence;
+  const ledgerVersion = tx.ledger_index || tx.LedgerSequence
 
   if (!ledgerVersion) {
     return new Promise(() => {
       throw new errors.NotFoundError(
-        "ledger_index and LedgerSequence not found in tx");
-    });
+        'ledger_index and LedgerSequence not found in tx')
+    })
   }
 
   const request = {
-    command: "ledger",
-    ledger_index: ledgerVersion,
-  };
+    command: 'ledger',
+    ledger_index: ledgerVersion
+  }
 
-  return connection.request(request).then((data: any) => {
-    if (typeof data.ledger.close_time === "number") {
-      return _.assign({ date: data.ledger.close_time }, tx);
+  return connection.request(request).then(data => {
+    if (typeof data.ledger.close_time === 'number') {
+      return _.assign({date: data.ledger.close_time}, tx)
     }
-    throw new errors.UnexpectedError("Ledger missing close_time");
-  }).catch((error: any) => {
+    throw new errors.UnexpectedError('Ledger missing close_time')
+  }).catch(error => {
     if (error instanceof errors.UnexpectedError) {
-      throw error;
+      throw error
     }
-    throw new errors.NotFoundError("Transaction ledger not found");
-  });
+    throw new errors.NotFoundError('Transaction ledger not found')
+  })
 }
 
 function isTransactionInRange(tx: any, options: TransactionOptions) {
   return (!options.minLedgerVersion
-    || tx.ledger_index >= options.minLedgerVersion)
-    && (!options.maxLedgerVersion
-      || tx.ledger_index <= options.maxLedgerVersion);
+          || tx.ledger_index >= options.minLedgerVersion)
+      && (!options.maxLedgerVersion
+          || tx.ledger_index <= options.maxLedgerVersion)
 }
 
-function convertError(
-  connection: Connection,
-  options: TransactionOptions,
-  error: Error,
-): Promise<Error|PendingLedgerVersionError|MissingLedgerHistoryError> {
-  const errState = (error.message === "txnNotFound") ?
-    new errors.NotFoundError("Transaction not found") : error;
-  if (errState instanceof errors.NotFoundError) {
+function convertError(connection: Connection, options: TransactionOptions,
+  error: Error
+): Promise<Error> {
+  const _error = (error.message === 'txnNotFound') ?
+    new errors.NotFoundError('Transaction not found') : error
+  if (_error instanceof errors.NotFoundError) {
     return utils.hasCompleteLedgerRange(connection, options.minLedgerVersion,
-      options.maxLedgerVersion).then((hasCompleteLedgerRange) => {
-        if (!hasCompleteLedgerRange) {
-          return utils.isPendingLedgerVersion(
-            connection, options.maxLedgerVersion)
-            .then((isPendingLedgerVersion) => {
-              return isPendingLedgerVersion ?
-                new errors.PendingLedgerVersionError() :
-                new errors.MissingLedgerHistoryError();
-            });
-        }
-        return errState;
-      });
+      options.maxLedgerVersion).then(hasCompleteLedgerRange => {
+      if (!hasCompleteLedgerRange) {
+        return utils.isPendingLedgerVersion(
+          connection, options.maxLedgerVersion)
+          .then(isPendingLedgerVersion => {
+            return isPendingLedgerVersion ?
+              new errors.PendingLedgerVersionError() :
+              new errors.MissingLedgerHistoryError()
+          })
+      }
+      return _error
+    })
   }
-  return Promise.resolve(errState);
+  return Promise.resolve(_error)
 }
 
-function formatResponse(options: TransactionOptions, tx: TransactionResponse,
+function formatResponse(options: TransactionOptions, tx: TransactionResponse
 ): TransactionType {
   if (tx.validated !== true || !isTransactionInRange(tx, options)) {
-    throw new errors.NotFoundError("Transaction not found");
+  throw new errors.NotFoundError('Transaction not found')
   }
-  return parseTransaction(tx);
+  return parseTransaction(tx)
 }
 
-function getTransaction(id: string, options: TransactionOptions = {},
+function getTransaction(id: string, options: TransactionOptions = {}
 ): Promise<TransactionType> {
-  validate.getTransaction({ id, options });
+  validate.getTransaction({id, options})
 
   const request = {
-    binary: false,
-    command: "tx",
+    command: 'tx',
     transaction: id,
-  };
+    binary: false
+  }
 
-  return utils.ensureLedgerVersion.call(this, options).then((ledgerOptions: any) => {
+  return utils.ensureLedgerVersion.call(this, options).then(_options => {
     return this.connection.request(request).then((tx: TransactionResponse) =>
-      attachTransactionDate(this.connection, tx),
-    ).then(_.partial(formatResponse, ledgerOptions))
-      .catch((error: any) => {
-        return convertError(this.connection, ledgerOptions, error).then((errState) => {
-          throw errState;
-        });
-      });
-  });
+      attachTransactionDate(this.connection, tx)
+    ).then(_.partial(formatResponse, _options))
+      .catch(error => {
+        return convertError(this.connection, _options, error).then(_error => {
+          throw _error
+        })
+      })
+  })
 }
 
-export default getTransaction;
+export default getTransaction

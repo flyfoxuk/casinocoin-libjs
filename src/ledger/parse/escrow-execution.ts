@@ -1,16 +1,17 @@
-import * as assert from "assert";
-import * as utils from "./utils";
+import * as assert from 'assert'
+import {parseMemos} from './utils'
+import {removeUndefined} from '../../common'
 
 function parseEscrowExecution(tx: any): Object {
-  assert(tx.TransactionType === "EscrowFinish");
+  assert(tx.TransactionType === 'EscrowFinish')
 
-  return utils.removeUndefined({
-    condition: tx.Condition,
-    escrowSequence: tx.OfferSequence,
-    fulfillment: tx.Fulfillment,
-    memos: utils.parseMemos(tx),
+  return removeUndefined({
+    memos: parseMemos(tx),
     owner: tx.Owner,
-  });
+    escrowSequence: tx.OfferSequence,
+    condition: tx.Condition,
+    fulfillment: tx.Fulfillment
+  })
 }
 
-export default parseEscrowExecution;
+export default parseEscrowExecution

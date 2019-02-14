@@ -1,10 +1,10 @@
-import * as assert from "assert";
+import * as assert from 'assert'
 
 function parseOrderCancellation(tx: any): Object {
-  assert(tx.TransactionType === "OfferCancel");
+  assert(tx.TransactionType === 'OfferCancel')
   return {
-    orderSequence: tx.OfferSequence,
-  };
+    orderSequence: tx.OfferSequence
+  }
 }
 
-export default parseOrderCancellation;
+export default parseOrderCancellation

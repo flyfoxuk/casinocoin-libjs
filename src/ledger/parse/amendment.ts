@@ -1,7 +1,9 @@
+
+
 function parseAmendment(tx: any) {
   return {
-    amendment: tx.Amendment,
-  };
+    amendment: tx.Amendment
+  }
 }
 
-export default parseAmendment;
+export default parseAmendment

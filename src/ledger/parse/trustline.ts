@@ -1,32 +1,32 @@
-import * as assert from "assert";
-import * as utils from "./utils";
+import * as assert from 'assert'
+import {parseQuality} from './utils'
+import {txFlags, removeUndefined} from '../../common'
+const flags = txFlags.TrustSet
 
-const flags = utils.txFlags.TrustSet;
-
-function parseFlag(flagsValue: any, trueValue: any, falseValue: any) {
+function parseFlag(flagsValue, trueValue, falseValue) {
   if (flagsValue & trueValue) {
-    return true;
+    return true
   }
   if (flagsValue & falseValue) {
-    return false;
+    return false
   }
-  return undefined;
+  return undefined
 }
 
 function parseTrustline(tx: any): Object {
-  assert(tx.TransactionType === "TrustSet");
+  assert(tx.TransactionType === 'TrustSet')
 
-  return utils.removeUndefined({
-    authorized: parseFlag(tx.Flags, flags.SetAuth, 0),
-    counterparty: tx.LimitAmount.issuer,
-    currency: tx.LimitAmount.currency,
-    frozen: parseFlag(tx.Flags, flags.SetFreeze, flags.ClearFreeze),
+  return removeUndefined({
     limit: tx.LimitAmount.value,
-    qualityIn: utils.parseQuality(tx.QualityIn),
-    qualityOut: utils.parseQuality(tx.QualityOut),
+    currency: tx.LimitAmount.currency,
+    counterparty: tx.LimitAmount.issuer,
+    qualityIn: parseQuality(tx.QualityIn),
+    qualityOut: parseQuality(tx.QualityOut),
     ripplingDisabled: parseFlag(
       tx.Flags, flags.SetNoCasinocoin, flags.ClearNoCasinocoin),
-  });
+    frozen: parseFlag(tx.Flags, flags.SetFreeze, flags.ClearFreeze),
+    authorized: parseFlag(tx.Flags, flags.SetAuth, 0)
+  })
 }
 
-export default parseTrustline;
+export default parseTrustline

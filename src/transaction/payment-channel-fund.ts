@@ -1,41 +1,39 @@
-import * as utils from "./utils";
-import { Instructions, Prepare } from "./types";
-
-const { validate, iso8601ToCasinocoinTime, cscToDrops } = utils.common;
+import * as utils from './utils'
+import {validate, iso8601ToCasinocoinTime, cscToDrops} from '../common'
+import {Instructions, Prepare} from './types'
 
 type PaymentChannelFund = {
   channel: string,
   amount: string,
-  expiration?: string,
-};
+  expiration?: string
+}
 
-function createPaymentChannelFundTransaction(
-  account: string,
-  fund: PaymentChannelFund,
+function createPaymentChannelFundTransaction(account: string,
+  fund: PaymentChannelFund
 ): Object {
   const txJSON: any = {
     Account: account,
-    Amount: cscToDrops(fund.amount),
+    TransactionType: 'PaymentChannelFund',
     Channel: fund.channel,
-    TransactionType: "PaymentChannelFund",
-  };
-
-  if (fund.expiration !== undefined) {
-    txJSON.Expiration = iso8601ToCasinocoinTime(fund.expiration);
+    Amount: cscToDrops(fund.amount)
   }
 
-  return txJSON;
+  if (fund.expiration !== undefined) {
+    txJSON.Expiration = iso8601ToCasinocoinTime(fund.expiration)
+  }
+
+  return txJSON
 }
 
-function preparePaymentChannelFund(
-  address: string,
+function preparePaymentChannelFund(address: string,
   paymentChannelFund: PaymentChannelFund,
-  instructions: Instructions = {},
+  instructions: Instructions = {}
 ): Promise<Prepare> {
-  validate.preparePaymentChannelFund({ address, paymentChannelFund, instructions });
+  validate.preparePaymentChannelFund(
+    {address, paymentChannelFund, instructions})
   const txJSON = createPaymentChannelFundTransaction(
-    address, paymentChannelFund);
-  return utils.prepareTransaction(txJSON, this, instructions);
+    address, paymentChannelFund)
+  return utils.prepareTransaction(txJSON, this, instructions)
 }
 
-export default preparePaymentChannelFund;
+export default preparePaymentChannelFund

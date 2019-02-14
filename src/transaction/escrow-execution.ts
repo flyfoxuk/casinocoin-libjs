@@ -1,57 +1,54 @@
-import * as _ from "lodash";
-import * as utils from "./utils";
-import { Instructions, Prepare } from "./types";
-import { Memo } from "../common/types";
-
-const validate = utils.common.validate;
-const ValidationError = utils.common.errors.ValidationError;
+import * as _ from 'lodash'
+import * as utils from './utils'
+const validate = utils.common.validate
+const ValidationError = utils.common.errors.ValidationError
+import {Instructions, Prepare} from './types'
+import {Memo} from '../common/types'
 
 type EscrowExecution = {
   owner: string,
   escrowSequence: number,
-  memos?: Memo[],
+  memos?: Array<Memo>,
   condition?: string,
-  fulfillment?: string,
-};
+  fulfillment?: string
+}
 
-function createEscrowExecutionTransaction(
-  account: string,
-  payment: EscrowExecution,
+function createEscrowExecutionTransaction(account: string,
+  payment: EscrowExecution
 ): Object {
   const txJSON: any = {
+    TransactionType: 'EscrowFinish',
     Account: account,
-    OfferSequence: payment.escrowSequence,
     Owner: payment.owner,
-    TransactionType: "EscrowFinish",
-  };
+    OfferSequence: payment.escrowSequence
+  }
 
   if (Boolean(payment.condition) !== Boolean(payment.fulfillment)) {
-    throw new ValidationError("'condition' and 'fulfillment' fields on"
-      + " EscrowFinish must only be specified together.");
+    throw new ValidationError('"condition" and "fulfillment" fields on'
+      + ' EscrowFinish must only be specified together.')
   }
 
   if (payment.condition !== undefined) {
-    txJSON.Condition = payment.condition;
+    txJSON.Condition = payment.condition
   }
   if (payment.fulfillment !== undefined) {
-    txJSON.Fulfillment = payment.fulfillment;
+    txJSON.Fulfillment = payment.fulfillment
   }
   if (payment.memos !== undefined) {
-    txJSON.Memos = _.map(payment.memos, utils.convertMemo);
+    txJSON.Memos = _.map(payment.memos, utils.convertMemo)
   }
-  return txJSON;
+  return txJSON
 }
 
-function prepareEscrowExecution(
-  address: string,
+function prepareEscrowExecution(address: string,
   escrowExecution: EscrowExecution,
-  instructions: Instructions = {},
+  instructions: Instructions = {}
 ): Promise<Prepare> {
   validate.prepareEscrowExecution(
-    { address, escrowExecution, instructions });
+    {address, escrowExecution, instructions})
   const txJSON = createEscrowExecutionTransaction(
-    address, escrowExecution);
-  return utils.prepareTransaction(txJSON, this, instructions);
+    address, escrowExecution)
+  return utils.prepareTransaction(txJSON, this, instructions)
 }
 
-export default prepareEscrowExecution;
+export default prepareEscrowExecution

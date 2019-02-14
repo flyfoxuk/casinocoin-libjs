@@ -1,21 +1,21 @@
-import * as _ from "lodash";
-import * as assert from "assert";
-import * as utils from "./utils";
-import parseAmount from "./amount";
+import * as assert from 'assert'
+import parseAmount from './amount'
+import {parseTimestamp, parseMemos} from './utils'
+import {removeUndefined} from '../../common'
 
 function parseEscrowCreation(tx: any): Object {
-  assert(tx.TransactionType === "EscrowCreate");
+  assert(tx.TransactionType === 'EscrowCreate')
 
-  return utils.removeUndefined({
-    allowCancelAfter: utils.parseTimestamp(tx.CancelAfter),
-    allowExecuteAfter: utils.parseTimestamp(tx.FinishAfter),
+  return removeUndefined({
     amount: parseAmount(tx.Amount).value,
-    condition: tx.Condition,
     destination: tx.Destination,
-    destinationTag: tx.DestinationTag,
-    memos: utils.parseMemos(tx),
+    memos: parseMemos(tx),
+    condition: tx.Condition,
+    allowCancelAfter: parseTimestamp(tx.CancelAfter),
+    allowExecuteAfter: parseTimestamp(tx.FinishAfter),
     sourceTag: tx.SourceTag,
-  });
+    destinationTag: tx.DestinationTag
+  })
 }
 
-export default parseEscrowCreation;
+export default parseEscrowCreation

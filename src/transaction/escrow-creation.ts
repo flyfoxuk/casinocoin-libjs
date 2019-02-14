@@ -1,68 +1,66 @@
-import * as _ from "lodash";
-import * as utils from "./utils";
-import { Instructions, Prepare } from "./types";
-import { Adjustment, MaxAdjustment, Memo } from "../common/types";
-
-const { validate, iso8601ToCasinocoinTime, cscToDrops } = utils.common;
-const ValidationError = utils.common.errors.ValidationError;
+import * as _ from 'lodash'
+import * as utils from './utils'
+import {validate, iso8601ToCasinocoinTime, cscToDrops} from '../common'
+const ValidationError = utils.common.errors.ValidationError
+import {Instructions, Prepare} from './types'
+import {Memo} from '../common/types'
 
 type EscrowCreation = {
   amount: string,
   destination: string,
-  memos?: Memo[],
+  memos?: Array<Memo>,
   condition?: string,
   allowCancelAfter?: string,
   allowExecuteAfter?: string,
   sourceTag?: number,
-  destinationTag?: number,
-};
+  destinationTag?: number
+}
 
-function createEscrowCreationTransaction(
-  account: string,
-  payment: EscrowCreation,
+function createEscrowCreationTransaction(account: string,
+  payment: EscrowCreation
 ): Object {
   const txJSON: any = {
+    TransactionType: 'EscrowCreate',
     Account: account,
-    Amount: cscToDrops(payment.amount),
     Destination: payment.destination,
-    TransactionType: "EscrowCreate",
-  };
+    Amount: cscToDrops(payment.amount)
+  }
 
   if (payment.condition !== undefined) {
-    txJSON.Condition = payment.condition;
+    txJSON.Condition = payment.condition
   }
   if (payment.allowCancelAfter !== undefined) {
-    txJSON.CancelAfter = iso8601ToCasinocoinTime(payment.allowCancelAfter);
+    txJSON.CancelAfter = iso8601ToCasinocoinTime(payment.allowCancelAfter)
   }
   if (payment.allowExecuteAfter !== undefined) {
-    txJSON.FinishAfter = iso8601ToCasinocoinTime(payment.allowExecuteAfter);
+    txJSON.FinishAfter = iso8601ToCasinocoinTime(payment.allowExecuteAfter)
   }
   if (payment.sourceTag !== undefined) {
-    txJSON.SourceTag = payment.sourceTag;
+    txJSON.SourceTag = payment.sourceTag
   }
   if (payment.destinationTag !== undefined) {
-    txJSON.DestinationTag = payment.destinationTag;
+    txJSON.DestinationTag = payment.destinationTag
   }
   if (payment.memos !== undefined) {
-    txJSON.Memos = _.map(payment.memos, utils.convertMemo);
+    txJSON.Memos = _.map(payment.memos, utils.convertMemo)
   }
   if (Boolean(payment.allowCancelAfter) && Boolean(payment.allowExecuteAfter) &&
-    txJSON.CancelAfter <= txJSON.FinishAfter) {
-    throw new ValidationError("'CancelAfter' must be after 'FinishAfter' for" +
-      " EscrowCreate");
+      txJSON.CancelAfter <= txJSON.FinishAfter) {
+    throw new ValidationError('"CancelAfter" must be after "FinishAfter" for'
+      + ' EscrowCreate')
   }
-  return txJSON;
+  return txJSON
 }
 
-function prepareEscrowCreation(
-  address: string,
+function prepareEscrowCreation(address: string,
   escrowCreation: EscrowCreation,
-  instructions: Instructions = {},
+  instructions: Instructions = {}
 ): Promise<Prepare> {
-  validate.prepareEscrowCreation({ address, escrowCreation, instructions });
+  validate.prepareEscrowCreation(
+    {address, escrowCreation, instructions})
   const txJSON = createEscrowCreationTransaction(
-    address, escrowCreation);
-  return utils.prepareTransaction(txJSON, this, instructions);
+    address, escrowCreation)
+  return utils.prepareTransaction(txJSON, this, instructions)
 }
 
-export default prepareEscrowCreation;
+export default prepareEscrowCreation

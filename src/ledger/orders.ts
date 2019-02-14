@@ -1,46 +1,37 @@
-import * as _ from "lodash";
-import * as utils from "./utils";
-import parseAccountOrder from "./parse/account-order";
-import { Connection } from "../common/connection";
-import { OrdersOptions, Order } from "./types";
+import * as _ from 'lodash'
+import * as utils from './utils'
+import {validate} from '../common'
+import {Connection} from '../common'
+import parseAccountOrder from './parse/account-order'
+import {OrdersOptions, Order} from './types'
 
-const { validate } = utils.common;
+type GetOrders = Array<Order>
 
-type GetOrders = Order[];
-
-function requestAccountOffers(
-  connection: Connection,
-  address: string,
-  ledgerVersion: number,
-  marker: string,
-  limit: number,
+function requestAccountOffers(connection: Connection, address: string,
+  ledgerVersion: number, marker: string, limit: number
 ): Promise<Object> {
   return connection.request({
+    command: 'account_offers',
     account: address,
-    command: "account_offers",
-    ledger_index: ledgerVersion,
+    marker: marker,
     limit: utils.clamp(limit, 10, 400),
-    marker,
-  }).then((data: any) => {
-    return {
-      marker: data.marker,
-      results: data.offers.map(_.partial(parseAccountOrder, address)),
-    };
-  });
+    ledger_index: ledgerVersion
+  }).then(data => ({
+    marker: data.marker,
+    results: data.offers.map(_.partial(parseAccountOrder, address))
+  }))
 }
 
-function getOrders(
-  address: string,
-  options: OrdersOptions = {},
+function getOrders(address: string, options: OrdersOptions = {}
 ): Promise<GetOrders> {
-  validate.getOrders({ address, options });
+  validate.getOrders({address, options})
 
-  return utils.ensureLedgerVersion.call(this, options).then((ledgerOptions: any) => {
+  return utils.ensureLedgerVersion.call(this, options).then(_options => {
     const getter = _.partial(requestAccountOffers, this.connection, address,
-      ledgerOptions.ledgerVersion);
-    return utils.getRecursive(getter, ledgerOptions.limit).then((orders) =>
-      _.sortBy(orders, (order) => order.properties.sequence));
-  });
+      _options.ledgerVersion)
+    return utils.getRecursive(getter, _options.limit).then(orders =>
+      _.sortBy(orders, order => order.properties.sequence))
+  })
 }
 
-export default getOrders;
+export default getOrders

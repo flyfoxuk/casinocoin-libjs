@@ -1,6 +1,4 @@
-import * as utils from "./utils";
-
-const { validate, removeUndefined } = utils.common;
+import {validate, removeUndefined, dropsToCsc} from '../common'
 
 type AccountData = {
   Sequence: number,
@@ -12,20 +10,20 @@ type AccountData = {
   PreviousTxnID: string,
   AccountTxnID?: string,
   PreviousTxnLgrSeq: number,
-  index: string,
-};
+  index: string
+}
 
 type AccountDataResponse = {
   account_data: AccountData,
   ledger_current_index?: number,
   ledger_hash?: string,
   ledger_index: number,
-  validated: boolean,
-};
+  validated: boolean
+}
 
 type AccountInfoOptions = {
-  ledgerVersion?: number,
-};
+  ledgerVersion?: number
+}
 
 type AccountInfoResponse = {
   sequence: number,
@@ -33,31 +31,32 @@ type AccountInfoResponse = {
   ownerCount: number,
   previousInitiatedTransactionID: string,
   previousAffectingTransactionID: string,
-  previousAffectingTransactionLedgerVersion: number,
-};
+  previousAffectingTransactionLedgerVersion: number
+}
 
 function formatAccountInfo(response: AccountDataResponse) {
-  const data = response.account_data;
+  const data = response.account_data
   return removeUndefined({
-    cscBalance: utils.common.dropsToCsc(data.Balance),
-    ownerCount: data.OwnerCount,
-    previousAffectingTransactionID: data.PreviousTxnID,
-    previousAffectingTransactionLedgerVersion: data.PreviousTxnLgrSeq,
-    previousInitiatedTransactionID: data.AccountTxnID,
     sequence: data.Sequence,
-  });
+    cscBalance: dropsToCsc(data.Balance),
+    ownerCount: data.OwnerCount,
+    previousInitiatedTransactionID: data.AccountTxnID,
+    previousAffectingTransactionID: data.PreviousTxnID,
+    previousAffectingTransactionLedgerVersion: data.PreviousTxnLgrSeq
+  })
 }
 
-function getAccountInfo(address: string, options: AccountInfoOptions = {}): Promise<AccountInfoResponse> {
-  validate.getAccountInfo({ address, options });
+function getAccountInfo(address: string, options: AccountInfoOptions = {}
+): Promise<AccountInfoResponse> {
+  validate.getAccountInfo({address, options})
 
   const request = {
+    command: 'account_info',
     account: address,
-    command: "account_info",
-    ledger_index: options.ledgerVersion || "validated",
-  };
+    ledger_index: options.ledgerVersion || 'validated'
+  }
 
-  return this.connection.request(request).then(formatAccountInfo);
+  return this.connection.request(request).then(formatAccountInfo)
 }
 
-export default getAccountInfo;
+export default getAccountInfo

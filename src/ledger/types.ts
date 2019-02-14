@@ -1,9 +1,10 @@
-import { Amount } from "../common/types";
+
+import {Amount} from '../common/types'
 
 export type OrdersOptions = {
   limit?: number,
-  ledgerVersion?: number,
-};
+  ledgerVersion?: number
+}
 
 export type OrderSpecification = {
   direction: string,
@@ -14,17 +15,17 @@ export type OrderSpecification = {
   // If enabled, the offer will not consume offers that exactly match it, and
   // instead becomes an Offer node in the ledger. It will still consume offers
   // that cross it.
-  passive?: boolean,
-};
+  passive?: boolean
+}
 
 export type Order = {
    specification: OrderSpecification,
    properties: {
     maker: string,
     sequence: number,
-    makerExchangeRate: string,
-  };
-};
+    makerExchangeRate: string
+  }
+}
 
 export type GetLedger = {
   // TODO: properties in type don't match response object. Fix!
@@ -40,9 +41,9 @@ export type GetLedger = {
   parentCloseTime: string,
   totalDrops: string,
   transactionHash: string,
-  transactions?: Object[],
+  transactions?: Array<Object>,
   rawTransactions?: string,
-  transactionHashes?: string[],
+  transactionHashes?: Array<string>,
   rawState?: string,
-  stateHashes?: string[],
-};
+  stateHashes?: Array<string>
+}

@@ -1,4 +1,5 @@
-import { Amount, Memo } from "../common/types.js";
+
+import {Amount, Memo} from '../common/types'
 
 type Outcome = {
   result: string,
@@ -7,24 +8,24 @@ type Outcome = {
   fee: string,
   balanceChanges: {
     [key: string]: [{
-      currency: string,
-      counterparty?: string,
-      value: string,
-    }],
+     currency: string,
+     counterparty?: string,
+     value: string
+    }]
   },
   orderbookChanges: Object,
-  timestamp?: string,
-};
+  timestamp?: string
+}
 
 type Adjustment = {
   address: string,
   amount: {
-    currency: string,
-    counterparty?: string,
-    value: string,
-  },
-  tag?: number,
-};
+   currency: string,
+   counterparty?: string,
+   value: string
+ },
+  tag?: number
+}
 
 type Trustline = {
   currency: string,
@@ -34,8 +35,8 @@ type Trustline = {
   qualityOut?: number,
   ripplingDisabled?: boolean,
   authorized?: boolean,
-  frozen?: boolean,
-};
+  frozen?: boolean
+}
 
 type Settings = {
   passwordSpent?: boolean,
@@ -51,23 +52,23 @@ type Settings = {
   messageKey?: string,
   domain?: string,
   transferRate?: number,
-  regularKey?: string,
-};
+  regularKey?: string
+}
 
 type OrderCancellation = {
-  orderSequence: number,
-};
+  orderSequence: number
+}
 
 type Payment = {
   source: Adjustment,
   destination: Adjustment,
   paths?: string,
-  memos?: Memo[],
+  memos?: Array<Memo>,
   invoiceID?: string,
   allowPartialPayment?: boolean,
   noDirectCasinocoin?: boolean,
-  limitQuality?: boolean,
-};
+  limitQuality?: boolean
+}
 
 type PaymentTransaction = {
   type: string,
@@ -75,8 +76,8 @@ type PaymentTransaction = {
   outcome: Outcome,
   id: string,
   address: string,
-  sequence: number,
-};
+  sequence: number
+}
 
 export type Order = {
   direction: string,
@@ -87,8 +88,8 @@ export type Order = {
   passive?: boolean,
   expirationTime?: string,
   orderToReplace?: number,
-  memos?: Memo[],
-};
+  memos?: Memo[]
+}
 
 type OrderTransaction = {
   type: string,
@@ -96,8 +97,8 @@ type OrderTransaction = {
   outcome: Outcome,
   id: string,
   address: string,
-  sequence: number,
-};
+  sequence: number
+}
 
 type OrderCancellationTransaction = {
   type: string,
@@ -105,8 +106,8 @@ type OrderCancellationTransaction = {
   outcome: Outcome,
   id: string,
   address: string,
-  sequence: number,
-};
+  sequence: number
+}
 
 type TrustlineTransaction = {
   type: string,
@@ -114,8 +115,8 @@ type TrustlineTransaction = {
   outcome: Outcome,
   id: string,
   address: string,
-  sequence: number,
-};
+  sequence: number
+}
 
 type SettingsTransaction = {
   type: string,
@@ -123,28 +124,39 @@ type SettingsTransaction = {
   outcome: Outcome,
   id: string,
   address: string,
-  sequence: number,
-};
+  sequence: number
+}
 
 export type TransactionOptions = {
   minLedgerVersion?: number,
-  maxLedgerVersion?: number,
-};
+  maxLedgerVersion?: number
+}
 
 export type KYCSet = {
+  type: string,
   kycAccount: string,
   destination: string,
   verified: boolean,
-  verifications: string[],
-};
+  verifications: string[]
+}
+
+
+
+type KYC = {
+  type: string,
+  specification: KYC,
+  outcome: Outcome,
+  id: string,
+  address: string,
+  sequence: number,
+}
 
 export type TransactionType = PaymentTransaction | OrderTransaction |
-  OrderCancellationTransaction | TrustlineTransaction | SettingsTransaction |
-  KYCSet | Outcome;
+  OrderCancellationTransaction | TrustlineTransaction | SettingsTransaction | KYC
 
 export type TransactionResponse = TransactionType & {
   hash: string,
   ledger_index: number,
   meta: any,
-  validated?: boolean,
-};
+  validated?: boolean
+}

@@ -1,4 +1,4 @@
-import { Memo } from "../common/types";
+import {Memo} from '../common/types'
 
 export type TrustLineSpecification = {
   currency: string,
@@ -9,8 +9,8 @@ export type TrustLineSpecification = {
   ripplingDisabled?: boolean,
   authorized?: boolean,
   frozen?: boolean,
-  memos?: Memo[],
-};
+  memos?: Memo[]
+}
 
 export type Trustline = {
   specification: TrustLineSpecification,
@@ -18,16 +18,16 @@ export type Trustline = {
     limit: string,
     ripplingDisabled?: boolean,
     frozen?: boolean,
-    authorized?: boolean,
+    authorized?: boolean
   },
   state: {
-    balance: string,
-  };
-};
+    balance: string
+  }
+}
 
 export type TrustlinesOptions = {
   counterparty?: string,
   currency?: string,
   limit?: number,
-  ledgerVersion?: number,
-};
+  ledgerVersion?: number
+}

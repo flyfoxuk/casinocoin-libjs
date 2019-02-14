@@ -1,11 +1,11 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "tx",
-    "link": "https://casinocoin.org/build/transactions/",
-    "description": "An object in casinocoind txJSON format",
-    "type": "object",
-    "properties": {
-        "Account": { "$ref": "address" }
-    },
-    "required": ["Account"]
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "tx",
+  "link": "https://casinocoin.com/build/transactions/",
+  "description": "An object in casinocoind txJSON format",
+  "type": "object",
+  "properties": {
+    "Account": {"$ref": "address"}
+  },
+  "required": ["Account"]
 }

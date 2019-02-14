@@ -1,49 +1,48 @@
-import * as _ from "lodash";
-import * as assert from "assert";
-import * as utils from "./utils";
-import parseAmount from "./amount";
+import * as _ from 'lodash'
+import * as assert from 'assert'
+import * as utils from './utils'
+import {txFlags, removeUndefined} from '../../common'
+import parseAmount from './amount'
 
-const txFlags = utils.txFlags;
-
-function isNoDirectCasinocoin(tx: any) {
-  return (tx.Flags & txFlags.Payment.NoCasinocoinDirect) !== 0;
+function isNoDirectCasinocoin(tx) {
+  return (tx.Flags & txFlags.Payment.NoCasinocoinDirect) !== 0
 }
 
-function isQualityLimited(tx: any) {
-  return (tx.Flags & txFlags.Payment.LimitQuality) !== 0;
+function isQualityLimited(tx) {
+  return (tx.Flags & txFlags.Payment.LimitQuality) !== 0
 }
 
-function removeGenericCounterparty(amount: any, address: string) {
+function removeGenericCounterparty(amount, address) {
   return amount.counterparty === address ?
-    _.omit(amount, "counterparty") : amount;
+    _.omit(amount, 'counterparty') : amount
 }
 
 function parsePayment(tx: any): Object {
-  assert(tx.TransactionType === "Payment");
+  assert(tx.TransactionType === 'Payment')
 
   const source = {
     address: tx.Account,
     maxAmount: removeGenericCounterparty(
       parseAmount(tx.SendMax || tx.Amount), tx.Account),
-    tag: tx.SourceTag,
-  };
+    tag: tx.SourceTag
+  }
 
   const destination = {
     address: tx.Destination,
     amount: removeGenericCounterparty(parseAmount(tx.Amount), tx.Destination),
-    tag: tx.DestinationTag,
-  };
+    tag: tx.DestinationTag
+  }
 
-  return utils.removeUndefined({
-    allowPartialPayment: utils.isPartialPayment(tx) || undefined,
-    destination: utils.removeUndefined(destination),
-    invoiceID: tx.InvoiceID,
-    limitQuality: isQualityLimited(tx) || undefined,
+  return removeUndefined({
+    source: removeUndefined(source),
+    destination: removeUndefined(destination),
     memos: utils.parseMemos(tx),
-    noDirectCasinocoin: isNoDirectCasinocoin(tx) || undefined,
+    invoiceID: tx.InvoiceID,
     paths: tx.Paths ? JSON.stringify(tx.Paths) : undefined,
-    source: utils.removeUndefined(source),
-  });
+    allowPartialPayment: utils.isPartialPayment(tx) || undefined,
+    noDirectCasinocoin: isNoDirectCasinocoin(tx) || undefined,
+    limitQuality: isQualityLimited(tx) || undefined
+  })
 }
 
-export default parsePayment;
+export default parsePayment

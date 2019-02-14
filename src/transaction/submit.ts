@@ -1,8 +1,7 @@
-import * as _ from "lodash";
-import * as utils from "./utils";
-import { Submit } from "./types";
-
-const { validate } = utils.common;
+import * as _ from 'lodash'
+import * as utils from './utils'
+import {validate} from '../common'
+import {Submit} from './types'
 
 function isImmediateRejection(engineResult: string): boolean {
   // note: "tel" errors mean the local server refused to process the
@@ -11,28 +10,28 @@ function isImmediateRejection(engineResult: string): boolean {
   // if the required fee changes (this does not occur at the time of
   // this writing, but it could change in the future)
   // all other error classes can potentially result in transaction validation
-  return _.startsWith(engineResult, "tem");
+  return _.startsWith(engineResult, 'tem')
 }
 
-function formatSubmitResponse(response: any) {
+function formatSubmitResponse(response) {
   const data = {
     resultCode: response.engine_result,
-    resultMessage: response.engine_result_message,
-  };
-  if (isImmediateRejection(response.engine_result)) {
-    throw new utils.common.errors.CasinocoindError("Submit failed", data);
+    resultMessage: response.engine_result_message
   }
-  return data;
+  if (isImmediateRejection(response.engine_result)) {
+    throw new utils.common.errors.CasinocoindError('Submit failed', data)
+  }
+  return data
 }
 
 function submit(signedTransaction: string): Promise<Submit> {
-  validate.submit({ signedTransaction });
+  validate.submit({signedTransaction})
 
   const request = {
-    command: "submit",
-    tx_blob: signedTransaction,
-  };
-  return this.connection.request(request).then(formatSubmitResponse);
+    command: 'submit',
+    tx_blob: signedTransaction
+  }
+  return this.connection.request(request).then(formatSubmitResponse)
 }
 
-export default submit;
+export default submit

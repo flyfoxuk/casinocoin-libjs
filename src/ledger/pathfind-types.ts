@@ -1,40 +1,36 @@
-import {
-  Amount,
-  LaxLaxAmount,
-  CasinocoindAmount,
-  Adjustment,
-  MaxAdjustment,
-  MinAdjustment,
-} from "../common/types";
+
+import {Amount, LaxLaxAmount, CasinocoindAmount, Adjustment, MaxAdjustment,
+  MinAdjustment} from '../common/types'
+
 
 export type Path = {
   source: Adjustment | MaxAdjustment,
   destination: Adjustment | MinAdjustment,
-  paths: string,
-};
+  paths: string
+}
 
-export type GetPaths = Path[];
+export type GetPaths = Array<Path>
 
 export type PathFind = {
   source: {
     address: string,
     amount?: Amount,
-    currencies?: Array<{ currency: string, counterparty?: string }>,
+    currencies?: Array<{currency: string, counterparty?:string}>
   },
   destination: {
     address: string,
-    amount: LaxLaxAmount,
-  };
-};
+    amount: LaxLaxAmount
+  }
+}
 
 export type PathFindRequest = {
   command: string,
   source_account: string,
   destination_amount: CasinocoindAmount,
   destination_account: string,
-  source_currencies?: Array<{ currency: string, issuer?: string }>,
-  send_max?: CasinocoindAmount,
-};
+  source_currencies?: {currency: string, issuer?: string}[],
+  send_max?: CasinocoindAmount
+}
 
 export type CasinocoindPathsResponse = {
   alternatives: Array<{
@@ -43,15 +39,15 @@ export type CasinocoindPathsResponse = {
       type_hex: string,
       account?: string,
       issuer?: string,
-      currency?: string,
+      currency?: string
     }>>,
-    source_amount: CasinocoindAmount,
+    source_amount: CasinocoindAmount
   }>,
   type: string,
   destination_account: string,
   destination_amount: CasinocoindAmount,
-  destination_currencies?: string[],
-  source_account?: string,
-  source_currencies?: Array<{ currency: string }>,
-  full_reply?: boolean,
-};
+  destination_currencies?: Array<string>,
+  source_account: string,
+  source_currencies?: Array<{currency: string}>,
+  full_reply?: boolean
+}

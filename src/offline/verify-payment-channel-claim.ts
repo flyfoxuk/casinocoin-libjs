@@ -1,22 +1,17 @@
-import * as common from "../common";
-import keypairs from "casinocoin-libjs-keypairs";
-import binary from "casinocoin-libjs-binary-codec";
+import keypairs = require('casinocoin-libjs-keypairs')
+import binary = require('casinocoin-libjs-binary-codec')
+import {validate, cscToDrops} from '../common'
 
-const { validate, cscToDrops } = common;
-
-function verifyPaymentChannelClaim(
-  channel: string,
-  amount: string,
-  signature: string,
-  publicKey: string,
+function verifyPaymentChannelClaim(channel: string, amount: string,
+  signature: string, publicKey: string
 ): string {
-  validate.verifyPaymentChannelClaim({ channel, amount, signature, publicKey });
+  validate.verifyPaymentChannelClaim({channel, amount, signature, publicKey})
 
   const signingData = binary.encodeForSigningClaim({
-    amount: cscToDrops(amount),
-    channel,
-  });
-  return keypairs.verify(signingData, signature, publicKey);
+    channel: channel,
+    amount: cscToDrops(amount)
+  })
+  return keypairs.verify(signingData, signature, publicKey)
 }
 
-export default verifyPaymentChannelClaim;
+export default verifyPaymentChannelClaim

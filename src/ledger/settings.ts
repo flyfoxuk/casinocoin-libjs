@@ -1,13 +1,11 @@
-import * as _ from "lodash";
-import * as utils from "./utils";
-import parseFields from "./parse/fields";
-
-const { validate } = utils.common;
-const AccountFlags = utils.common.constants.AccountFlags;
+import * as _ from 'lodash'
+import parseFields from './parse/fields'
+import {validate, constants} from '../common'
+const AccountFlags = constants.AccountFlags
 
 type SettingsOptions = {
-  ledgerVersion?: number,
-};
+  ledgerVersion?: number
+}
 
 type GetSettings = {
   passwordSpent?: boolean,
@@ -23,36 +21,39 @@ type GetSettings = {
   messageKey?: string,
   domain?: string,
   transferRate?: number|null,
-  regularKey?: string,
-};
+  regularKey?: string
+}
 
-function parseFlags(value: any) {
-  const settings: any = {};
+
+function parseFlags(value) {
+  const settings = {}
   for (const flagName in AccountFlags) {
     if (value & AccountFlags[flagName]) {
-      settings[flagName] = true;
+      settings[flagName] = true
     }
   }
-  return settings;
+  return settings
 }
 
-function formatSettings(response: any) {
-  const data = response.account_data;
-  const parsedFlags = parseFlags(data.Flags);
-  const parsedFields = parseFields(data);
-  return _.assign({}, parsedFlags, parsedFields);
+function formatSettings(response) {
+  const data = response.account_data
+  const parsedFlags = parseFlags(data.Flags)
+  const parsedFields = parseFields(data)
+  return _.assign({}, parsedFlags, parsedFields)
 }
 
-function getSettings(address: string, options: SettingsOptions = {}): Promise<GetSettings> {
-  validate.getSettings({ address, options });
+function getSettings(address: string, options: SettingsOptions = {}
+): Promise<GetSettings> {
+  validate.getSettings({address, options})
 
   const request = {
+    command: 'account_info',
     account: address,
-    command: "account_info",
-    ledger_index: options.ledgerVersion || "validated",
-  };
+    ledger_index: options.ledgerVersion || 'validated',
+    signer_lists: true
+  }
 
-  return this.connection.request(request).then(formatSettings);
+  return this.connection.request(request).then(formatSettings)
 }
 
-export default getSettings;
+export default getSettings

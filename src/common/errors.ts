@@ -1,74 +1,77 @@
-import { inspect } from "util";
-import * as browserHacks from "./browser-hacks";
 
-class CasinocoinError {
+import {inspect} from 'util'
+import * as browserHacks from './browser-hacks'
 
-  private name: string;
-  private message: string;
-  private data?: any;
+class CasinocoinError extends Error {
 
-  constructor(message = "", data?: any) {
-    this.name = browserHacks.getConstructorName(this);
-    this.message = message;
-    this.data = data;
+  name: string
+  message: string
+  data?: any
+
+  constructor(message = '', data?: any) {
+    super(message)
+
+    this.name = browserHacks.getConstructorName(this)
+    this.message = message
+    this.data = data
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, this.constructor);
+      Error.captureStackTrace(this, this.constructor)
     }
   }
 
-  public toString() {
-    let result = "[" + this.name + "(" + this.message;
+  toString() {
+    let result = '[' + this.name + '(' + this.message
     if (this.data) {
-      result += ", " + inspect(this.data);
+      result += ', ' + inspect(this.data)
     }
-    result += ")]";
-    return result;
+    result += ')]'
+    return result
   }
 
   /* console.log in node uses util.inspect on object, and util.inspect allows
   us to cutomize its output:
   https://nodejs.org/api/util.html#util_custom_inspect_function_on_objects */
-  public inspect() {
-    return this.toString();
+  inspect() {
+    return this.toString()
   }
 }
 
-class CasinocoindError extends CasinocoinError { }
+class CasinocoindError extends CasinocoinError {}
 
-class UnexpectedError extends CasinocoinError { }
+class UnexpectedError extends CasinocoinError {}
 
-class LedgerVersionError extends CasinocoinError { }
+class LedgerVersionError extends CasinocoinError {}
 
-class ConnectionError extends CasinocoinError { }
+class ConnectionError extends CasinocoinError {}
 
-class NotConnectedError extends ConnectionError { }
+class NotConnectedError extends ConnectionError {}
 
-class DisconnectedError extends ConnectionError { }
+class DisconnectedError extends ConnectionError {}
 
-class CasinocoindNotInitializedError extends ConnectionError { }
+class CasinocoindNotInitializedError extends ConnectionError {}
 
-class TimeoutError extends ConnectionError { }
+class TimeoutError extends ConnectionError {}
 
-class ResponseFormatError extends ConnectionError { }
+class ResponseFormatError extends ConnectionError {}
 
-class ValidationError extends CasinocoinError { }
+class ValidationError extends CasinocoinError {}
 
 class NotFoundError extends CasinocoinError {
-  constructor(message = "Not Found") {
-    super(message);
+  constructor(message = 'Not found') {
+    super(message)
   }
 }
 
 class MissingLedgerHistoryError extends CasinocoinError {
   constructor(message?: string) {
-    super(message || "Server is missing ledger history in the specified range");
+    super(message || 'Server is missing ledger history in the specified range')
   }
 }
 
 class PendingLedgerVersionError extends CasinocoinError {
   constructor(message?: string) {
-    super(message || "maxLedgerVersion is greater than server\"s most recent " +
-      " validated ledger");
+    super(message || 'maxLedgerVersion is greater than server\'s most recent ' +
+      ' validated ledger')
   }
 }
 
@@ -86,5 +89,5 @@ export {
   NotFoundError,
   PendingLedgerVersionError,
   MissingLedgerHistoryError,
-  LedgerVersionError,
-};
+  LedgerVersionError
+}

@@ -1,18 +1,19 @@
-import * as utils from "./utils";
-import { Amount, CasinocoindAmount } from "../../common/types";
+import * as common from '../../common'
+import {Amount, CasinocoindAmount} from '../../common/types'
+
 
 function parseAmount(amount: CasinocoindAmount): Amount {
-  if (typeof amount === "string") {
+  if (typeof amount === 'string') {
     return {
-      currency: "CSC",
-      value: utils.common.dropsToCsc(amount),
-    };
+      currency: 'CSC',
+      value: common.dropsToCsc(amount)
+    }
   }
   return {
-    counterparty: amount.issuer,
     currency: amount.currency,
     value: amount.value,
-  };
+    counterparty: amount.issuer
+  }
 }
 
-export default parseAmount;
+export default parseAmount

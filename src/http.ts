@@ -1,81 +1,84 @@
-import * as assert from "assert";
-import * as _ from "lodash";
-import * as jayson from "jayson";
-import { CasinocoinAPI } from "./api";
+/* eslint-disable new-cap */
+
+import * as assert from 'assert'
+import * as _ from 'lodash'
+import jayson from 'jayson'
+import {CasinocoinAPI} from './api'
+
 
 /* istanbul ignore next */
-function createHTTPServer(options: any, httpPort: number) {
-  const casinocoinAPI = new CasinocoinAPI(options);
+function createHTTPServer(options, httpPort) {
+  const casinocoinAPI = new CasinocoinAPI(options)
 
-  const methodNames = _.filter(_.keys(CasinocoinAPI.prototype), (k: any) => {
-    return typeof CasinocoinAPI.prototype[k] === "function" &&
-      k !== "connect" &&
-      k !== "disconnect" &&
-      k !== "constructor" &&
-      k !== "CasinocoinAPI";
-  });
+  const methodNames = _.filter(_.keys(CasinocoinAPI.prototype), k => {
+    return typeof CasinocoinAPI.prototype[k] === 'function'
+    && k !== 'connect'
+    && k !== 'disconnect'
+    && k !== 'constructor'
+    && k !== 'CasinocoinAPI'
+  })
 
-  function applyPromiseWithCallback(fnName: any, callback: any, funcArgs: any) {
+  function applyPromiseWithCallback(fnName, callback, args_) {
     try {
-      let args = funcArgs;
-      if (!_.isArray(funcArgs)) {
-        const fnParameters = jayson.Utils.getParameterNames(casinocoinAPI[fnName]);
-        args = fnParameters.map((name: string) => funcArgs[name]);
-        const defaultArgs = _.omit(funcArgs, fnParameters);
+      let args = args_
+      if (!_.isArray(args_)) {
+        const fnParameters = jayson.Utils.getParameterNames(casinocoinAPI[fnName])
+        args = fnParameters.map(name => args_[name])
+        const defaultArgs = _.omit(args_, fnParameters)
         assert(_.size(defaultArgs) <= 1,
-          "Function must have no more than one default argument");
+          'Function must have no more than one default argument')
         if (_.size(defaultArgs) > 0) {
-          args.push(defaultArgs[_.keys(defaultArgs)[0]]);
+          args.push(defaultArgs[_.keys(defaultArgs)[0]])
         }
       }
       Promise.resolve(casinocoinAPI[fnName](...args))
-        .then((res) => callback(null, res))
-        .catch((err) => {
-          callback({ code: 99, message: err.message, data: { name: err.name } });
-        });
+        .then(res => callback(null, res))
+        .catch(err => {
+          callback({code: 99, message: err.message, data: {name: err.name}})
+        })
     } catch (err) {
-      callback({ code: 99, message: err.message, data: { name: err.name } });
+      callback({code: 99, message: err.message, data: {name: err.name}})
     }
   }
 
-  const methods: any = {};
-  _.forEach(methodNames, (fn: string) => {
-    methods[fn] = jayson.Method((args: any, cb: Function) => {
-      applyPromiseWithCallback(fn, cb, args);
-    }, { collect: true });
-  });
+  const methods = {}
+  _.forEach(methodNames, fn => {
+    methods[fn] = jayson.Method((args, cb) => {
+      applyPromiseWithCallback(fn, cb, args)
+    }, {collect: true})
+  })
 
-  const server = jayson.server(methods);
-  let httpServer: any = null;
+  const server = jayson.server(methods)
+  let httpServer = null
 
   return {
-    server,
-    start: (): Promise<string | void> => {
+    server: server,
+    start: function() {
       if (httpServer !== null) {
-        return Promise.reject("Already started");
+        return Promise.reject('Already started')
       }
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         casinocoinAPI.connect().then(() => {
-          httpServer = server.http();
-          httpServer.listen(httpPort, resolve);
-        });
-      });
+          httpServer = server.http()
+          httpServer.listen(httpPort, resolve)
+        })
+      })
     },
-    stop: (): Promise<string | void> => {
+    stop: function() {
       if (httpServer === null) {
-        return Promise.reject("Not started");
+        return Promise.reject('Not started')
       }
-      return new Promise((resolve) => {
-        casinocoinAPI.disconnect();
+      return new Promise(resolve => {
+        casinocoinAPI.disconnect()
         httpServer.close(() => {
-          httpServer = null;
-          resolve();
-        });
-      });
-    },
-  };
+          httpServer = null
+          resolve()
+        })
+      })
+    }
+  }
 }
 
 export {
-  createHTTPServer,
-};
+  createHTTPServer
+}

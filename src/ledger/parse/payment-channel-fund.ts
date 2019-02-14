@@ -1,15 +1,16 @@
-import * as assert from "assert";
-import * as utils from "./utils";
-import parseAmount from "./amount";
+import * as assert from 'assert'
+import {parseTimestamp} from './utils'
+import {removeUndefined} from '../../common'
+import parseAmount from './amount'
 
 function parsePaymentChannelFund(tx: any): Object {
-  assert(tx.TransactionType === "PaymentChannelFund");
+  assert(tx.TransactionType === 'PaymentChannelFund')
 
-  return utils.removeUndefined({
-    amount: parseAmount(tx.Amount).value,
+  return removeUndefined({
     channel: tx.Channel,
-    expiration: tx.Expiration && utils.parseTimestamp(tx.Expiration),
-  });
+    amount: parseAmount(tx.Amount).value,
+    expiration: tx.Expiration && parseTimestamp(tx.Expiration)
+  })
 }
 
-export default parsePaymentChannelFund;
+export default parsePaymentChannelFund

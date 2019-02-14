@@ -1,74 +1,66 @@
-import * as _ from "lodash";
-import * as utils from "./utils";
-import { Amount } from "../common/types.js";
-
-const { validate } = utils.common;
+import * as _ from 'lodash'
+import * as utils from './utils'
+import {validate} from '../common'
+import {Amount} from '../common/types'
 
 type BalanceSheetOptions = {
-  excludeAddresses?: string[],
-  ledgerVersion?: number,
-};
+  excludeAddresses?: Array<string>,
+  ledgerVersion?: number
+}
 
 type GetBalanceSheet = {
-  balances?: Amount[],
-  assets?: Amount[],
+  balances?: Array<Amount>,
+  assets?: Array<Amount>,
   obligations?: Array<{
-    currency: string,
-    value: string,
-  }>,
-};
+     currency: string,
+     value: string
+   }>
+}
 
-function formatBalanceSheet(balanceSheet: any): GetBalanceSheet {
-  const result: GetBalanceSheet = {};
+function formatBalanceSheet(balanceSheet): GetBalanceSheet {
+  const result: GetBalanceSheet = {}
 
   if (!_.isUndefined(balanceSheet.balances)) {
-    result.balances = [];
-    _.forEach(balanceSheet.balances, (balances: any, counterparty: any) => {
-      _.forEach(balances, (balance: any) => {
-        if (result.balances) {
-          result.balances.push(_.assign({counterparty}, balance));
-        }
-      });
-    });
+    result.balances = []
+    _.forEach(balanceSheet.balances, (balances, counterparty) => {
+      _.forEach(balances, balance => {
+        result.balances.push(Object.assign({counterparty}, balance))
+      })
+    })
   }
   if (!_.isUndefined(balanceSheet.assets)) {
-    result.assets = [];
-    _.forEach(balanceSheet.assets, (assets: any, counterparty: any) => {
-      _.forEach(assets, (balance: any) => {
-        if (result.assets) {
-          result.assets.push(_.assign({}, { counterparty }, balance));
-        }
-      });
-    });
+    result.assets = []
+    _.forEach(balanceSheet.assets, (assets, counterparty) => {
+      _.forEach(assets, balance => {
+        result.assets.push(Object.assign({counterparty}, balance))
+      })
+    })
   }
   if (!_.isUndefined(balanceSheet.obligations)) {
     result.obligations = _.map(
-      balanceSheet.obligations as { [key: string]: string },
-      (value: any, currency: any) =>
-        ({ currency, value }),
-    );
+      balanceSheet.obligations as {[key: string]: string},
+      (value, currency) => ({currency, value})
+    )
   }
 
-  return result;
+  return result
 }
 
-function getBalanceSheet(
-  address: string,
-  options: BalanceSheetOptions = {},
+function getBalanceSheet(address: string, options: BalanceSheetOptions = {}
 ): Promise<GetBalanceSheet> {
-  validate.getBalanceSheet({ address, options });
+  validate.getBalanceSheet({address, options})
 
-  return utils.ensureLedgerVersion.call(this, options).then((ledgerOptions: any) => {
+  return utils.ensureLedgerVersion.call(this, options).then(_options => {
     const request = {
+      command: 'gateway_balances',
       account: address,
-      command: "gateway_balances",
-      hotwallet: ledgerOptions.excludeAddresses,
-      ledger_index: ledgerOptions.ledgerVersion,
       strict: true,
-    };
+      hotwallet: _options.excludeAddresses,
+      ledger_index: _options.ledgerVersion
+    }
 
-    return this.connection.request(request).then(formatBalanceSheet);
-  });
+    return this.connection.request(request).then(formatBalanceSheet)
+  })
 }
 
-export default getBalanceSheet;
+export default getBalanceSheet

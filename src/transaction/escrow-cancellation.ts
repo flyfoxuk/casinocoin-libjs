@@ -1,42 +1,39 @@
-import * as _ from "lodash";
-import * as utils from "./utils";
-import { Instructions, Prepare } from "./types";
-import { Memo } from "../common/types";
-
-const validate = utils.common.validate;
+import * as _ from 'lodash'
+import * as utils from './utils'
+const validate = utils.common.validate
+import {Instructions, Prepare} from './types'
+import {Memo} from '../common/types'
 
 type EscrowCancellation = {
   owner: string,
   escrowSequence: number,
-  memos?: Memo[],
-};
+  memos?: Array<Memo>
+}
 
-function createEscrowCancellationTransaction(
-  account: string,
-  payment: EscrowCancellation,
+function createEscrowCancellationTransaction(account: string,
+  payment: EscrowCancellation
 ): Object {
   const txJSON: any = {
+    TransactionType: 'EscrowCancel',
     Account: account,
-    OfferSequence: payment.escrowSequence,
     Owner: payment.owner,
-    TransactionType: "EscrowCancel",
-  };
-  if (payment.memos !== undefined) {
-    txJSON.Memos = _.map(payment.memos, utils.convertMemo);
+    OfferSequence: payment.escrowSequence
   }
-  return txJSON;
+  if (payment.memos !== undefined) {
+    txJSON.Memos = _.map(payment.memos, utils.convertMemo)
+  }
+  return txJSON
 }
 
-function prepareEscrowCancellation(
-  address: string,
+function prepareEscrowCancellation(address: string,
   escrowCancellation: EscrowCancellation,
-  instructions: Instructions = {},
+  instructions: Instructions = {}
 ): Promise<Prepare> {
   validate.prepareEscrowCancellation(
-    { address, escrowCancellation, instructions });
+    {address, escrowCancellation, instructions})
   const txJSON = createEscrowCancellationTransaction(
-    address, escrowCancellation);
-  return utils.prepareTransaction(txJSON, this, instructions);
+    address, escrowCancellation)
+  return utils.prepareTransaction(txJSON, this, instructions)
 }
 
-export default prepareEscrowCancellation;
+export default prepareEscrowCancellation

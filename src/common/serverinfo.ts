@@ -1,76 +1,81 @@
-import * as _ from "lodash";
-import { convertKeysFromSnakeCaseToCamelCase, dropsToCsc } from "./utils";
-import Connection from "./connection";
+import * as _ from 'lodash'
+import {convertKeysFromSnakeCaseToCamelCase} from './utils'
+import Connection from './connection'
 
-export interface IGetServerInfoResponse {
-  buildVersion: string;
-  completeLedgers: string;
-  // hostID: string;
-  ioLatencyMs: number;
+export type GetServerInfoResponse = {
+  buildVersion: string,
+  completeLedgers: string,
+  hostID: string,
+  ioLatencyMs: number,
   load?: {
-    jobTypes: Object[],
-    threads: number,
-  };
+    jobTypes: Array<Object>,
+    threads: number
+  },
   lastClose: {
     convergeTimeS: number,
-    proposers: number,
-  };
-  loadFactor: number;
-  peers: number;
-  pubkeyNode: string;
-  pubkeyValidator?: string;
-  serverState: string;
+    proposers: number
+  },
+  loadFactor: number,
+  peers: number,
+  pubkeyNode: string,
+  pubkeyValidator?: string,
+  serverState: string,
   validatedLedger: {
     age: number,
     baseFeeCSC: string,
     hash: string,
     reserveBaseCSC: string,
     reserveIncrementCSC: string,
-    ledgerVersion: number,
-  };
-  validationQuorum: number;
+    ledgerVersion: number
+  },
+  validationQuorum: number
 }
 
-function renameKeys(object: any, mapping: any) {
+function renameKeys(object, mapping) {
   _.forEach(mapping, (to, from) => {
-    object[to] = object[from];
-    delete object[from];
-  });
+    object[to] = object[from]
+    delete object[from]
+  })
 }
 
-function getServerInfo(connection: Connection): Promise<IGetServerInfoResponse> {
-  return connection.request({ command: "server_state" }).then((response) => {
-    const info = convertKeysFromSnakeCaseToCamelCase(response.state);
-    // renameKeys(info, { hostid: "hostID" })
+function getServerInfo(connection: Connection): Promise<GetServerInfoResponse> {
+  return connection.request({command: 'server_info'}).then(response => {
+    const info = convertKeysFromSnakeCaseToCamelCase(response.info)
+    renameKeys(info, {hostid: 'hostID'})
     if (info.validatedLedger) {
       renameKeys(info.validatedLedger, {
-        baseFee: "baseFeeCSC",
-        reserveBase: "reserveBaseCSC",
-        reserveInc: "reserveIncrementCSC",
-        seq: "ledgerVersion",
-      });
-      info.validatedLedger.baseFeeCSC = dropsToCsc(info.validatedLedger.baseFeeCSC.toString());
-      info.validatedLedger.reserveBaseCSC = dropsToCsc(info.validatedLedger.reserveBaseCSC.toString());
-      info.validatedLedger.reserveIncrementCSC = dropsToCsc(info.validatedLedger.reserveIncrementCSC.toString());
+        baseFeeCsc: 'baseFeeCSC',
+        reserveBaseCsc: 'reserveBaseCSC',
+        reserveIncCsc: 'reserveIncrementCSC',
+        seq: 'ledgerVersion'
+      })
+      info.validatedLedger.baseFeeCSC =
+        info.validatedLedger.baseFeeCSC.toString()
+      info.validatedLedger.reserveBaseCSC =
+        info.validatedLedger.reserveBaseCSC.toString()
+      info.validatedLedger.reserveIncrementCSC =
+        info.validatedLedger.reserveIncrementCSC.toString()
     }
-    return info;
-  });
-}
-
-function computeFeeFromServerInfo(cushion: number, serverInfo: IGetServerInfoResponse): string {
-  return serverInfo.validatedLedger.baseFeeCSC;
+    return info
+  })
 }
 
 // TODO: This was originally annotated to return a number, but actually
-// returned a toString"ed number. Should this actually be returning a number?
-// REF: https://github.com/ripple/ripple-lib/pull/816/files#diff-8bd0d8b5573e50a2151f1149c444cf32
+// returned a toString'ed number. Should this actually be returning a number?
+function computeFeeFromServerInfo(cushion: number,
+  serverInfo: GetServerInfoResponse
+): string {
+  return (Number(serverInfo.validatedLedger.baseFeeCSC)
+       * Number(serverInfo.loadFactor) * cushion).toString()
+}
+
 function getFee(connection: Connection, cushion: number): Promise<string> {
-  return getServerInfo(connection).then((serverInfo) => {
-    return computeFeeFromServerInfo(cushion, serverInfo);
-  });
+  return getServerInfo(connection).then(serverInfo => {
+    return computeFeeFromServerInfo(cushion, serverInfo)
+  })
 }
 
 export {
   getServerInfo,
-  getFee,
-};
+  getFee
+}
