@@ -2,7 +2,7 @@
 
 import * as assert from 'assert'
 import * as _ from 'lodash'
-import jayson from 'jayson'
+import * as jayson from 'jayson'
 import {CasinocoinAPI} from './api'
 
 
@@ -22,7 +22,9 @@ function createHTTPServer(options, httpPort) {
     try {
       let args = args_
       if (!_.isArray(args_)) {
-        const fnParameters = jayson.Utils.getParameterNames(casinocoinAPI[fnName])
+        const fnParameters = jayson.Utils.getParameterNames(
+            casinocoinAPI[fnName]
+        )
         args = fnParameters.map(name => args_[name])
         const defaultArgs = _.omit(args_, fnParameters)
         assert(_.size(defaultArgs) <= 1,

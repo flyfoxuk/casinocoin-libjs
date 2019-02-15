@@ -199,9 +199,10 @@ class Connection extends EventEmitter {
     }
     return this.request(request).then((data: any) => {
       if (_.isEmpty(data) || !data.ledger_index) {
-        // casinocoind instance doesn't have validated ledgers
         return this._disconnect(false).then(() => {
-          throw new CasinocoindNotInitializedError('Casinocoind not initialized')
+          throw new CasinocoindNotInitializedError(
+              'Casinocoind not initialized'
+          )
         })
       }
 

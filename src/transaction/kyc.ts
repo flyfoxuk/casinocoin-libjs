@@ -1,22 +1,21 @@
 import * as utils from './utils'
-import { Prepare} from './types'
-import { KYCSet }  from '../ledger/transaction-types.js'
+import {Prepare} from './types'
+import {KYCSet} from '../ledger/transaction-types.js'
 
 function createKYCSetTransaction(kyc: KYCSet): Object {
-    // convert verifications to 32 byte hex if necessary
-    var verifications = [];
-    if(kyc.verifications){
+    const verifications = []
+    if (kyc.verifications) {
         kyc.verifications.forEach(element => {
-            if(element.indexOf("-") !== -1 && element.length == 36){
+            if (element.indexOf('-') !== -1 && element.length === 36) {
                 // remove dashes
-                var hexUUID = element.replace(/-/g, "")
+                const hexUUID = element.replace(/-/g, '')
                 verifications.push(hexUUID.toUpperCase())
-            } else if(element.length == 32) {
+            } else if (element.length === 32) {
                 verifications.push(element.toUpperCase())
             } else {
-                console.log("invalid UUID: " + element);
+                console.log('invalid UUID: ' + element)
             }
-        });
+        })
     }
 
     const txJSON: any = {
@@ -26,7 +25,7 @@ function createKYCSetTransaction(kyc: KYCSet): Object {
         Destination: kyc.destination
     }
 
-    if(kyc.verified){
+    if (kyc.verified) {
         txJSON.SetFlag = 1
     } else {
         txJSON.ClearFlag = 1
@@ -34,9 +33,9 @@ function createKYCSetTransaction(kyc: KYCSet): Object {
     return txJSON
 }
 
-function prepareKYCSet(kyc: KYCSet): Promise < Prepare > {
-    var txJSON = createKYCSetTransaction(kyc);
-    return utils.prepareTransaction(txJSON, this, {});
+function prepareKYCSet(kyc: KYCSet): Promise<Prepare> {
+    const txJSON = createKYCSetTransaction(kyc)
+    return utils.prepareTransaction(txJSON, this, {})
 }
 
 export default prepareKYCSet

@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import BigNumber from 'bignumber.js'
 import {getCSCBalance, renameCounterpartyToIssuer} from './utils'
-import {validate, toCasinocoindAmount, errors} from '../common'
+import {validate, toCasinocoindAmount, errors, cscToDrops} from '../common'
 import {Connection} from '../common'
 import parsePathfind from './parse/pathfind'
 import {CasinocoindAmount, Amount} from '../common/types'
@@ -33,7 +33,7 @@ function requestPathFind(connection: Connection, pathfind: PathFind
     destination_amount: toCasinocoindAmount(destinationAmount)
   }
   if (typeof request.destination_amount === 'object'
-      && !request.destination_amount.issuer) {
+    && !request.destination_amount.issuer) {
     // Convert blank issuer to sender's address
     // (Casinocoin convention for 'any issuer')
     // https://casinocoin.com/build/transactions/
@@ -80,10 +80,10 @@ function isCasinocoindIOUAmount(amount: CasinocoindAmount) {
 }
 
 function conditionallyAddDirectCSCPath(connection: Connection, address: string,
-  paths: CasinocoindPathsResponse
+                                       paths: CasinocoindPathsResponse
 ): Promise<CasinocoindPathsResponse> {
   if (isCasinocoindIOUAmount(paths.destination_amount)
-      || !_.includes(paths.destination_currencies, 'CSC')) {
+    || !_.includes(paths.destination_currencies, 'CSC')) {
     return Promise.resolve(paths)
   }
   return getCSCBalance(connection, address, undefined).then(
@@ -91,7 +91,7 @@ function conditionallyAddDirectCSCPath(connection: Connection, address: string,
 }
 
 function filterSourceFundsLowPaths(pathfind: PathFind,
-  paths: CasinocoindPathsResponse
+                                   paths: CasinocoindPathsResponse
 ): CasinocoindPathsResponse {
   if (pathfind.source.amount &&
       pathfind.destination.amount.value === undefined && paths.alternatives) {
@@ -111,8 +111,8 @@ function formatResponse(pathfind: PathFind, paths: CasinocoindPathsResponse) {
     return parsePathfind(paths)
   }
   if (paths.destination_currencies !== undefined &&
-      !_.includes(paths.destination_currencies,
-        pathfind.destination.amount.currency)) {
+    !_.includes(paths.destination_currencies,
+      pathfind.destination.amount.currency)) {
     throw new NotFoundError('No paths found. ' +
       'The destination_account does not accept ' +
       pathfind.destination.amount.currency + ', they only accept: ' +
@@ -120,13 +120,16 @@ function formatResponse(pathfind: PathFind, paths: CasinocoindPathsResponse) {
   } else if (paths.source_currencies && paths.source_currencies.length > 0) {
     throw new NotFoundError('No paths found. Please ensure' +
       ' that the source_account has sufficient funds to execute' +
-      ' the payment in one of the specified source_currencies. If it does' +
-      ' there may be insufficient liquidity in the network to execute' +
+      ' the payment in one of the specified' +
+      ' source_currencies. If it does' +
+      ' there may be insufficient liquidity in the network' +
+      ' to execute' +
       ' this payment right now')
   } else {
     throw new NotFoundError('No paths found.' +
       ' Please ensure that the source_account has sufficient funds to' +
-      ' execute the payment. If it does there may be insufficient liquidity' +
+      ' execute the payment. If it does there' +
+      ' may be insufficient liquidity' +
       ' in the network to execute this payment right now')
   }
 }

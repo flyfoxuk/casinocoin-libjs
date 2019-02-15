@@ -1,7 +1,8 @@
 import * as utils from './utils'
+
 const txFlags = require('../common/txflags').txFlags
 const kycFlags = txFlags.KYC
-const { validate, removeUndefined } = utils.common
+const {validate, removeUndefined} = utils.common
 
 type AccountData = {
     Sequence: number,
@@ -11,7 +12,7 @@ type AccountData = {
     LedgerEntryType: string,
     OwnerCount: number,
     PreviousTxnID: string,
-    AccountTxnID ? : string,
+    AccountTxnID?: string,
     PreviousTxnLgrSeq: number,
     index: string,
     KYC: KYCInfoResponse
@@ -19,14 +20,14 @@ type AccountData = {
 
 type AccountDataResponse = {
     account_data: AccountData,
-    ledger_current_index ? : number,
-    ledger_hash ? : string,
+    ledger_current_index?: number,
+    ledger_hash?: string,
     ledger_index: number,
     validated: boolean
 }
 
 type AccountInfoOptions = {
-    ledgerVersion ? : number
+    ledgerVersion?: number
 }
 
 
@@ -39,22 +40,27 @@ type KYCInfoResponse = {
     Date: number
 }
 
-function convertHexToUUID(hex:string){
-    return (hex.substr(0,8) + "-" + hex.substr(8,4) + "-" + hex.substr(12,4) + "-" + hex.substr(16,4) + "-" + hex.substr(20)).toLowerCase();
+function convertHexToUUID(hex: string) {
+    return (
+        hex.substr(0, 8)
+        + '-' + hex.substr(8, 4)
+        + '-' + hex.substr(12, 4)
+        + '-' + hex.substr(16, 4)
+        + '-' + hex.substr(20)).toLowerCase()
 }
 
 function formatAccountInfo(response: AccountDataResponse) {
     const data = response.account_data
-    console.log('Account Data: ' + JSON.stringify(data));
+    console.log('Account Data: ' + JSON.stringify(data))
     const kycVerified = ((data.Flags & kycFlags.KYCSet) !== 0)
-    if(kycVerified){
-        console.log('KYC Verified!');
-        var verificationsArray = [];
-        if(data.KYC.Verifications){
+    if (kycVerified) {
+        console.log('KYC Verified!')
+        const verificationsArray = []
+        if (data.KYC.Verifications) {
             // convert items to UUID values
-            data.KYC.Verifications.forEach((item) => {
-                verificationsArray.push(convertHexToUUID(item));
-            });
+            data.KYC.Verifications.forEach(item => {
+                verificationsArray.push(convertHexToUUID(item))
+            })
         }
         return removeUndefined({
             account: data.Account,
@@ -63,8 +69,8 @@ function formatAccountInfo(response: AccountDataResponse) {
             verifications: verificationsArray
         })
     } else {
-        console.log('NOT KYC Verified!');
-        if(data.KYC){
+        console.log('NOT KYC Verified!')
+        if (data.KYC) {
             return removeUndefined({
                 account: data.Account,
                 verified: kycVerified,
@@ -80,8 +86,10 @@ function formatAccountInfo(response: AccountDataResponse) {
     }
 }
 
-function getKYCInfo(address: string, options: AccountInfoOptions = {}): Promise < AccountDataResponse > {
-    validate.getAccountInfo({ address, options })
+function getKYCInfo(
+    address: string,
+    options: AccountInfoOptions = {}): Promise<AccountDataResponse> {
+    validate.getAccountInfo({address, options})
 
     const request = {
         command: 'account_info',
