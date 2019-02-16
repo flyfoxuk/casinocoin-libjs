@@ -13,6 +13,12 @@ module.exports = {
     modules: [path.resolve(__dirname, "../node_modules")]
   },
 
+  externals: [
+    /node_modules/,
+    'bufferutil',
+    'utf-8-validate'
+  ],
+
   module: {
 
     rules: [

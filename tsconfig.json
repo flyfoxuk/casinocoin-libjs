@@ -6,6 +6,9 @@
       "es2017"
     ],
     "outDir": "dist/npm",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "rootDir": "src",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -21,7 +24,6 @@
     "skipLibCheck": true
   },
   "include": [
-    "custom_typings/**/*.ts",
     "src/**/*.ts"
   ]
 }
