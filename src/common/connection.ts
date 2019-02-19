@@ -213,7 +213,9 @@ class Connection extends EventEmitter {
       this._retry = 0
       this._ws.on('error', error => {
         // TODO: "type" does not exist on official error type, safe to remove?
-        if (process.browser && error && (<any>error).type === 'error') {
+        if (typeof window !== undefined &&
+          error &&
+          (<any>error).type === 'error') {
           // we are in browser, ignore error - `close` event will be fired
           // after error
           return

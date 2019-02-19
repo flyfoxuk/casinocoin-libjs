@@ -3,7 +3,9 @@
   "compilerOptions": {
     "target": "es6",
     "lib": [
-      "es2017"
+      "es2015",
+      "es2017",
+      "dom"
     ],
     "outDir": "dist/npm",
     "typeRoots": [

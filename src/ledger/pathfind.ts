@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import BigNumber from 'bignumber.js'
 import {getCSCBalance, renameCounterpartyToIssuer} from './utils'
-import {validate, toCasinocoindAmount, errors, cscToDrops} from '../common'
+import {validate, toCasinocoindAmount, errors} from '../common'
 import {Connection} from '../common'
 import parsePathfind from './parse/pathfind'
 import {CasinocoindAmount, Amount} from '../common/types'
@@ -91,8 +91,8 @@ function conditionallyAddDirectCSCPath(connection: Connection, address: string,
 }
 
 function filterSourceFundsLowPaths(pathfind: PathFind,
-                                   paths: CasinocoindPathsResponse
-): CasinocoindPathsResponse {
+                                   paths: any
+): any {
   if (pathfind.source.amount &&
       pathfind.destination.amount.value === undefined && paths.alternatives) {
     paths.alternatives = _.filter(paths.alternatives, alt =>
