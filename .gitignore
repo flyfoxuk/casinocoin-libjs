@@ -44,6 +44,7 @@ test/config.js
 /src-cov
 /coverage.html
 /coverage
+/.nyc_output
 
 # Ignore IntelliJ files
 .idea

@@ -4,10 +4,7 @@
   "license": "ISC",
   "description": "A JavaScript API for interacting with Casinocoin in Node.js and the browser",
   "files": [
-    "dist/npm/*",
-    "bin/*",
-    "build/*",
-    "test/*"
+    "build/*"
   ],
   "main": "dist/npm/",
   "directories": {
@@ -36,9 +33,12 @@
     "copy-webpack-plugin": "^4.6.0",
     "doctoc": "^1.4.0",
     "ejs": "^2.6.1",
+    "istanbul-instrumenter-loader": "^3.0.1",
     "json-schema-to-markdown-table": "^0.4.0",
     "mocha": "^5.2.0",
     "mocha-in-sauce": "0.0.1",
+    "mocha-webpack": "^1.1.0",
+    "nyc": "^13.3.0",
     "ts-loader": "^5.3.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
@@ -51,13 +51,17 @@
     "webpack-cli": "^3.2.1",
     "webpack-dashboard": "^2.0.0",
     "webpack-dev-server": "^3.1.14",
-    "webpack-merge": "^4.2.1"
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
     "doctoc": "doctoc docs/index.md --title '# CasinocoinAPI Reference' --github --maxlevel 2",
     "cp:schemas": "mkdir -p dist/npm/common && cp -r src/common/schemas dist/npm/common/",
     "lint": "tslint -p ./",
     "clean": "rm -rf dist",
+    "test": "mocha-webpack --webpack-config webpack/test.config.js",
+    "test-ci": "mocha-webpack --webpack-config webpack/test.config.js test/index.js",
+    "coverage": "nyc --reporter=lcov --reporter=text npm run test-ci",
     "start": "webpack-dashboard -- webpack-dev-server --config webpack/dev.config.js --watch",
     "build": "npm run clean && webpack --config webpack/build.config.js"
   },
