@@ -13,5 +13,12 @@
   },
   "devDependencies": {
     "lerna": "^2.11.0"
+  },
+  "scripts": {
+    "libjs:build": "npm run --prefix packages/@casinocoin/libjs build",
+    "libjs:dev": "npm run --prefix packages/@casinocoin/libjs dev",
+    "libjs:test": "npm run --prefix packages/@casinocoin/libjs-tests test",
+    "libjs:test-ci": "npm run --prefix packages/@casinocoin/libjs-tests test-ci",
+    "libjs:test-coverage": "npm run --prefix packages/@casinocoin/libjs-tests coverage"
   }
 }

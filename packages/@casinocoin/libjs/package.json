@@ -1,11 +1,8 @@
 {
-  "name": "casinocoin-libjs",
+  "name": "@casinocoin/libjs",
   "version": "2.0.0",
   "license": "ISC",
   "description": "A JavaScript API for interacting with Casinocoin in Node.js and the browser",
-  "files": [
-    "build/*"
-  ],
   "dependencies": {
     "bignumber.js": "^2.0.3",
     "casinocoin-libjs-address-codec": "^1.0.0",
@@ -48,15 +45,14 @@
     "doctoc": "doctoc docs/index.md --title '# CasinocoinAPI Reference' --github --maxlevel 2",
     "cp:schemas": "mkdir -p dist/npm/common && cp -r src/common/schemas dist/npm/common/",
     "lint": "tslint -p ./",
-    "clean": "rm -rf dist",
-    "start": "webpack-dashboard -- webpack-dev-server --config webpack/dev.config.js --watch",
+    "clean": "rm -rf ../../../dist/@casinocoin/libjs",
+    "dev": "webpack-dashboard -- webpack-dev-server --config webpack/dev.config.js --watch",
     "build": "npm run clean && webpack --config webpack/build.config.js"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/casinocoin/casinocoin-libjs.git"
   },
-  "readmeFilename": "README.md",
   "engines": {
     "node": ">=10.15.0"
   }

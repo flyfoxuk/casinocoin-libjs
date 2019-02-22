@@ -1,5 +1,10 @@
 # .gitignore
 
+# to be cleaned up and updated
+packages/@casinocoin/libjs/node_modules/
+packages/@casinocoin/libjs-tests/node_modules/
+dist/
+
 # Ignore vim swap files.
 *.swp
 

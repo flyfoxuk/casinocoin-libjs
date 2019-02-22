@@ -16,7 +16,7 @@ module.exports = {
 
       {
         test: /\.(js|ts)/,
-        include: path.resolve(__dirname, "../src"),
+        include: path.resolve(__dirname, "../test"),
         exclude: [
           /node_modules/,
           /\.json/

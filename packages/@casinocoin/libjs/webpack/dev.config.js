@@ -12,7 +12,7 @@ module.exports = webpackMerge(devCommonConfig, {
 
   target: "node",
   output: {
-    path: path.resolve(__dirname, "../dist"),
+    path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
     filename: "[name].js",
     sourceMapFilename: "[name].map",
     publicPath: "/"

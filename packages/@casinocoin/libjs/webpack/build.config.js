@@ -11,9 +11,9 @@ module.exports = webpackMerge(buildCommonConfig, {
 
   target: "node",
   output: {
-    path: path.resolve(__dirname, "../dist"),
-    filename: "[name].[chunkhash:8]-" + pkg.version + ".js",
-    sourceMapFilename: "[name].[chunkhash:8]-" + pkg.version + ".map",
+    path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
+    filename: pkg.name + "-" + pkg.version + ".js",
+    sourceMapFilename: pkg.name + "-" + pkg.version + ".map",
     publicPath: "/"
   },
 
@@ -27,10 +27,10 @@ module.exports = webpackMerge(buildCommonConfig, {
     // copy static assets
     new CopyWebpackPlugin(
       [
-        {
-          from: path.resolve(__dirname, "../HISTORY.md"),
-          to: path.resolve(__dirname, "../dist/HISTORY.md")
-        }
+        // {
+        //   from: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs/HISTORY.md"),
+        //   to: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs/HISTORY.md")
+        // }
       ]
     ),
 

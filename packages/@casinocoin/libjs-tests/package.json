@@ -1,12 +1,13 @@
 {
-  "name": "casinocoin-libjs-tests",
+  "name": "@casinocoin/libjs-tests",
   "version": "2.0.0",
   "description": "A dedicated test package for casinocoin-libjs library.",
   "main": "index.js",
   "author": "Casinocoin Foundation",
   "license": "ISC",
   "dependencies": {
-    "casinocoin-libjs": "2.0.0",
+    "assert-diff": "^2.0.3",
+    "@casinocoin/libjs": "^2.0.0",
     "jayson": "^1.2.2",
     "jsonschema": "^1.2.4",
     "lodash": "^4.17.11",
@@ -17,7 +18,6 @@
     "@types/lodash": "^4.14.120",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.18",
-    "assert-diff": "^2.0.3",
     "copy-webpack-plugin": "^4.6.0",
     "ejs": "^2.6.1",
     "istanbul-instrumenter-loader": "^3.0.1",
@@ -42,8 +42,8 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "mocha-webpack --webpack-config webpack/test.config.js",
-    "test-cli": "mocha test/index.js",
+    "test**": "mocha-webpack --webpack-config webpack/test.config.js",
+    "test": "mocha test/index.js",
     "test-ci": "mocha-webpack --webpack-config webpack/test.config.js test/index.js",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test-ci"
   },
