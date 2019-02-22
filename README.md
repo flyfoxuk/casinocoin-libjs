@@ -1,6 +1,9 @@
 # casinocoin-libjs library bundle
 
 ```bash
+# install root dependencies
+$ npm i
+
 # install all package dependencies
 $ lerna bootstrap
 
