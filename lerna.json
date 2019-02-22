@@ -1,0 +1,8 @@
+{
+  "lerna": "2.11.0",
+  "packages": [
+    "packages/@casinocoin/libjs",
+    "packages/@casinocoin/libjs-tests"
+  ],
+  "version": "2.0.0"
+}

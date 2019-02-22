@@ -1,5 +1,5 @@
 import assert from 'assert-diff'
-import * as lib from '../src/api'
+import * as lib from 'casinocoin-libjs'
 
 console.log(lib);
 
