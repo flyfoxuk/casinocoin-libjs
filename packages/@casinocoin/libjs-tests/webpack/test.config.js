@@ -25,13 +25,22 @@ module.exports = {
       },
 
       {
-        test: /\.ts$/,
-        loader: "ts-loader",
-        exclude: "/node_modules/"
+        test: /.js$/,
+        exclude: /node_modules/,
+        options: {
+          presets: ['@babel/preset-env']
+        },
+        loader: 'babel-loader',
       }
+
+      // {
+      //   test: /\.ts$/,
+      //   exclude: "/node_modules/",
+      //   loader: "ts-loader"
+      // }
 
     ]
 
   }
 
-};
+}
