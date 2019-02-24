@@ -1,5 +1,5 @@
 {
-  "name": "@casinocoin/libjs-tests",
+  "name": "@casinocoin/libjs-test",
   "version": "2.0.0",
   "description": "A dedicated test package for casinocoin-libjs library.",
   "main": "index.js",

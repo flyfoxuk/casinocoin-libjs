@@ -17,8 +17,8 @@
   "scripts": {
     "libjs:build": "npm run --prefix packages/@casinocoin/libjs build",
     "libjs:dev": "npm run --prefix packages/@casinocoin/libjs dev",
-    "libjs:test": "npm run --prefix packages/@casinocoin/libjs-tests test",
-    "libjs:test-ci": "npm run --prefix packages/@casinocoin/libjs-tests test-ci",
-    "libjs:test-coverage": "npm run --prefix packages/@casinocoin/libjs-tests coverage"
+    "libjs:test": "npm run --prefix packages/@casinocoin/libjs-test test",
+    "libjs:test-ci": "npm run --prefix packages/@casinocoin/libjs-test test-ci",
+    "libjs:test-coverage": "npm run --prefix packages/@casinocoin/libjs-test coverage"
   }
 }

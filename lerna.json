@@ -2,7 +2,7 @@
   "lerna": "2.11.0",
   "packages": [
     "packages/@casinocoin/libjs",
-    "packages/@casinocoin/libjs-tests"
+    "packages/@casinocoin/libjs-test"
   ],
   "version": "2.0.0"
 }
