@@ -23,6 +23,7 @@ $ lerna bootstrap
 # -- libjs library --
 $ npm run libjs:dev
 $ npm run libjs:build
+$ npm run libjs:test # mochapack
 
 # -- libjs test --
 $ npm run libjs:test # mochapack
