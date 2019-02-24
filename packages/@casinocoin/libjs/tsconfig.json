@@ -8,12 +8,17 @@
       "node_modules/@types",
       "../../../node_modules/@types"
     ],
-    "rootDir": "src",
+    "rootDirs": [
+      "src",
+      "test"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": false
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "test/index.js"
   ]
 }
