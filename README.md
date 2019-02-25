@@ -23,13 +23,10 @@ $ lerna bootstrap
 # -- libjs library --
 $ npm run libjs:dev
 $ npm run libjs:build
-$ npm run libjs:test # mochapack
+$ npm run libjs:test # mocha
 
-# -- libjs test --
-$ npm run libjs:test # mochapack
-# WIP
-$ npm run libjs:test-ci
-$ npm run libjs:test-coverage # with istanbul report coverage
+# -- libjs-some-other-library --
+$ ...
 
 # clean all packages
 $ lerna clean

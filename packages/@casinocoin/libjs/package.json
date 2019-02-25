@@ -28,8 +28,6 @@
     "ejs": "^2.6.1",
     "json-schema-to-markdown-table": "^0.4.0",
     "mocha": "^6.0.1",
-    "mocha-webpack": "^1.1.0",
-    "mochapack": "^1.0.0",
     "ts-loader": "^5.3.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
@@ -52,9 +50,7 @@
     "clean": "rm -rf ../../../dist/@casinocoin/libjs",
     "dev": "webpack-dashboard -- webpack-dev-server --config webpack/dev.config.js --watch",
     "build": "npm run clean && webpack --config webpack/build.config.js",
-    "test**": "mocha test/index.js",
-    "test*": "mocha-webpack --webpack-config webpack/test.config.js test/index.ts",
-    "test": "mochapack --webpack-config webpack/test.config.js test/index.js"
+    "test": "mocha -r ts-node/register test/index.ts"
   },
   "repository": {
     "type": "git",
