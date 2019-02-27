@@ -9,6 +9,10 @@ The CasinoCoin Javascript artifacts have been re-organized into a monorepo lever
   * @casinocoin/libjs-transactionparser
 * Synchronized or independent versioning based on business need and patches/fixes
 
+## Package TOC
+
+* [@casinocoin/libjs](/packages/@casinocoin/libjs/README.md)
+
 ## Key CLI Commands
 
 The following commands can be executed from the root directory, eliminating the need to `cd` into sub-directories and run commands.
@@ -25,7 +29,7 @@ $ npm run libjs:dev
 $ npm run libjs:build
 $ npm run libjs:test # mocha
 
-# -- libjs-some-other-library --
+# -- libjs-another-artifact library --
 $ ...
 
 # clean all packages
