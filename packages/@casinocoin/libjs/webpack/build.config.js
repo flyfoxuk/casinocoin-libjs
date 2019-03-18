@@ -8,7 +8,7 @@ const pkg = require("../package.json");
 
 module.exports = webpackMerge(buildCommonConfig, {
 
-  target: "node",
+  target: "web",
   output: {
     path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
     filename: "index.js",
