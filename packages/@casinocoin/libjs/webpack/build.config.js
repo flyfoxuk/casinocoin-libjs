@@ -11,8 +11,10 @@ module.exports = webpackMerge(buildCommonConfig, {
   target: "node",
   output: {
     path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
-    filename: "casinocoin-libjs-" + pkg.version + ".min.js",
-    sourceMapFilename: "casinocoin-libjs-" + pkg.version + ".map",
+    filename: "index.js",
+    sourceMapFilename: "index.js.map",
+    // filename: "casinocoin-libjs-" + pkg.version + ".min.js",
+    // sourceMapFilename: "casinocoin-libjs-" + pkg.version + ".map",
     // libraryTarget: "umd",
     publicPath: "/"
   },
@@ -32,6 +34,10 @@ module.exports = webpackMerge(buildCommonConfig, {
         {
           from: path.resolve(__dirname, "../CHANGELOG.md"),
           to: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs/CHANGELOG.md")
+        },
+        {
+          from: path.resolve(__dirname, "../package.json"),
+          to: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs/package.json")
         }
       ]
     ),
