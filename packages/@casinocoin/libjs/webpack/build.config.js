@@ -8,14 +8,15 @@ const pkg = require("../package.json");
 
 module.exports = webpackMerge(buildCommonConfig, {
 
-  target: "web",
+  target: "node",
   output: {
     path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
     filename: "index.js",
     sourceMapFilename: "index.js.map",
     // filename: "casinocoin-libjs-" + pkg.version + ".min.js",
     // sourceMapFilename: "casinocoin-libjs-" + pkg.version + ".map",
-    // libraryTarget: "umd",
+    library: "casinocoin-libjs",
+    libraryTarget: "umd",
     publicPath: "/"
   },
 

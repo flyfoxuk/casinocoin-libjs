@@ -13,8 +13,12 @@ module.exports = webpackMerge(devCommonConfig, {
   target: "node",
   output: {
     path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
-    filename: "casinocoin-libjs.js",
-    sourceMapFilename: "casinocoin-libjs.map",
+    filename: "index.js",
+    sourceMapFilename: "index.js.map",
+    // filename: "casinocoin-libjs.js",
+    // sourceMapFilename: "casinocoin-libjs.map",
+    library: "casinocoin-libjs",
+    libraryTarget: "umd",
     publicPath: "/"
   },
 
