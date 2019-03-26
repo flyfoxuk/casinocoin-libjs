@@ -50,6 +50,7 @@
     "lint": "tslint -p ./",
     "clean": "rm -rf ../../../dist/@casinocoin/libjs",
     "dev": "webpack-dashboard -- webpack-dev-server --config webpack/dev.config.js --watch",
+    "test:web": "npm run clean && node_modules/.bin/webpack --config webpack/web.test.config.js",
     "build": "npm run clean && webpack --config webpack/build.config.js",
     "test": "mocha -r ts-node/register test/index.ts",
     "start-legacy": "babel-node scripts/http.js",

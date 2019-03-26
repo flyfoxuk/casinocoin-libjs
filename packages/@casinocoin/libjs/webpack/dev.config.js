@@ -10,6 +10,7 @@ const devCommonConfig = require("./dev.common.config");
 
 module.exports = webpackMerge(devCommonConfig, {
 
+  entry: path.resolve(__dirname, "../src/index.ts"),
   target: "node",
   output: {
     path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),

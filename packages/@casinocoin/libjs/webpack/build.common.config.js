@@ -5,7 +5,6 @@ const TerserPlugin = require("terser-webpack-plugin");
 module.exports = {
 
   mode: "production",
-  entry: path.resolve(__dirname, "../src/index.ts"),
   devtool: "source-map",
 
   resolve: {
@@ -43,15 +42,15 @@ module.exports = {
     * Provides `EventEmitter` interface for native browser `WebSocket`,
     * same, as `ws` package provides.
     */
-    new webpack.NormalModuleReplacementPlugin(/^ws$/, '../src/common/wswrapper'),
+    new Webpack.NormalModuleReplacementPlugin(/^ws$/, '../src/common/wswrapper'),
     /**
     * Provides credentials for testing web wallet
     */
-    new webpack.NormalModuleReplacementPlugin(/^\.\/wallet$/, '../test/integration/wallet-web'),
+    new Webpack.NormalModuleReplacementPlugin(/^\.\/wallet$/, '../test/integration/wallet-web'),
     /**
     * Provides the config bootstrapping when testing the api from a web client
     */
-    new webpack.NormalModuleReplacementPlugin(/^.*setup-api$/, '../test/setup-api-web')
+    new Webpack.NormalModuleReplacementPlugin(/^.*setup-api$/, '../test/setup-api-web')
   ],
 
   optimization: {

@@ -5,7 +5,6 @@ const Webpack = require("webpack");
 module.exports = {
 
   mode: "development",
-  entry: path.resolve(__dirname, "../src/index.ts"),
 
   resolve: {
     extensions: [".ts", ".js", ".json"],

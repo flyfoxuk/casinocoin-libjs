@@ -47,7 +47,7 @@ function webpackConfig(extension, overrides) {
         plugins: [
             /**
             * Provides `EventEmitter` interface for native browser `WebSocket`,
-            * same, as `ws` package provides.
+            * same as `ws` package provides.
             * location: src/common/wswrapper.js 
             */
             new webpack.NormalModuleReplacementPlugin(/^ws$/, './wswrapper'),
