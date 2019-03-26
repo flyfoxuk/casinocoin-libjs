@@ -1,0 +1,260 @@
+/* eslint-disable no-var, no-param-reassign */
+/* these eslint rules are disabled because gulp does not support babel yet */
+'use strict';
+var _ = require('lodash');
+var gulp = require('gulp');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
+var webpack = require('webpack');
+var bump = require('gulp-bump');
+var argv = require('yargs').argv;
+var assert = require('assert');
+var fs = require('fs');
+
+var pkg = require('./package.json');
+
+var uglifyOptions = {
+    mangle: {
+        except: ['_', 'CasinocoinError', 'CasinocoindError', 'UnexpectedError',
+            'LedgerVersionError', 'ConnectionError', 'NotConnectedError',
+            'DisconnectedError', 'TimeoutError', 'ResponseFormatError',
+            'ValidationError', 'NotFoundError', 'MissingLedgerHistoryError',
+            'PendingLedgerVersionError'
+        ]
+    }
+};
+
+/**
+ * Furnishes a base Webpack configuration that is overridable.
+ *
+ * @param {*} extension
+ * @param {*} overrides
+ * @returns
+ */
+function webpackConfig(extension, overrides) {
+    overrides = overrides || {};
+    var defaults = {
+        cache: true,
+        externals: [{
+            'lodash': '_'
+        }],
+        entry: './src/index.js',
+        output: {
+            library: 'casinocoin',
+            path: './build/',
+            filename: ['casinocoin-', extension].join(pkg.version)
+        },
+        plugins: [
+            /**
+            * Provides `EventEmitter` interface for native browser `WebSocket`,
+            * same, as `ws` package provides.
+            * location: src/common/wswrapper.js 
+            */
+            new webpack.NormalModuleReplacementPlugin(/^ws$/, './wswrapper'),
+            /**
+             * Provides credentials for testing web wallet
+             * location: test/integration/wallet-web.js
+            */
+            new webpack.NormalModuleReplacementPlugin(/^\.\/wallet$/, './wallet-web'),
+            /**
+             * Provides the config bootstrapping when testing the api from a web client
+             * location: test/setup-api-web.js
+            */
+            new webpack.NormalModuleReplacementPlugin(/^.*setup-api$/,
+                './setup-api-web')
+        ],
+        module: {
+            loaders: [{
+                test: /jayson/,
+                loader: 'null'
+            }, {
+                test: /\.js$/,
+                exclude: [/node_modules/],
+                loader: 'babel-loader'
+            }, {
+                test: /\.json/,
+                loader: 'json-loader'
+            }]
+        }
+    };
+    return _.assign({}, defaults, overrides);
+}
+
+/**
+ * Webpack config for conducting test from a web client.
+ *
+ * @param {*} testFileName
+ * @param {*} path
+ * @returns
+ */
+function webpackConfigForWebTest(testFileName, path) {
+    var match = testFileName.match(/\/?([^\/]*)-test.js$/);
+    if (!match) {
+        assert(false, 'wrong filename:' + testFileName);
+    }
+    var configOverrides = {
+        externals: [{
+            'lodash': '_',
+            'casinocoin-api': 'casinocoin',
+            'net': 'null'
+        }],
+        entry: testFileName,
+        output: {
+            library: match[1].replace(/-/g, '_'),
+            path: './test-compiled-for-web/' + (path ? path : ''),
+            filename: match[1] + '-test.js'
+        }
+    };
+    return webpackConfig('.js', configOverrides);
+}
+
+/**
+ * Performs a webpack build of all tests for a web client.
+*/
+gulp.task('build-tests', function(callback) {
+    var times = 0;
+
+    function done() {
+        if (++times >= 5) {
+            callback();
+        }
+    }
+    webpack(webpackConfigForWebTest('./test/rangeset-test.js'), done);
+    webpack(webpackConfigForWebTest('./test/connection-test.js'), done);
+    webpack(webpackConfigForWebTest('./test/api-test.js'), done);
+    webpack(webpackConfigForWebTest('./test/broadcast-api-test.js'), done);
+    webpack(webpackConfigForWebTest('./test/integration/integration-test.js',
+        'integration/'), done);
+});
+
+function createLink(from, to) {
+    if (fs.existsSync(to)) {
+        fs.unlinkSync(to);
+    }
+    fs.linkSync(from, to);
+}
+
+/**
+ * Creates symbolic link to latest build artifact.
+ *
+ * @param {*} callback
+ * @returns
+ */
+function createBuildLink(callback) {
+    return function(err, res) {
+        createLink('./build/casinocoin-' + pkg.version + '.js',
+            './build/casinocoin-latest.js');
+        callback(err, res);
+    };
+}
+
+/**
+ * Gulp build task.
+*/
+gulp.task('build', function(callback) {
+    webpack(webpackConfig('.js'), createBuildLink(callback));
+});
+
+/**
+ * Gulp task to build and minify.
+*/
+gulp.task('build-min', ['build'], function() {
+    return gulp.src(['./build/casinocoin-', '.js'].join(pkg.version))
+        .pipe(uglify(uglifyOptions))
+        .pipe(rename(['casinocoin-', '-min.js'].join(pkg.version)))
+        .pipe(gulp.dest('./build/'))
+        .on('end', function() {
+            createLink('./build/casinocoin-' + pkg.version + '-min.js',
+                './build/casinocoin-latest-min.js');
+        });
+});
+
+/**
+ * Gulp task to debug a build.
+*/
+gulp.task('build-debug', function(callback) {
+    var configOverrides = { debug: true, devtool: 'eval' };
+    webpack(webpackConfig('-debug.js', configOverrides), callback);
+});
+
+/**
+ * Generate a WebPack external for a given unavailable module which replaces
+ * that module's constructor with an error-thrower
+ */
+
+function buildUseError(cons) {
+    return ('var {<CONS>:function(){throw new Error(' +
+            '"Class is unavailable in this build: <CONS>")}}')
+        .replace(new RegExp('<CONS>', 'g'), cons);
+}
+
+/**
+* NOTE: could not find where this task is used! 
+* Gulp task that build the core artifact and minifies.
+*/
+gulp.task('build-core', function(callback) {
+    var configOverrides = {
+        cache: false,
+        entry: './src/remote.js',
+        externals: [{
+            './transaction': buildUseError('Transaction'),
+            './orderbook': buildUseError('OrderBook'),
+            './account': buildUseError('Account'),
+            './serializedobject': buildUseError('SerializedObject')
+        }],
+        plugins: [
+            new webpack.optimize.UglifyJsPlugin()
+        ]
+    };
+    webpack(webpackConfig('-core.js', configOverrides), callback);
+});
+
+gulp.task('bower-build', ['build'], function() {
+    return gulp.src(['./build/casinocoin-', '.js'].join(pkg.version))
+        .pipe(rename('casinocoin.js'))
+        .pipe(gulp.dest('./dist/bower'));
+});
+
+gulp.task('bower-build-min', ['build-min'], function() {
+    return gulp.src(['./build/casinocoin-', '-min.js'].join(pkg.version))
+        .pipe(rename('casinocoin-min.js'))
+        .pipe(gulp.dest('./dist/bower'));
+});
+
+gulp.task('bower-build-debug', ['build-debug'], function() {
+    return gulp.src(['./build/casinocoin-', '-debug.js'].join(pkg.version))
+        .pipe(rename('casinocoin-debug.js'))
+        .pipe(gulp.dest('./dist/bower'));
+});
+
+gulp.task('bower-version', function() {
+    gulp.src('./dist/bower/bower.json')
+        .pipe(bump({ version: pkg.version }))
+        .pipe(gulp.dest('./dist/bower'));
+});
+
+gulp.task('bower', ['bower-build', 'bower-build-min', 'bower-build-debug',
+    'bower-version'
+]);
+
+gulp.task('watch', function() {
+    gulp.watch('src/*', ['build-debug']);
+});
+
+gulp.task('version-bump', function() {
+    if (!argv.type) {
+        throw new Error('No type found, pass it in using the --type argument');
+    }
+
+    gulp.src('./package.json')
+        .pipe(bump({ type: argv.type }))
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('version-beta', function() {
+    gulp.src('./package.json')
+        .pipe(bump({ version: pkg.version + '-beta' }))
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('default', ['build', 'build-debug']);

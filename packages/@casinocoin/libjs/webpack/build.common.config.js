@@ -15,6 +15,7 @@ module.exports = {
 
   externals: [
     /node_modules/,
+    'lodash',
     'bufferutil',
     'utf-8-validate'
   ],
@@ -23,6 +24,10 @@ module.exports = {
 
     rules: [
 
+      {
+        test: /jayson/,
+        use: 'null',
+      },
       {
         test: /\.ts$/,
         loader: "ts-loader",
@@ -33,7 +38,21 @@ module.exports = {
 
   },
 
-  plugins: [],
+  plugins: [
+    /**
+    * Provides `EventEmitter` interface for native browser `WebSocket`,
+    * same, as `ws` package provides.
+    */
+    new webpack.NormalModuleReplacementPlugin(/^ws$/, '../src/common/wswrapper'),
+    /**
+    * Provides credentials for testing web wallet
+    */
+    new webpack.NormalModuleReplacementPlugin(/^\.\/wallet$/, '../test/integration/wallet-web'),
+    /**
+    * Provides the config bootstrapping when testing the api from a web client
+    */
+    new webpack.NormalModuleReplacementPlugin(/^.*setup-api$/, '../test/setup-api-web')
+  ],
 
   optimization: {
     minimizer: [

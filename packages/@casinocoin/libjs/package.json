@@ -51,7 +51,9 @@
     "clean": "rm -rf ../../../dist/@casinocoin/libjs",
     "dev": "webpack-dashboard -- webpack-dev-server --config webpack/dev.config.js --watch",
     "build": "npm run clean && webpack --config webpack/build.config.js",
-    "test": "mocha -r ts-node/register test/index.ts"
+    "test": "mocha -r ts-node/register test/index.ts",
+    "start-legacy": "babel-node scripts/http.js",
+    "sauce-legacy": "babel-node scripts/sauce-runner.js"
   },
   "repository": {
     "type": "git",
