@@ -1,6 +1,6 @@
 # casinocoin-libjs
 
-A JavaScript API for interacting with Casinocoin in Node.js
+A JavaScript API for interacting with Casinocoin using a browser or Node client.
 
 [![Circle CI](https://circleci.com/gh/casinocoin/casinocoin-libjs/tree/develop.svg?style=svg)](https://circleci.com/gh/casinocoin/casinocoin-libjs/tree/develop) [![Coverage Status](https://coveralls.io/repos/casinocoin/casinocoin-libjs/badge.png?branch=develop)](https://coveralls.io/r/casinocoin/casinocoin-libjs?branch=develop)
 
