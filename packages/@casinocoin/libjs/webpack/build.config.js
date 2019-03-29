@@ -12,10 +12,8 @@ module.exports = webpackMerge(buildCommonConfig, {
   target: "node",
   output: {
     path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
-    filename: "index.js",
-    sourceMapFilename: "index.js.map",
-    // filename: "casinocoin-libjs-" + pkg.version + ".min.js",
-    // sourceMapFilename: "casinocoin-libjs-" + pkg.version + ".map",
+    filename: "casinocoin-libjs-" + pkg.version + ".min.js",
+    sourceMapFilename: "casinocoin-libjs-" + pkg.version + ".map",
     library: "casinocoin-libjs",
     libraryTarget: "umd",
     publicPath: "/"
@@ -44,6 +42,9 @@ module.exports = webpackMerge(buildCommonConfig, {
       ]
     ),
 
+    /**
+     * uncomment to see what constitutes the built bundle using localhost:3001.
+    */
     // new BundleAnalyzerPlugin({
     //   analyzerMode: "server",
     //   analyzerHost: "0.0.0.0",

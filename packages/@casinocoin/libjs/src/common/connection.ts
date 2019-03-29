@@ -25,7 +25,7 @@ interface ConnectionOptions {
   timeout?: number
 }
 
-class Connection extends EventEmitter {
+export default class Connection extends EventEmitter {
 
   private _url: string
   private _trace: boolean
@@ -474,5 +474,3 @@ class Connection extends EventEmitter {
     })
   }
 }
-
-export default Connection

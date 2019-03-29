@@ -6,18 +6,45 @@ A JavaScript API for interacting with Casinocoin using a browser or Node client.
 
 [![NPM](https://nodei.co/npm/casinocoin-libjs.png)](https://www.npmjs.org/package/casinocoin-libjs)
 
-### Features
+## Features
 
 + Connect to a casinocoind server in Node.js
 + Issue [casinocoind API](https://casinocoin.org/build/casinocoind-apis/) requests
 + Listen to events on the Casinocoin network (transaction, ledger, etc.)
 + Sign and submit transactions to the Casinocoin network
 
-## Getting Started
+## Directory Structure
 
-Install `casinocoin-libjs` using npm:
+```bash
+|- docs
+|- scripts
+|- src
+|   |- common
+|   |- ledger
+|   |- offline
+|   |- server
+|   |- transaction
+|- test
+|- webpack
 ```
-  $ npm install casinocoin-libjs
+
+## Key CLI Commands
+
+```
+# install (appears in node_modules/@casinocoin/libjs)
+$ npm install casinocoin-libjs --save-prod
+
+# for development with src file watching
+$ npm run dev
+
+# build (output found in root directory dist/@casinocoin/libjs)
+$ npm run build
+
+# test (server)
+npm run test:server
+
+# test (client)
+$ npm run test:client
 ```
 
 Then see the [documentation](https://github.com/casinocoin/casinocoin-libjs/blob/develop/docs/index.md) and [code samples](https://github.com/casinocoin/casinocoin-libjs/tree/develop/docs/samples)
@@ -31,6 +58,11 @@ Then see the [documentation](https://github.com/casinocoin/casinocoin-libjs/blob
 ## Generating Documentation
 
 The continuous integration tests require that the documentation stays up-to-date. If you make changes to the JSON schemas, fixtures, or documentation sources, you must update the documentation by running `npm run docgen`.
+
+## Related Documents
+
++ [CHANGELOG](./CHANGELOG.md)
++ [LICENSE](./LICENSE)
 
 ## More Information
 

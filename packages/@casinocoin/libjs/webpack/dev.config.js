@@ -14,31 +14,16 @@ module.exports = webpackMerge(devCommonConfig, {
   target: "node",
   output: {
     path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
-    filename: "index.js",
-    sourceMapFilename: "index.js.map",
-    // filename: "casinocoin-libjs.js",
-    // sourceMapFilename: "casinocoin-libjs.map",
+    // filename: "index.js",
+    // sourceMapFilename: "index.js.map",
+    filename: "casinocoin-libjs.js",
+    sourceMapFilename: "casinocoin-libjs.map",
     library: "casinocoin-libjs",
     libraryTarget: "umd",
     publicPath: "/"
   },
 
   plugins: [
-    new DefinePlugin({
-      "process.env": {
-        NODE_ENV: "'development'"
-      }
-    }),
-
-    // copy static assets
-    // new CopyWebpackPlugin(
-    //   [
-    //     {
-    //       from: path.resolve(__dirname, "../src/robots.txt")
-    //     }
-    //   ]
-    // ),
-
     new DashboardPlugin(),
     new HotModuleReplacementPlugin(),
     new BundleAnalyzerPlugin({
