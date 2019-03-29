@@ -34,6 +34,14 @@ A JavaScript API for interacting with Casinocoin using a browser or Node client.
 # install (appears in node_modules/@casinocoin/libjs)
 $ npm install casinocoin-libjs --save-prod
 
+# requires a separate install the following peer dependencies:
+# server -
+#   lodash
+#   bufferutil
+#   utf-8-validate
+# client -
+#   lodash
+
 # for development with src file watching
 $ npm run dev
 
