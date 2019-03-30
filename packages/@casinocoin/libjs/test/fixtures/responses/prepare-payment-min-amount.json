@@ -1,8 +1,8 @@
 {
-    "txJSON": "{\"Flags\":2147614720,\"TransactionType\":\"Payment\",\"Account\":\"r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59\",\"Destination\":\"ra5nK24KXen9AHvsdFTKHSANinZseWnPcX\",\"Amount\":{\"value\":\"9999999999999999e80\",\"currency\":\"USD\",\"issuer\":\"ra5nK24KXen9AHvsdFTKHSANinZseWnPcX\"},\"SendMax\":{\"value\":\"5\",\"currency\":\"USD\",\"issuer\":\"r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59\"},\"DeliverMin\":{\"value\":\"4.93463759481038\",\"currency\":\"USD\",\"issuer\":\"ra5nK24KXen9AHvsdFTKHSANinZseWnPcX\"},\"Paths\":[[{\"account\":\"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B\"},{\"currency\":\"CSC\"},{\"issuer\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\",\"currency\":\"USD\"},{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\"},{\"account\":\"rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn\"}],[{\"account\":\"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B\"},{\"currency\":\"CSC\"},{\"issuer\":\"rfsEoNBUBbvkf4jPcFe2u9CyaQagLVHGfP\",\"currency\":\"USD\"},{\"account\":\"rfsEoNBUBbvkf4jPcFe2u9CyaQagLVHGfP\"},{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\"}]],\"LastLedgerSequence\":8820051,\"Fee\":\"12\",\"Sequence\":23}",
-    "instructions": {
-        "fee": "0.000012",
-        "sequence": 23,
-        "maxLedgerVersion": 8820051
-    }
+  "txJSON": "{\"Flags\":2147614720,\"TransactionType\":\"Payment\",\"Account\":\"cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT\",\"Destination\":\"cn6GRVhmnkJ5WK2qeCAdzud8vsiy2onQMF\",\"Amount\":{\"value\":\"9999999999999999e80\",\"currency\":\"USD\",\"issuer\":\"cn6GRVhmnkJ5WK2qeCAdzud8vsiy2onQMF\"},\"SendMax\":{\"value\":\"5\",\"currency\":\"USD\",\"issuer\":\"cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT\"},\"DeliverMin\":{\"value\":\"4.93463759481038\",\"currency\":\"USD\",\"issuer\":\"cn6GRVhmnkJ5WK2qeCAdzud8vsiy2onQMF\"},\"Paths\":[[{\"account\":\"cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs\"},{\"currency\":\"CSC\"},{\"issuer\":\"cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G\",\"currency\":\"USD\"},{\"account\":\"cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G\"},{\"account\":\"c4UyCDN8WUG6tNtYbSfDkUaZXo9xxNWfBu\"}],[{\"account\":\"cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs\"},{\"currency\":\"CSC\"},{\"issuer\":\"cJVNBA8yoebpbQRoThLGB4xMFzAHdhYHPa\",\"currency\":\"USD\"},{\"account\":\"cJVNBA8yoebpbQRoThLGB4xMFzAHdhYHPa\"},{\"account\":\"cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G\"}]],\"LastLedgerSequence\":8820051,\"Fee\":\"1200\",\"Sequence\":23}",
+  "instructions": {
+    "fee": "0.000012",
+    "sequence": 23,
+    "maxLedgerVersion": 8820051
+  }
 }

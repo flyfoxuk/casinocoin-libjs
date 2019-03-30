@@ -3,8 +3,8 @@
   "status": "success",
   "type": "response",
   "result": {
-    "Account": "rLVKsA4F9iJBbA6rX2x4wCmkj6drgtqpQe",
-    "Fee": "10",
+    "Account": "cLHJt881gvgRmocApjZCawBgseeGkrxfvG",
+    "Fee": "1000000",
     "Flags": 2147483648,
     "Sequence": 1,
     "SetFlag": 2,
@@ -20,8 +20,8 @@
         {
           "ModifiedNode": {
             "FinalFields": {
-              "Account": "rLVKsA4F9iJBbA6rX2x4wCmkj6drgtqpQe",
-              "Balance": "29999990",
+              "Account": "cLHJt881gvgRmocApjZCawBgseeGkrxfvG",
+              "Balance": "381872992000000",
               "Flags": 786432,
               "OwnerCount": 0,
               "Sequence": 2
@@ -29,7 +29,7 @@
             "LedgerEntryType": "AccountRoot",
             "LedgerIndex": "3F5072C4875F32ED770DAF3610A716600ED7C7BB0348FADC7A98E011BB2CD36F",
             "PreviousFields": {
-              "Balance": "30000000",
+              "Balance": "381872993000000",
               "Flags": 4194304,
               "Sequence": 1
             },

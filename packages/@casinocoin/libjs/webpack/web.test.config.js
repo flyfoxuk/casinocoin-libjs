@@ -9,7 +9,7 @@ module.exports = {
     "connection-test": path.resolve(__dirname, "../test/connection-test.ts"),
     "api-test": path.resolve(__dirname, "../test/api-test.ts"),
     "broadcast-api-test": path.resolve(__dirname, "../test/broadcast-api-test.ts"),
-    "integration-test": path.resolve(__dirname, "../test/integration/integration-test.ts")
+    "integration-test": path.resolve(__dirname, "../test/integration/integration-test.js")
   },
   output: {
     library: "[name]",
@@ -32,7 +32,7 @@ module.exports = {
         use: 'null',
       },
       {
-        test: /\.ts$/,
+        test: /\.[ts|js]$/,
         loader: "ts-loader",
         exclude: "/node_modules/"
       }

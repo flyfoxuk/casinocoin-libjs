@@ -1,74 +1,74 @@
-import * as _ from "lodash";
-import * as assert from "assert-diff";
-import setupAPI from "./setup-api";
-import { responses } from "./fixtures";
-import ledgerClosed from "./fixtures/casinocoind/ledger-close";
-import CasinocoinAPI from "casinocoin-libjs-api";
+import * as _ from 'lodash'
+import {assert} from 'assert-diff'
+import * as setupApi from './setup-api'
+import {CasinocoinAPI} from '../src/api'
 
-const schemaValidator = CasinocoinAPI._PRIVATE.schemaValidator;
+const responses = require('./fixtures').responses
+const ledgerClosed = require('./fixtures/casinocoind/ledger-close')
+const schemaValidator = CasinocoinAPI._PRIVATE.schemaValidator
 
-const TIMEOUT = (typeof window !== undefined) ? 25000 : 10000;
+const TIMEOUT = window ? 25000 : 10000
 
-function checkResult(
-  expected: any,
-  schemaName: string,
-  response: any,
-) {
+function checkResult(expected, schemaName, response) {
   if (expected.txJSON) {
-    assert(response.txJSON);
-    assert.deepEqual(JSON.parse(response.txJSON), JSON.parse(expected.txJSON));
+    assert(response.txJSON)
+    assert.deepStrictEqual(
+      JSON.parse(response.txJSON),
+      JSON.parse(expected.txJSON)
+    )
   }
-  assert.deepEqual(_.omit(response, "txJSON"), _.omit(expected, "txJSON"));
+  assert.deepStrictEqual(_.omit(response, 'txJSON'), _.omit(expected, 'txJSON'))
   if (schemaName) {
-    schemaValidator.schemaValidate(schemaName, response);
+    schemaValidator.schemaValidate(schemaName, response)
   }
-  return response;
+  return response
 }
 
-describe("CasinocoinAPIBroadcast", () => {
-  this.timeout(TIMEOUT);
-  beforeEach(setupAPI.setupBroadcast);
-  afterEach(setupAPI.teardown);
+describe('CasinocoinAPIBroadcast', function() {
+  this.timeout(TIMEOUT)
 
-  it("base", () => {
-    const expected = { request_server_info: 1 };
-    if (typeof window === undefined) {
-      this.mocks.forEach((mock: any) => mock.expect(_.assign({}, expected)));
+  beforeEach(setupApi.setupBroadcast)
+  afterEach(setupApi.teardown)
+
+  it('base', function() {
+    const expected = {request_server_info: 1}
+    if (!window) {
+      this.mocks.forEach(mock => mock.expect(_.assign({}, expected)))
     }
-    assert(this.api.isConnected());
+    assert(this.api.isConnected())
     return this.api.getServerInfo().then(
-      _.partial(checkResult, responses.getServerInfo, "getServerInfo"));
-  });
+      _.partial(checkResult, responses.getServerInfo, 'getServerInfo'))
+  })
 
-  it("ledger", (done: any) => {
-    let gotLedger = 0;
-    this.api.on("ledger", () => {
-      gotLedger++;
-    });
-    const ledgerNext = _.assign({}, ledgerClosed);
-    ledgerNext.ledger_index++;
+  it('ledger', function(done) {
+    let gotLedger = 0
+    this.api.on('ledger', () => {
+      gotLedger++
+    })
+    const ledgerNext = _.assign({}, ledgerClosed)
+    ledgerNext.ledger_index++
 
-    this.api._apis.forEach((api: any) => api.connection._send(JSON.stringify({
-      command: "echo",
-      data: ledgerNext,
-    })));
+    this.api._apis.forEach(api => api.connection._send(JSON.stringify({
+      command: 'echo',
+      data: ledgerNext
+    })))
 
     setTimeout(() => {
-      assert.strictEqual(gotLedger, 1);
-      done();
-    }, 1250);
-  });
+      assert.strictEqual(gotLedger, 1)
+      done()
+    }, 1250)
+  })
 
-  it("error propagation", (done: any) => {
-    this.api.once("error", (type: any, info: any) => {
-      assert.strictEqual(type, "type");
-      assert.strictEqual(info, "info");
-      done();
-    });
+  it('error propagation', function(done) {
+    this.api.once('error', (type, info) => {
+      assert.strictEqual(type, 'type')
+      assert.strictEqual(info, 'info')
+      done()
+    })
     this.api._apis[1].connection._send(JSON.stringify({
-      command: "echo",
-      data: { error: "type", error_message: "info" },
-    }));
-  });
+      command: 'echo',
+      data: {error: 'type', error_message: 'info'}
+    }))
+  })
 
-});
+})

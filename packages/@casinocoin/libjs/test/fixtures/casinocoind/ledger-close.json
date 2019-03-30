@@ -8,5 +8,5 @@
   "reserve_base": 20000000,
   "reserve_inc": 5000000,
   "txn_count": 5,
-  "validated_ledgers": "32570-8819951"
+  "validated_ledgers": "100-8819951"
 }

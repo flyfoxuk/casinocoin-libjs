@@ -1,12 +1,12 @@
 {
   "source": {
-    "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59"
+    "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT"
   },
   "destination": {
-    "address": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
+    "address": "cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb",
     "amount": {
       "currency": "USD",
-      "counterparty": "rMH4UxPrbuMa1spCBR98hLLyNJp4d8p4tM",
+      "counterparty": "cEe3dBYFwGEZ385ogF5ALyDtpp4R4aQuWx",
       "value": "100"
     }
   }

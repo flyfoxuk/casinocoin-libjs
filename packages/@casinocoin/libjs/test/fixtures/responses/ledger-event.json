@@ -1,10 +1,10 @@
 {
-    "baseFeeCSC": "0.00001",
-    "ledgerVersion": 14804627,
-    "ledgerHash": "9141FA171F2C0CE63E609466AF728FF66C12F7ACD4B4B50B0947A7F3409D593A",
-    "ledgerTimestamp": "2015-07-23T05:50:40.000Z",
-    "reserveBaseCSC": "20",
-    "reserveIncrementCSC": "5",
-    "transactionCount": 19,
-    "validatedLedgerVersions": "13983423-14804627"
+  "baseFeeCSC": "0.01",
+  "ledgerVersion": 25010,
+  "ledgerHash": "ADD24D7DD2188730E04E94C44591CA7C6D36CA495F5D901F4D7925EA5D27D4DB",
+  "ledgerTimestamp": "2019-01-25T10:10:10.000Z",
+  "reserveBaseCSC": "10",
+  "reserveIncrementCSC": "1",
+  "transactionCount": 0,
+  "validatedLedgerVersions": "13983423-14804627"
 }

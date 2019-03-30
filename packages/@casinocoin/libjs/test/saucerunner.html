@@ -1,13 +1,11 @@
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8">
     <!-- encoding must be set for mocha's special characters to render properly -->
     <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
     <script src="/test/vendor/lodash.min.js"></script>
-</head>
-
-<body>
+  </head>
+  <body>
     <div id="deb"></div>
     <div id="mocha"></div>
     <script src="/node_modules/mocha/mocha.js"></script>
@@ -16,22 +14,19 @@
 
     <script src="/build/casinocoin-latest-min.js"></script>
     <script>
-        mocha.ui('bdd')
+      mocha.ui('bdd')
     </script>
 
     <script src="../test-compiled-for-web/api-test.js"></script>
 
     <script src="../test-compiled-for-web/broadcast-api-test.js"></script>
-
+ 
     <script src="../test-compiled-for-web/connection-test.js"></script>
 
     <script src="/test-compiled-for-web/rangeset-test.js"></script>
-
+    
     <script>
-        mochaSaucePlease({
-            xunit: false
-        });
+      mochaSaucePlease({xunit: false});
     </script>
-</body>
-
+  </body>
 </html>

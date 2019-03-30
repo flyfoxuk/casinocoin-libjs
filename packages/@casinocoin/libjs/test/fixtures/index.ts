@@ -1,5 +1,5 @@
-export default {
-  responses: require("./responses"),
-  requests: require("./requests"),
-  casinocoind: require("./casinocoind"),
-};
+module.exports = {
+  responses: require('./responses'),
+  requests: require('./requests'),
+  casinocoind: require('./casinocoind')
+}
