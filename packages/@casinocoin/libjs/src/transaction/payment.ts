@@ -10,7 +10,7 @@ import {Amount, Adjustment, MaxAdjustment,
 
 
 type Payment = {
-  source: Adjustment| MaxAdjustment,
+  source: Adjustment | MaxAdjustment,
   destination: Adjustment | MinAdjustment,
   paths?: string,
   memos?: Array<Memo>,
@@ -74,8 +74,8 @@ function createPaymentTransaction(address: string, paymentArgument: Payment
     throw new ValidationError('address must match payment.source.address')
   }
 
-  if ((payment.source.maxAmount && payment.destination.minAmount) ||
-      (payment.source.amount && payment.destination.amount)) {
+  if (((<MaxAdjustment>payment.source).maxAmount && (<MinAdjustment>payment.destination).minAmount) ||
+    ((<Adjustment>payment.source).amount && (<Adjustment>payment.destination).amount)) {
     throw new ValidationError('payment must specify either (source.maxAmount '
       + 'and destination.amount) or (source.amount and destination.minAmount)')
   }
@@ -86,10 +86,9 @@ function createPaymentTransaction(address: string, paymentArgument: Payment
   // send the whole source amount, so we set the destination amount to the
   // maximum possible amount. otherwise it's possible that the destination
   // cap could be hit before the source cap.
-  const amount = payment.destination.minAmount && !isCSCToCSCPayment(payment) ?
-    createMaximalAmount(payment.destination.minAmount) :
-    (payment.destination.amount || payment.destination.minAmount)
-
+  const amount = (<MinAdjustment>payment.destination).minAmount && !isCSCToCSCPayment(payment) ?
+    createMaximalAmount((<MinAdjustment>payment.destination).minAmount) :
+    ((<Adjustment>payment.destination).amount || (<MinAdjustment>payment.destination).minAmount)
   const txJSON: any = {
     TransactionType: 'Payment',
     Account: payment.source.address,
@@ -122,15 +121,15 @@ function createPaymentTransaction(address: string, paymentArgument: Payment
     // https://github.com/casinocoin/casinocoind/commit/
     //  c522ffa6db2648f1d8a987843e7feabf1a0b7de8/
     if (payment.allowPartialPayment === true
-        || payment.destination.minAmount !== undefined) {
+      || (<MinAdjustment>payment.destination).minAmount !== undefined) {
       txJSON.Flags |= paymentFlags.PartialPayment
     }
 
     txJSON.SendMax = toCasinocoindAmount(
-      payment.source.maxAmount || payment.source.amount)
+      (<MaxAdjustment>payment.source).maxAmount || (<Adjustment>payment.source).amount)
 
-    if (payment.destination.minAmount !== undefined) {
-      txJSON.DeliverMin = toCasinocoindAmount(payment.destination.minAmount)
+    if ((<MinAdjustment>payment.destination).minAmount !== undefined) {
+      txJSON.DeliverMin = toCasinocoindAmount((<MinAdjustment>payment.destination).minAmount)
     }
 
     if (payment.paths !== undefined) {
@@ -144,7 +143,7 @@ function createPaymentTransaction(address: string, paymentArgument: Payment
 }
 
 function preparePayment(address: string, payment: Payment,
-  instructions: Instructions = {}
+                        instructions: Instructions = {}
 ): Promise<Prepare> {
   validate.preparePayment({address, payment, instructions})
   const txJSON = createPaymentTransaction(address, payment)
