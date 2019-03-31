@@ -1,0 +1,19 @@
+[
+  {
+    "source": {
+      "address": "cwCSmrz5xMT1KARuM2QwfeJz7ASDSYm2CJ",
+      "maxAmount": {
+        "currency": "CSC",
+        "value": "0.000002"
+      }
+    },
+    "destination": {
+      "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+      "amount": {
+        "value": "0.000002",
+        "currency": "CSC"
+      }
+    },
+    "paths": "[]"
+  }
+]

@@ -41,7 +41,7 @@ import computeLedgerHash from './offline/ledgerhash'
 import signPaymentChannelClaim from './offline/sign-payment-channel-claim'
 import verifyPaymentChannelClaim from './offline/verify-payment-channel-claim'
 import getLedger from './ledger/ledger'
-
+import getConfigInfo from './ledger/configinfo'
 
 import RangeSet from './common/rangeset'
 import * as ledgerUtils from './ledger/utils'
@@ -115,6 +115,7 @@ class CasinocoinAPI extends EventEmitter {
   getServerInfo = getServerInfo
   getFee = getFee
   getLedgerVersion = getLedgerVersion
+  getConfigInfo = getConfigInfo
 
   getTransaction = getTransaction
   getTransactions = getTransactions

@@ -1,17 +1,17 @@
 {
-    "source": {
-        "address": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-        "amount": {
-            "value": "0.01",
-            "currency": "CSC"
-        }
-    },
-    "destination": {
-        "address": "rpZc4mVfWUif9CRoHRKKcmhu1nx2xktxBo",
-        "minAmount": {
-            "value": "0.01",
-            "currency": "CSC"
-        }
-    },
-    "allowPartialPayment": true
+  "source": {
+    "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+    "amount": {
+      "value": "0.01",
+      "currency": "CSC"
+    }
+  },
+  "destination": {
+    "address": "cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb",
+    "minAmount": {
+      "value": "0.01",
+      "currency": "CSC"
+    }
+  },
+  "allowPartialPayment": true
 }

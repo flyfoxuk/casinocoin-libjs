@@ -1,0 +1,44 @@
+{
+  "bids": [
+    {
+      "specification": {
+        "direction": "buy",
+        "quantity": {
+          "currency": "USD",
+          "value": "10.1",
+          "counterparty": "rp8rJYTpodf8qbSCHVTNacf8nSW8mRakFw"
+        },
+        "totalPrice": {
+          "currency": "CSC",
+          "value": "254391353"
+        }
+      },
+      "properties": {
+        "maker": "ch6BULZAU4qrQaWQccJSwcFgEYhz2Ysz4a",
+        "sequence": 5,
+        "makerExchangeRate": "3.970260734451929e-8"
+      }
+    }
+  ],
+  "asks": [
+    {
+      "specification": {
+        "direction": "sell",
+        "quantity": {
+          "currency": "USD",
+          "value": "10453252347.1",
+          "counterparty": "rp8rJYTpodf8qbSCHVTNacf8nSW8mRakFw"
+        },
+        "totalPrice": {
+          "currency": "CSC",
+          "value": "134"
+        }
+      },
+      "properties": {
+        "maker": "ch6BULZAU4qrQaWQccJSwcFgEYhz2Ysz4a",
+        "sequence": 6,
+        "makerExchangeRate": "0.0000780093458738806"
+      }
+    }
+  ]
+}

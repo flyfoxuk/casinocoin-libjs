@@ -16,7 +16,7 @@ declare class WebSocket {
  * Provides `EventEmitter` interface for native browser `WebSocket`,
  * same, as `ws` package provides.
  */
-class WSWrapper extends EventEmitter {
+export default class WSWrapper extends EventEmitter {
 
   private _ws: WebSocket
   static CONNECTING = 0
@@ -62,6 +62,3 @@ class WSWrapper extends EventEmitter {
   }
 
 }
-
-export = WSWrapper
-
