@@ -10,8 +10,8 @@ import {Amount, Adjustment, MaxAdjustment,
 
 
 type Payment = {
-  source: Adjustment & MaxAdjustment,
-  destination: Adjustment & MinAdjustment,
+  source: Adjustment| MaxAdjustment,
+  destination: Adjustment | MinAdjustment,
   paths?: string,
   memos?: Array<Memo>,
   // A 256-bit hash that can be used to identify a particular payment
