@@ -8,7 +8,7 @@ class CasinocoinAPIBroadcast extends CasinocoinAPI {
   ledgerVersion: number = 0
   private _apis: CasinocoinAPI[]
 
-  constructor(servers, options) {
+  constructor(servers, options?) {
     super(options)
 
     const apis: CasinocoinAPI[] = servers.map(server => new CasinocoinAPI(
@@ -20,7 +20,7 @@ class CasinocoinAPIBroadcast extends CasinocoinAPI {
 
     this.getMethodNames().forEach(name => {
       this[name] = function() { // eslint-disable-line no-loop-func
-        return Promise.race(apis.map(api => api[name]()))
+        return Promise.race(apis.map(api => api[name](...arguments)))
       }
     })
 

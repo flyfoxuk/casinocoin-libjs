@@ -142,7 +142,7 @@ export type KYCSet = {
 
 type KYC = {
     type: string,
-    specification: KYC,
+    specification?: KYCSet,
     outcome: Outcome,
     id: string,
     address: string,

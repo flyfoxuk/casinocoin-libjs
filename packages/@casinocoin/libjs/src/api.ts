@@ -48,6 +48,7 @@ import * as ledgerUtils from './ledger/utils'
 import * as schemaValidator from './common/schema-validator'
 
 type APIOptions = {
+  servers?: Array<string>,
   server?: string,
   feeCushion?: number,
   trace?: boolean,

@@ -1,19 +1,31 @@
 
 {
-  "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "declaration": true,
-    "outDir": "../../../dist/@casinocoin/libjs",
+    "target": "es6",
+    "lib": [
+      "es2015",
+      "es2017",
+      "dom"
+    ],
+    "outDir": "dist/npm",
     "typeRoots": [
-      "node_modules/@types",
-      "../../../node_modules/@types"
+      "node_modules/@types"
     ],
     "rootDirs": [
       "src"
     ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "resolveJsonModule": false
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "preserveConstEnums": false,
+    "suppressImplicitAnyIndexErrors": false,
+    "declaration": true,
+    "sourceMap": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts"

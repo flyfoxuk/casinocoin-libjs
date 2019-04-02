@@ -1,4 +1,4 @@
-import keypairs = require('casinocoin-libjs-keypairs')
+import * as keypairs from 'casinocoin-libjs-keypairs'
 import * as common from '../common'
 const {errors, validate} = common
 

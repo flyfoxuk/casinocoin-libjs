@@ -12,9 +12,10 @@
     "node": ">=10.15.0"
   },
   "devDependencies": {
-    "lerna": "^2.11.0"
+    "lerna": "2.11.0"
   },
   "scripts": {
+    "lerna:bootstrap": "lerna bootstrap",
     "libjs:build": "npm run --prefix packages/@casinocoin/libjs build",
     "libjs:dev": "npm run --prefix packages/@casinocoin/libjs dev",
     "libjs:test": "npm run --prefix packages/@casinocoin/libjs test"

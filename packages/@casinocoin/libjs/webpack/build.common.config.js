@@ -37,7 +37,21 @@ module.exports = {
 
   },
 
-  plugins: [],
+  plugins: [
+    /**
+     * Provides `EventEmitter` interface for native browser `WebSocket`,
+     * same, as `ws` package provides.
+     */
+    // new Webpack.NormalModuleReplacementPlugin(/^ws$/, '../src/common/wswrapper'),
+    /**
+     * Provides credentials for testing web wallet
+     */
+    new Webpack.NormalModuleReplacementPlugin(/^\.\/wallet$/, '../test/integration/wallet-web'),
+    /**
+     * Provides the config bootstrapping when testing the api from a web client
+     */
+    new Webpack.NormalModuleReplacementPlugin(/^.*setup-api$/, '../test/setup-api-web')
+  ],
 
   optimization: {
     minimizer: [

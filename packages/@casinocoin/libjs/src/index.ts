@@ -1,7 +1,4 @@
-import {CasinocoinAPI} from './api'
-import {CasinocoinAPIBroadcast} from './broadcast'
 
-export {
-  CasinocoinAPI,
-  CasinocoinAPIBroadcast
-}
+export {CasinocoinAPI} from './api'
+// Broadcast api is experimental
+export {CasinocoinAPIBroadcast} from './broadcast'
