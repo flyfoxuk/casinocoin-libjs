@@ -20,16 +20,6 @@ module.exports = webpackMerge(buildCommonConfig, {
     },
 
     plugins: [
-        // copy static assets
-        new CopyWebpackPlugin(
-            [
-                {
-                    from: path.resolve(__dirname, "../package.json"),
-                    to: path.resolve(__dirname, "../dist/package.json")
-                }
-            ]
-        ),
-
         // new BundleAnalyzerPlugin({
         //   analyzerMode: "server",
         //   analyzerHost: "0.0.0.0",
