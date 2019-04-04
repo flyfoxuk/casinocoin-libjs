@@ -3,7 +3,10 @@
   "version": "2.0.0",
   "license": "ISC",
   "description": "A JavaScript API for interacting with Casinocoin in Node.js and the browser",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@types/lodash": "4.14.85",
     "@types/ws": "3.2.0",

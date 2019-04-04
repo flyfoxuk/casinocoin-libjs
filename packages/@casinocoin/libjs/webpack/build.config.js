@@ -11,7 +11,7 @@ module.exports = webpackMerge(buildCommonConfig, {
     entry: path.resolve(__dirname, "../src/index.ts"),
     target: "node",
     output: {
-        path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
+        path: path.resolve(__dirname, "../dist"),
         filename: "index.js",
         sourceMapFilename: "index.js.map",
         library: "casinocoin-libjs",

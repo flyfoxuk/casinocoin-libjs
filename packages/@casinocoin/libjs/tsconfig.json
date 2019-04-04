@@ -7,8 +7,7 @@
       "es2017",
       "dom"
     ],
-    "outDir": "../../../dist/@casinocoin/libjs",
-    // "outDir": "dist/npm",
+    "outDir": "dist",
     "typeRoots": [
       "node_modules/@types"
     ],
