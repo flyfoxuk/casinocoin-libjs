@@ -1,18 +1,14 @@
 {
-  "name": "casinocoin-libjs",
+  "name": "@casinocoin/libjs",
   "version": "2.0.0",
   "license": "ISC",
   "description": "A JavaScript API for interacting with Casinocoin in Node.js and the browser",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "files": [
-    "dist"
-  ],
+  "main": "index.js",
   "dependencies": {
     "@types/lodash": "4.14.85",
     "@types/ws": "3.2.0",
     "ajv": "6.9.1",
-    "bignumber.js": "^4.1.0",
+    "bignumber.js": "4.1.0",
     "casinocoin-libjs-address-codec": "1.0.0",
     "casinocoin-libjs-binary-codec": "1.0.6",
     "casinocoin-libjs-hashes": "1.0.3",
