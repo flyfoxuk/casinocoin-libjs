@@ -20,9 +20,7 @@
   "scripts": {
     "lerna:bootstrap": "lerna bootstrap",
     "libjs:build": "npm run --prefix packages/@casinocoin/libjs build",
-    "libjs:pack": "npm pack ./packages/@casinocoin/libjs",
-    "libjs:dev": "npm run --prefix packages/@casinocoin/libjs dev",
-    "libjs:test": "npm run --prefix packages/@casinocoin/libjs test",
-    "buildpack:casinocoin-libjs": "npm i --prefix packages/@casinocoin/libjs && npm run --prefix packages/@casinocoin/libjs build && npm pack ./packages/@casinocoin/libjs && mkdir -p dist && mv casinocoin-libjs-2.0.0.tgz dist/."
+    "libjs:pack": "npm pack packages/@casinocoin/libjs",
+    "libjs:dev": "npm run --prefix packages/@casinocoin/libjs dev"
   }
 }
