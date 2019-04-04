@@ -7,14 +7,6 @@
       "es2017",
       "dom"
     ],
-    "outDir": "dist/npm",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "rootDirs": [
-      "src",
-      "test"
-    ],
     "module": "commonjs",
     "moduleResolution": "node",
     "strictNullChecks": false,
@@ -27,10 +19,5 @@
     "declaration": true,
     "sourceMap": true,
     "skipLibCheck": true
-  },
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.json"
-  ]
+  }
 }
