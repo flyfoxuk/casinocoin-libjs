@@ -11,7 +11,7 @@ module.exports = webpackMerge(devCommonConfig, {
   entry: path.resolve(__dirname, "../src/index.ts"),
   target: "node",
   output: {
-    path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
+    path: path.resolve(__dirname, "../../../dist/@casinocoin/libjs"),
     filename: "index.js",
     sourceMapFilename: "index.js.map",
     library: "casinocoin-libjs",
@@ -35,29 +35,5 @@ module.exports = webpackMerge(devCommonConfig, {
       logLevel: "info"
     })
   ]
-
-  // devServer: {
-  //   host: "localhost",
-  //   port: 3000,
-  //   contentBase: path.resolve(__dirname, "../dist"),
-  //   watchContentBase: true,
-  //   compress: true,
-  //   hot: true,
-  //   headers: {
-  //     "Access-Control-Allow-Origin": "*",
-  //     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-  //     "Access-Control-Allow-Headers": "*"
-  //   },
-  //   historyApiFallback: {
-  //     disableDotRule: true
-  //   },
-  //   watchOptions: {
-  //     ignored: /node_modules/
-  //   },
-  //   overlay: {
-  //     warnings: true,
-  //     errors: true
-  //   }
-  // }
 
 });

@@ -15,8 +15,8 @@
     "lerna": "^2.11.0"
   },
   "scripts": {
-    "libjs:build": "npm run --prefix packages/@casinocoin/libjs build",
-    "libjs:dev": "npm run --prefix packages/@casinocoin/libjs dev",
-    "libjs:test": "npm run --prefix packages/@casinocoin/libjs test"
+    "libjs:build": "npm run --prefix packages/libjs build",
+    "libjs:dev": "npm run --prefix packages/libjs dev",
+    "libjs:test": "npm run --prefix packages/libjs test"
   }
 }

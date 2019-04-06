@@ -13,7 +13,7 @@ module.exports = {
   },
   output: {
     library: "[name]",
-    path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs/test-compiled-for-web/"),
+    path: path.resolve(__dirname, "../../../dist/@casinocoin/libjs/test-compiled-for-web/"),
     filename: "[name].js"
   },
   externals: {

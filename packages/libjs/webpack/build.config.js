@@ -10,7 +10,7 @@ module.exports = webpackMerge(buildCommonConfig, {
   entry: path.resolve(__dirname, "../src/index.ts"),
   target: "node",
   output: {
-    path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
+    path: path.resolve(__dirname, "../../../dist/@casinocoin/libjs"),
     filename: "index.js",
     sourceMapFilename: "index.js.map",
     library: "casinocoin-libjs",
@@ -24,25 +24,25 @@ module.exports = webpackMerge(buildCommonConfig, {
       [
         {
           from: path.resolve(__dirname, "../README.md"),
-          to: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs/README.md")
+          to: path.resolve(__dirname, "../../../dist/@casinocoin/libjs/README.md")
         },
         {
           from: path.resolve(__dirname, "../LICENSE"),
-          to: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs/LICENSE")
+          to: path.resolve(__dirname, "../../../dist/@casinocoin/libjs/LICENSE")
         },
         {
           from: path.resolve(__dirname, "../CHANGELOG.md"),
-          to: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs/CHANGELOG.md")
+          to: path.resolve(__dirname, "../../../dist/@casinocoin/libjs/CHANGELOG.md")
         },
         {
           from: path.resolve(__dirname, "../package.json"),
-          to: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs/package.json")
+          to: path.resolve(__dirname, "../../../dist/@casinocoin/libjs/package.json")
         }
       ]
     ),
 
     /**
-     * uncomment to see what constitutes the built bundle using localhost:3001.
+     * uncomment to see what constitutes the production bundle; use http://localhost:3001.
     */
     // new BundleAnalyzerPlugin({
     //   analyzerMode: "server",
