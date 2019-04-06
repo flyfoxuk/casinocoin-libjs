@@ -28,7 +28,7 @@ module.exports = webpackMerge(buildCommonConfig, {
         },
         {
           from: path.resolve(__dirname, "../LICENSE"),
-          to: path.resolve(__dirname, "../../../dist/@casinocoin/libjs/LICENSE")
+          to: path.resolve(__dirname, "../../../dist/@casinocoin/libjs")
         },
         {
           from: path.resolve(__dirname, "../CHANGELOG.md"),
