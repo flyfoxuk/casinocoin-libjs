@@ -13,7 +13,23 @@ A JavaScript API for interacting with Casinocoin using a browser or Node client.
 + Listen to events on the Casinocoin network (transaction, ledger, etc.)
 + Sign and submit transactions to the Casinocoin network
 
-## Directory Structure
+## Installation
+
+If libjs is utilized in Node.js server-side solution, please install the following required peer dependencies:
+
+```bash
+$ npm i bufferutil utf-8-validate --save
+```
+
+There are no peer dependencies if libjs is utilized in a web solution (Web/PWA, Electron, Ionic, etc.).
+
+```bash
+$ npm i @casinocoin/libjs --save    # appears in node_modules/@casinocoin/libjs
+```
+
+## For Project Maintainers
+
+### Directory Structure
 
 ```bash
 |- docs
@@ -28,24 +44,22 @@ A JavaScript API for interacting with Casinocoin using a browser or Node client.
 |- webpack
 ```
 
-## Key CLI Commands
+This project is driven by 3 Webpack configurations:
 
-```
-# install (appears in node_modules/@casinocoin/libjs)
-$ npm install casinocoin-libjs --save-prod
+* dev
+  * Webpack dashboard + bundle analyzer (port 3001) + directory src/ file watcher
+* build
+  * generates production bundle in repo root directory dist/@casinocoin/libjs
+* test
+  * TBD
 
-# requires a separate install the following peer dependencies:
-# server -
-#   lodash
-#   bufferutil
-#   utf-8-validate
-# client -
-#   lodash
+### Key CLI Commands
 
-# for development with src file watching
+```bash
+# for development
 $ npm run dev
 
-# build (output found in root directory dist/@casinocoin/libjs)
+# build
 $ npm run build
 
 # test (server)

@@ -1,7 +1,5 @@
 const path = require("path");
 const webpackMerge = require("webpack-merge");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const DefinePlugin = require("webpack/lib/DefinePlugin");
 const DashboardPlugin = require("webpack-dashboard/plugin");
 const HotModuleReplacementPlugin = require("webpack/lib/HotModuleReplacementPlugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
@@ -14,10 +12,8 @@ module.exports = webpackMerge(devCommonConfig, {
   target: "node",
   output: {
     path: path.resolve(__dirname, "../../../../dist/@casinocoin/libjs"),
-    // filename: "index.js",
-    // sourceMapFilename: "index.js.map",
-    filename: "casinocoin-libjs.js",
-    sourceMapFilename: "casinocoin-libjs.map",
+    filename: "index.js",
+    sourceMapFilename: "index.js.map",
     library: "casinocoin-libjs",
     libraryTarget: "umd",
     publicPath: "/"

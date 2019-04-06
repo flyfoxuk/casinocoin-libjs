@@ -31,18 +31,8 @@ module.exports = {
 
   },
 
-  plugins: [
-    /* Violations will not stop the build, purely for reporting purposes */
-    // new TsLintPlugin({
-    //   files: [
-    //     "./src/**/*.ts"
-    //   ],
-    //   config: "./tslint.json",
-    //   silent: false
-    // })
-  ],
+  plugins: [],
 
-  optimization: {
-  },
+  optimization: {},
 
 };
