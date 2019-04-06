@@ -11,7 +11,7 @@ The CasinoCoin Javascript artifacts have been re-organized into a monorepo lever
 
 ## Package TOC
 
-* [@casinocoin/libjs](/@casinocoin/libjs/README.md)
+* [@casinocoin/libjs](/packages/libjs/README.md)
 
 ## Key CLI Commands
 
