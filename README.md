@@ -27,10 +27,8 @@ $ lerna bootstrap
 # -- libjs library --
 $ npm run libjs:dev
 $ npm run libjs:build
+$ npm run libjs:pack # generates tarball in root tgz directory
 $ npm run libjs:test # mocha
-
-# -- libjs-another-artifact library --
-$ ...
 
 # clean all packages
 $ lerna clean

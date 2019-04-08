@@ -4,9 +4,7 @@
 ### Repo Assets ###
 dist/
 docs/
-
-# @casinocoin/libjs
-# 
+tgz/*.tgz
 
 ### Linux ###
 *~
