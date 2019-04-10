@@ -16,6 +16,6 @@
   },
   "include": [
     "src/**/*.ts",
-    "scripts/build_docs.ts"
+    "scripts/*.ts"
   ]
 }
