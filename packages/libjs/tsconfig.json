@@ -15,6 +15,7 @@
     "resolveJsonModule": false
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "scripts/build_docs.ts"
   ]
 }

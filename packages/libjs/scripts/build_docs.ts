@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from "fs"
 import * as path from "path";
 import { execSync } from "child_process";
 import * as ejs from "ejs";
@@ -6,21 +6,21 @@ import { renderFromPaths } from "json-schema-to-markdown-table";
 
 const ROOT = path.dirname(path.normalize(__dirname));
 
-const strip = (value: string): string => {
+const strip = (value) => {
   return value.replace(/^\s+|\s+$/g, "");
 };
 
-const importFile = (relativePath: string): string => {
+const importFile = (relativePath) => {
   const absolutePath = path.join(ROOT, relativePath);
   return strip(fs.readFileSync(absolutePath).toString("utf-8"));
 };
 
-const renderFixture = (fixtureRelativePath: string): string => {
+const renderFixture = (fixtureRelativePath) => {
   const json = importFile(path.join("test", "fixtures", fixtureRelativePath));
   return "\n```json\n" + json + "\n```\n";
 };
 
-const renderSchema = (schemaRelativePath: string): any => {
+const renderSchema = (schemaRelativePath) => {
   const schemasPath = path.join(ROOT, "src", "common", "schemas");
   const schemaPath = path.join(schemasPath, schemaRelativePath);
   return renderFromPaths(schemaPath, schemasPath);
@@ -33,8 +33,8 @@ const main = () => {
     renderSchema,
   };
 
-  const indexPath: string = path.join(ROOT, "docs", "src", "index.md.ejs");
-  ejs.renderFile(indexPath, locals, (error: any, output: any) => {
+  const indexPath = path.join(ROOT, "docs", "src", "index.md.ejs");
+  ejs.renderFile(indexPath, locals, (error, output) => {
     if (error) {
       console.error(error);
       process.exit(1);

@@ -59,15 +59,17 @@
   },
   "scripts": {
     "doctoc": "doctoc docs/index.md --title '# CasinocoinAPI Reference' --github --maxlevel 2",
+    "docgen": "ts-node scripts/build_docs.ts",
     "cp:schemas": "mkdir -p dist/npm/common && cp -r src/common/schemas dist/npm/common/",
     "lint": "tslint -p ./",
     "clean": "rm -rf ../../dist/@casinocoin/libjs",
     "dev": "webpack-dashboard -- webpack-dev-server --config webpack/dev.config.js --watch",
+    "test:sauce": "ts-node scripts/sauce-runner.ts",
     "test:web": "npm run clean && node_modules/.bin/webpack --config webpack/web.test.config.js",
     "build": "npm run clean && webpack --config webpack/build.config.js",
-    "test": "mocha -r ts-node/register test/index.ts",
-    "start-legacy": "babel-node scripts/http.js",
-    "sauce-legacy": "babel-node scripts/sauce-runner.js"
+    "test": "node ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "start": "ts-node scripts/http.ts"
   },
   "repository": {
     "type": "git",
