@@ -2,6 +2,8 @@ import * as _ from 'lodash'
 import {EventEmitter} from 'events'
 import {Connection, errors, validate} from './common'
 import * as server from './server/server'
+
+
 const connect = server.connect
 const disconnect = server.disconnect
 const getServerInfo = server.getServerInfo
@@ -43,6 +45,7 @@ import signPaymentChannelClaim from './offline/sign-payment-channel-claim'
 import verifyPaymentChannelClaim from './offline/verify-payment-channel-claim'
 import getLedger from './ledger/ledger'
 import getConfigInfo from './ledger/configinfo'
+import {verifyMessage} from './offline/verify-message'
 
 import RangeSet from './common/rangeset'
 import * as ledgerUtils from './ledger/utils'
@@ -159,6 +162,7 @@ class CasinocoinAPI extends EventEmitter {
   computeLedgerHash = computeLedgerHash
   signPaymentChannelClaim = signPaymentChannelClaim
   verifyPaymentChannelClaim = verifyPaymentChannelClaim
+  verifyMessage = verifyMessage
   errors = errors
 
   isValidAddress = schemaValidator.isValidAddress
