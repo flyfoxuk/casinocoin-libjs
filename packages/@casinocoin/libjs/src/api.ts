@@ -46,6 +46,7 @@ import verifyPaymentChannelClaim from './offline/verify-payment-channel-claim'
 import getLedger from './ledger/ledger'
 import getConfigInfo from './ledger/configinfo'
 import {verifyMessage} from './offline/verify-message'
+import {signMessage} from './offline/sign-message'
 
 import RangeSet from './common/rangeset'
 import * as ledgerUtils from './ledger/utils'
@@ -163,6 +164,7 @@ class CasinocoinAPI extends EventEmitter {
   signPaymentChannelClaim = signPaymentChannelClaim
   verifyPaymentChannelClaim = verifyPaymentChannelClaim
   verifyMessage = verifyMessage
+  signMessage = signMessage
   errors = errors
 
   isValidAddress = schemaValidator.isValidAddress
