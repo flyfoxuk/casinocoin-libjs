@@ -10,9 +10,7 @@
     "rootDirs": [
       "src"
     ],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "resolveJsonModule": false
+    "outDir": "dist"
   },
   "include": [
     "src/**/*.ts",

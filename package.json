@@ -12,13 +12,16 @@
     "node": ">=10.15.0"
   },
   "devDependencies": {
-    "lerna": "^2.11.0"
+    "lerna": "2.11.0"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "**** libjs ****": "",
+    "lerna:bootstrap": "lerna bootstrap",
     "libjs:dev": "npm run --prefix packages/libjs dev",
     "libjs:test": "npm run --prefix packages/libjs test",
     "libjs:build": "npm run --prefix packages/libjs build",
-    "libjs:pack": "npm run libjs:build && cd dist/@casinocoin/libjs && npm pack && mv casinocoin-libjs-2.0.0.tgz ../../../tgz/casinocoin-libjs-2.0.0.tgz"
+
   }
 }

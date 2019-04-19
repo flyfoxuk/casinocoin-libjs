@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import binary = require('casinocoin-libjs-binary-codec')
+import * as binary from 'casinocoin-libjs-binary-codec'
 import * as utils from './utils'
 import BigNumber from 'bignumber.js'
 import {decodeAddress} from 'casinocoin-libjs-address-codec'

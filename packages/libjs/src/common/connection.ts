@@ -3,9 +3,11 @@ import {EventEmitter} from 'events'
 import {parse as parseUrl} from 'url'
 import * as WebSocket from 'ws'
 import RangeSet from './rangeset'
-import {CasinocoindError, DisconnectedError, NotConnectedError,
+import {
+  CasinocoindError, DisconnectedError, NotConnectedError,
   TimeoutError, ResponseFormatError, ConnectionError,
-  CasinocoindNotInitializedError} from './errors'
+  CasinocoindNotInitializedError
+} from './errors'
 
 function isStreamMessageType(type) {
   return type === 'ledgerClosed' ||
@@ -25,7 +27,7 @@ interface ConnectionOptions {
   timeout?: number
 }
 
-export default class Connection extends EventEmitter {
+class Connection extends EventEmitter {
 
   private _url: string
   private _trace: boolean
@@ -415,6 +417,27 @@ export default class Connection extends EventEmitter {
     })
   }
 
+  getUrl() {
+    return this._url
+  }
+
+
+  getProxyUrl() {
+    return this._proxyURL
+  }
+
+
+  getAuthorization() {
+    return this._authorization
+  }
+
+
+
+  getConsole() {
+    return this._console
+  }
+
+
   request(request, timeout?: number): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!this._shouldBeConnected) {
@@ -474,3 +497,5 @@ export default class Connection extends EventEmitter {
     })
   }
 }
+
+export default Connection

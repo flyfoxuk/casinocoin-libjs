@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import transactionParser = require('casinocoin-libjs-transactionparser')
+import * as transactionParser from 'casinocoin-libjs-transactionparser'
 import BigNumber from 'bignumber.js'
 import * as common from '../../common'
 import parseAmount from './amount'

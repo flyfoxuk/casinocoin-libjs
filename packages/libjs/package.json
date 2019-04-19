@@ -3,11 +3,15 @@
   "version": "2.0.0",
   "license": "ISC",
   "description": "A JavaScript API for interacting with Casinocoin in Node.js and the browser",
-  "main": "index.js",
-  "module": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
+    "@types/lodash": "4.14.85",
+    "@types/ws": "3.2.0",
     "ajv": "6.9.1",
-    "bignumber.js": "2.0.3",
+    "bignumber.js": "4.1.0",
     "casinocoin-libjs-address-codec": "1.0.0",
     "casinocoin-libjs-binary-codec": "1.0.6",
     "casinocoin-libjs-hashes": "1.0.3",
@@ -24,10 +28,8 @@
   },
   "devDependencies": {
     "@types/ejs": "2.6.1",
-    "@types/lodash": "4.14.85",
     "@types/mocha": "5.2.5",
     "@types/node": "10.12.18",
-    "@types/ws": "3.2.0",
     "assert-diff": "1.0.1",
     "copy-webpack-plugin": "4.6.0",
     "doctoc": "1.4.0",
@@ -62,7 +64,7 @@
     "docgen": "ts-node scripts/build_docs.ts",
     "cp:schemas": "mkdir -p dist/npm/common && cp -r src/common/schemas dist/npm/common/",
     "lint": "tslint -p ./",
-    "clean": "rm -rf ../../dist/@casinocoin/libjs",
+    "clean": "rm -rf dist",
     "dev": "webpack-dashboard -- webpack-dev-server --config webpack/dev.config.js --watch",
     "test:sauce": "ts-node scripts/sauce-runner.ts",
     "test:web": "npm run clean && node_modules/.bin/webpack --config webpack/web.test.config.js",
@@ -75,6 +77,7 @@
     "type": "git",
     "url": "git://github.com/casinocoin/casinocoin-libjs.git"
   },
+  "readmeFilename": "README.md",
   "engines": {
     "node": ">=10.15.0"
   }

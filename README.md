@@ -25,10 +25,16 @@ $ npm i
 $ lerna bootstrap
 
 # -- libjs library --
+# Start development environemnt for @casinocoin/libjs
 $ npm run libjs:dev
+
+# Build @casinocoin/libjs package
 $ npm run libjs:build
 $ npm run libjs:pack # generates tarball in root tgz directory
 $ npm run libjs:test # mocha
+
+# Pack @casinocoin/libjs.
+$ npm run libjs:pack
 
 # clean all packages
 $ lerna clean

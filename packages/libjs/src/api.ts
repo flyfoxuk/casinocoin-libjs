@@ -2,6 +2,8 @@ import * as _ from 'lodash'
 import {EventEmitter} from 'events'
 import {Connection, errors, validate} from './common'
 import * as server from './server/server'
+
+
 const connect = server.connect
 const disconnect = server.disconnect
 const getServerInfo = server.getServerInfo
@@ -43,12 +45,15 @@ import signPaymentChannelClaim from './offline/sign-payment-channel-claim'
 import verifyPaymentChannelClaim from './offline/verify-payment-channel-claim'
 import getLedger from './ledger/ledger'
 import getConfigInfo from './ledger/configinfo'
+import {verifyMessage} from './offline/verify-message'
+import {signMessage} from './offline/sign-message'
 
 import RangeSet from './common/rangeset'
 import * as ledgerUtils from './ledger/utils'
 import * as schemaValidator from './common/schema-validator'
 
 type APIOptions = {
+  servers?: Array<string>,
   server?: string,
   feeCushion?: number,
   trace?: boolean,
@@ -93,6 +98,9 @@ class CasinocoinAPI extends EventEmitter {
       this.connection = new RestrictedConnection(serverURL, options)
       this.connection.on('ledgerClosed', message => {
         this.emit('ledger', server.formatLedgerClose(message))
+      })
+      this.connection.on('transaction', message => {
+        this.emit('transaction', message)
       })
       this.connection.on('error', (errorCode, errorMessage, data) => {
         this.emit('error', errorCode, errorMessage, data)
@@ -155,6 +163,8 @@ class CasinocoinAPI extends EventEmitter {
   computeLedgerHash = computeLedgerHash
   signPaymentChannelClaim = signPaymentChannelClaim
   verifyPaymentChannelClaim = verifyPaymentChannelClaim
+  verifyMessage = verifyMessage
+  signMessage = signMessage
   errors = errors
 
   isValidAddress = schemaValidator.isValidAddress

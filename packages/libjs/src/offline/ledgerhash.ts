@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import hashes = require('casinocoin-libjs-hashes')
+import * as hashes from 'casinocoin-libjs-hashes'
 import * as common from '../common'
 
 function convertLedgerHeader(header): any {

@@ -1,5 +1,5 @@
-import keypairs = require('casinocoin-libjs-keypairs')
-import binary = require('casinocoin-libjs-binary-codec')
+import * as keypairs from 'casinocoin-libjs-keypairs'
+import * as binary from 'casinocoin-libjs-binary-codec'
 import {validate, cscToDrops} from '../common'
 
 function verifyPaymentChannelClaim(channel: string, amount: string,

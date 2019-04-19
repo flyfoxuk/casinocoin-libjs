@@ -1,12 +1,9 @@
 const path = require("path");
-const Webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
 
   mode: "production",
-  devtool: "source-map",
-
   resolve: {
     extensions: [".ts", ".js", ".json"],
     modules: [path.resolve(__dirname, "../node_modules")]
@@ -42,7 +39,6 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         test: /\.js(\?.*)?$/i,
-        // include: /\src/,
         exclude: ["_", "CasinocoinError", "CasinocoindError", "UnexpectedError",
           "LedgerVersionError", "ConnectionError", "NotConnectedError",
           "DisconnectedError", "TimeoutError", "ResponseFormatError",
@@ -51,21 +47,8 @@ module.exports = {
         ],
         cache: false,
         parallel: true,
-        sourceMap: true,
+        sourceMap: false,
         extractComments: true,
-        // terserOptions: {
-        //   warnings: true,
-        //   parse: {},
-        //   compress: {},
-        //   mangle: true,
-        //   output: {
-        //     comments: false
-        //   },
-        //   toplevel: false,
-        //   nameCache: null,
-        //   keep_classnames: undefined,
-        //   keep_fnames: false,
-        // },
       })
     ],
   },
