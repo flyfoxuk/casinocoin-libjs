@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import binary = require('casinocoin-libjs-binary-codec')
+import * as binary from'casinocoin-libjs-binary-codec'
 const {computeTransactionHash} = require('casinocoin-libjs-hashes')
 import * as utils from './utils'
 import parseTransaction from './parse/transaction'

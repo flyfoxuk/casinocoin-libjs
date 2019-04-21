@@ -121,7 +121,7 @@ function createPaymentTransaction(address: string, paymentArgument: Payment
     // https://github.com/casinocoin/casinocoind/commit/
     //  c522ffa6db2648f1d8a987843e7feabf1a0b7de8/
     if (payment.allowPartialPayment === true
-      || (<MinAdjustment>payment.destination).minAmount !== undefined) {
+        || (<MinAdjustment>payment.destination).minAmount !== undefined) {
       txJSON.Flags |= paymentFlags.PartialPayment
     }
 
@@ -143,7 +143,7 @@ function createPaymentTransaction(address: string, paymentArgument: Payment
 }
 
 function preparePayment(address: string, payment: Payment,
-                        instructions: Instructions = {}
+  instructions: Instructions = {}
 ): Promise<Prepare> {
   validate.preparePayment({address, payment, instructions})
   const txJSON = createPaymentTransaction(address, payment)

@@ -7,8 +7,11 @@ declare class WebSocket {
   onerror?: Function
   onmessage?: Function
   readyState: number
+
   constructor(url: string)
+
   close()
+
   send(message: string)
 }
 
@@ -16,7 +19,7 @@ declare class WebSocket {
  * Provides `EventEmitter` interface for native browser `WebSocket`,
  * same, as `ws` package provides.
  */
-export default class WSWrapper extends EventEmitter {
+class WSWrapper extends EventEmitter {
 
   private _ws: WebSocket
   static CONNECTING = 0
@@ -61,4 +64,8 @@ export default class WSWrapper extends EventEmitter {
     return this._ws.readyState
   }
 
+}
+
+export {
+  WSWrapper
 }
