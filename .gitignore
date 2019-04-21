@@ -3,7 +3,6 @@
 
 ### Repo Assets ###
 dist/
-docs/
 tgz/*.tgz
 
 ### Linux ###

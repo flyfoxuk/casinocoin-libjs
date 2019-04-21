@@ -47,7 +47,7 @@ module.exports = {
         ],
         cache: false,
         parallel: true,
-        sourceMap: false,
+        sourceMap: true,
         extractComments: true,
       })
     ],

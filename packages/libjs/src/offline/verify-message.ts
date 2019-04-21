@@ -6,14 +6,18 @@ function hexToString(hex: string): string {
 
 function convertStringToHex(inputString: string) {
   if (inputString !== undefined && inputString.length > 0) {
-    return new Buffer(inputString, 'utf8').toString('hex').toUpperCase();
+    return new Buffer(inputString, 'utf8').toString('hex').toUpperCase()
   } else {
-    return "";
+    return ''
   }
 }
 
-function verifyMessage(msg: string, signature: string, publicKey: string): boolean {
-  return keypairs.verifyMessage(convertStringToHex(msg), signature, publicKey);
+function verifyMessage(
+  msg: string,
+  signature: string,
+  publicKey: string
+): boolean {
+  return keypairs.verifyMessage(convertStringToHex(msg), signature, publicKey)
 }
 
 export {

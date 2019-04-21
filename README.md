@@ -1,13 +1,6 @@
-# casinocoin-libjs library bundle
+# Casinocoin Javascript Asset Bundle
 
-The CasinoCoin Javascript artifacts have been re-organized into a monorepo leveraging [Lerna](https://github.com/lerna/lerna). This provides the following benefits:
-
-* Single coherent physical location of library artifacts
-* Scoped namespace: @casinocoin
-* Logical categorization under the @casinocoin namespace, for example:
-  * @casinocoin/libjs
-  * @casinocoin/libjs-transactionparser
-* Synchronized or independent versioning based on business need and patches/fixes
+CasinoCoin JavaScript assets have been organized into a monorepo leveraging [Lerna](https://github.com/lerna/lerna). This affords partners and contributors a single coherent location to build on the world's leading open source, blockchain-backed digital currency designed specifically for the regulated gaming industry.
 
 ## Package TOC
 
@@ -21,23 +14,27 @@ The following commands can be executed from the root directory, eliminating the 
 # install root dependencies
 $ npm i
 
+# -- lerna --
 # install all package dependencies
 $ lerna bootstrap
 
+# clean all package dependencies
+$ lerna clean
+
 # -- libjs library --
-# Start development environemnt for @casinocoin/libjs
+# starts development environment for @casinocoin/libjs
 $ npm run libjs:dev
 
-# Build @casinocoin/libjs package
+# builds @casinocoin/libjs package
 $ npm run libjs:build
-$ npm run libjs:pack # generates tarball in root tgz directory
-$ npm run libjs:test # mocha
 
-# Pack @casinocoin/libjs.
+# generates tarball in root tgz directory (strictly for testing)
 $ npm run libjs:pack
 
-# clean all packages
-$ lerna clean
+# mocha-based test suite (WIP)
+$ npm run libjs:test
 ```
 
-For more information, please see [Lerna](https://github.com/lerna/lerna).
+## Additional Resources
+
+* [License](LICENSE)

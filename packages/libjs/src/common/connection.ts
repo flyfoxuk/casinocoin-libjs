@@ -421,22 +421,17 @@ class Connection extends EventEmitter {
     return this._url
   }
 
-
   getProxyUrl() {
     return this._proxyURL
   }
-
 
   getAuthorization() {
     return this._authorization
   }
 
-
-
   getConsole() {
     return this._console
   }
-
 
   request(request, timeout?: number): Promise<any> {
     return new Promise((resolve, reject) => {
