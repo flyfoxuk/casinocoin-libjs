@@ -10,8 +10,6 @@ CasinoCoin JavaScript assets have been organized into a monorepo leveraging [Ler
 
 ## Quick Start
 
-The following commands can be executed from the root directory, eliminating the need to `cd` into sub-directories and run commands.
-
 ```bash
 # install root dependencies
 $ npm i
@@ -22,6 +20,8 @@ $ lerna bootstrap
 # clean all package dependencies
 $ lerna clean
 ```
+
+The following package-specific commands can be executed from the root directory, eliminating the need to `cd` into sub-directories and run commands.
 
 ### @casinocoin/libjs
 
