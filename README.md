@@ -43,3 +43,7 @@ $ npm run libjs:test
 
 + [License](LICENSE)
 + [ChangeLog](CHANGELOG.md)
+
+## More Information
+
++ [Casinocoin Dev Portal](https://casinocoin.org/build/)
