@@ -19,6 +19,7 @@
   ],
   "scripts": {
     "lerna:bootstrap": "lerna bootstrap",
+    "=== libjs ===": "",
     "libjs:dev": "npm run --prefix packages/libjs dev",
     "libjs:test": "npm run --prefix packages/libjs test",
     "libjs:build": "npm run --prefix packages/libjs build",

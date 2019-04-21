@@ -1,6 +1,6 @@
 # casinocoin-libjs
 
-A JavaScript API for interacting with Casinocoin using a browser or Node client.
+A JavaScript API for interacting with casinocoind using a browser or Node client.
 
 [![Circle CI](https://circleci.com/gh/casinocoin/casinocoin-libjs/tree/develop.svg?style=svg)](https://circleci.com/gh/casinocoin/casinocoin-libjs/tree/develop) [![Coverage Status](https://coveralls.io/repos/casinocoin/casinocoin-libjs/badge.png?branch=develop)](https://coveralls.io/r/casinocoin/casinocoin-libjs?branch=develop)
 
@@ -15,19 +15,19 @@ A JavaScript API for interacting with Casinocoin using a browser or Node client.
 
 ## Installation
 
+```bash
+$ npm i @casinocoin/libjs --save
+```
+
+### Node.js
+
 If libjs is utilized in Node.js server-side solution, please install the following required peer dependencies:
 
 ```bash
 $ npm i bufferutil utf-8-validate --save
 ```
 
-There are no peer dependencies if libjs is utilized in a web solution (Web/PWA, Electron, Ionic, etc.).
-
-```bash
-$ npm i @casinocoin/libjs --save    # appears in node_modules/@casinocoin/libjs
-```
-
-## For Project Maintainers
+## For Project Contributors
 
 ### Directory Structure
 
@@ -51,7 +51,7 @@ This project is driven by 3 Webpack configurations:
 * build
   * generates production bundle in repo root directory dist/@casinocoin/libjs
 * test
-  * TBD
+  * functional but full coverage is a WIP
 
 ### Key CLI Commands
 
@@ -83,8 +83,8 @@ The continuous integration tests require that the documentation stays up-to-date
 
 ## Related Documents
 
-+ [CHANGELOG](./CHANGELOG.md)
 + [LICENSE](./LICENSE)
++ [CHANGELOG](./CHANGELOG.md)
 
 ## More Information
 

@@ -17,7 +17,6 @@ module.exports = {
     filename: "[name].js"
   },
   externals: {
-    "lodash": "_",
     "casinocoin-api": "casinocoin",
     "net": "null"
   },

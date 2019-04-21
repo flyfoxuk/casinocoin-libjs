@@ -1,8 +1,11 @@
-# @casinocoin/libjs Changelog
+# @casinocoin/libjs changelog
 
-## v2.0.0
+## 2.0.0
 
-* Moved under a Lerna-based monorepo
-* Refactored to support Typescript
-* Webpack added and configured for development and production build
-* Transpiles to es5; supports commonjs style module syntax
+* Moved under a Lerna-based monorepo structure
+
+### libjs
+
+* Refactored to support TypeScript
+* Webpack added and configured for development and production builds
+* Transpiles to es6; supports commonjs style module syntax

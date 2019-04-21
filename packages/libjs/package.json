@@ -2,7 +2,7 @@
   "name": "@casinocoin/libjs",
   "version": "2.0.0",
   "license": "ISC",
-  "description": "A JavaScript API for interacting with Casinocoin server in Node.js and the browser",
+  "description": "A JavaScript API for interacting with the casinocoind server using Node.js or browser clients.",
   "main": "index.js",
   "dependencies": {
     "@types/lodash": "4.14.85",
