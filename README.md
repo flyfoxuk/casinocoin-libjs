@@ -1,6 +1,6 @@
 # Casinocoin Javascript Asset Bundle
 
-CasinoCoin JavaScript assets have been organized into a monorepo leveraging [Lerna](https://github.com/lerna/lerna). This affords partners and contributors a single coherent location to build on the world's leading open source, blockchain-backed digital currency designed specifically for the regulated gaming industry.
+CasinoCoin JavaScript assets have been organized into a monorepo leveraging [Lerna](https://github.com/lerna/lerna). This affords partners and contributors a single location to build software solutions on the world's leading open source, blockchain-backed digital currency designed specifically for the regulated gaming industry.
 
 ## Assets
 
