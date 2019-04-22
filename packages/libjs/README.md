@@ -1,6 +1,6 @@
 # casinocoin-libjs
 
-A JavaScript API for interacting with casinocoind using a browser or Node client.
+A JavaScript API for interacting with casinocoind using a Node or browser client.
 
 [![Circle CI](https://circleci.com/gh/casinocoin/casinocoin-libjs/tree/develop.svg?style=svg)](https://circleci.com/gh/casinocoin/casinocoin-libjs/tree/develop) [![Coverage Status](https://coveralls.io/repos/casinocoin/casinocoin-libjs/badge.png?branch=develop)](https://coveralls.io/r/casinocoin/casinocoin-libjs?branch=develop)
 
@@ -56,10 +56,10 @@ This project is driven by 3 Webpack configurations:
 ### Key CLI Commands
 
 ```bash
-# for development
+# starts Webpack development console and watches packages/libjs/src directory
 $ npm run dev
 
-# build
+# builds package in top-level dist/@casinocoin/libjs directory
 $ npm run build
 
 # test (server)

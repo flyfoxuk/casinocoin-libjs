@@ -6,7 +6,7 @@ CasinoCoin JavaScript assets have been organized into a monorepo leveraging [Ler
 
 | package                  | description                                                                                                                                                               | dependencies                                                                            |
 | ---                      | ---                                                                                                                                                                       | ---                                                                                     |
-| [`@casinocoin/libjs`](./packages/libjs)      | A JavaScript API for interacting with the casinocoind server using Node.js or browser clients.                                                        | none                                                                                    |
+| [`@casinocoin/libjs`](./packages/libjs)      | A JavaScript API for interacting with the casinocoind server using a Node or browser client.                                                        | none                                                                                    |
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ $ lerna bootstrap
 $ lerna clean
 ```
 
-The following package-specific commands can be executed from the root directory, eliminating the need to `cd` into sub-directories and run commands.
+The following package-specific commands can be executed from the root directory, eliminating the need to `cd` into package sub-directories and run commands.
 
 ### @casinocoin/libjs
 
@@ -29,7 +29,7 @@ The following package-specific commands can be executed from the root directory,
 # starts Webpack development console and watches packages/libjs/src directory
 $ npm run libjs:dev
 
-# builds @casinocoin/libjs package
+# builds package in root dist/@casinocoin/libjs directory
 $ npm run libjs:build
 
 # generates tarball in root tgz directory (strictly for testing)
@@ -41,8 +41,8 @@ $ npm run libjs:test
 
 ## Related Documents
 
-+ [License](LICENSE)
-+ [ChangeLog](CHANGELOG.md)
++ [LICENSE](./LICENSE)
++ [CHANGELOG](./CHANGELOG.md)
 
 ## More Information
 
