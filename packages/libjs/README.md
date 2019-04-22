@@ -1,4 +1,4 @@
-# casinocoin-libjs
+# @casinocoin/libjs
 
 A JavaScript API for interacting with casinocoind using a Node or browser client.
 
