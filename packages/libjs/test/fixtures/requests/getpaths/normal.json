@@ -1,0 +1,13 @@
+{
+  "source": {
+    "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT"
+  },
+  "destination": {
+    "address": "cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb",
+    "amount": {
+      "currency": "USD",
+      "counterparty": "cEe3dBYFwGEZ385ogF5ALyDtpp4R4aQuWx",
+      "value": "100"
+    }
+  }
+}

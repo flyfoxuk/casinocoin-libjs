@@ -1,0 +1,92 @@
+{
+  "type": "payment",
+  "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+  "sequence": 4,
+  "id": "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF",
+  "specification": {
+    "source": {
+      "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+      "maxAmount": {
+        "currency": "CSC",
+        "value": "1.112209"
+      }
+    },
+    "destination": {
+      "address": "cEe3dBYFwGEZ385ogF5ALyDtpp4R4aQuWx",
+      "amount": {
+        "currency": "USD",
+        "value": "0.001"
+      }
+    },
+    "paths": "[[{\"currency\":\"USD\",\"issuer\":\"cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb\",\"type\":48,\"type_hex\":\"0000000000000030\"},{\"account\":\"cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb\",\"currency\":\"USD\",\"issuer\":\"cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb\",\"type\":49,\"type_hex\":\"0000000000000031\"}]]"
+  },
+  "outcome": {
+    "result": "tesSUCCESS",
+    "timestamp": "2013-03-12T23:56:50.000Z",
+    "fee": "0.01",
+    "deliveredAmount": {
+      "currency": "USD",
+      "value": "0.001",
+      "counterparty": "cEe3dBYFwGEZ385ogF5ALyDtpp4R4aQuWx"
+    },
+    "balanceChanges": {
+      "cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb": [
+        {
+          "counterparty": "cEe3dBYFwGEZ385ogF5ALyDtpp4R4aQuWx",
+          "currency": "USD",
+          "value": "-0.001"
+        },
+        {
+          "counterparty": "cPpbK2qLqCfEAjkrFGuMhD8zZ7bHKXx8Gb",
+          "currency": "USD",
+          "value": "0.001002"
+        }
+      ],
+      "cEe3dBYFwGEZ385ogF5ALyDtpp4R4aQuWx": [
+        {
+          "counterparty": "cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb",
+          "currency": "USD",
+          "value": "0.001"
+        }
+      ],
+      "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT": [
+        {
+          "currency": "CSC",
+          "value": "-1.101208"
+        }
+      ],
+      "cPpbK2qLqCfEAjkrFGuMhD8zZ7bHKXx8Gb": [
+        {
+          "currency": "CSC",
+          "value": "1.101198"
+        },
+        {
+          "counterparty": "cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb",
+          "currency": "USD",
+          "value": "-0.001002"
+        }
+      ]
+    },
+    "orderbookChanges": {
+      "cPpbK2qLqCfEAjkrFGuMhD8zZ7bHKXx8Gb": [
+        {
+          "direction": "buy",
+          "quantity": {
+            "currency": "CSC",
+            "value": "1.101198"
+          },
+          "totalPrice": {
+            "currency": "USD",
+            "counterparty": "cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb",
+            "value": "0.001002"
+          },
+          "makerExchangeRate": "1099",
+          "sequence": 58,
+          "status": "partially-filled"
+        }
+      ]
+    },
+    "ledgerVersion": 22594,
+    "indexInLedger": 0
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "txJSON": "{\"Flags\":2147811328,\"TransactionType\":\"OfferCreate\",\"Account\":\"cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT\",\"TakerGets\":\"2000000\",\"TakerPays\":{\"value\":\"10.1\",\"currency\":\"USD\",\"issuer\":\"cEe3dBYFwGEZ385ogF5ALyDtpp4R4aQuWx\"},\"LastLedgerSequence\":8819954,\"Fee\":\"1200\",\"Sequence\":23}",
+  "instructions": {
+    "fee": "0.000012",
+    "sequence": 23,
+    "maxLedgerVersion": 8819954
+  }
+}

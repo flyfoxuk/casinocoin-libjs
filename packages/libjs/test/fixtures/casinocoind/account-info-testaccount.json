@@ -1,0 +1,23 @@
+{
+  "id": 2,
+  "result": {
+    "account_data": {
+      "Account": "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc",
+      "Balance": "386874995000000",
+      "Flags": 0,
+      "LedgerEntryType": "AccountRoot",
+      "OwnerCount": 0,
+      "PreviousTxnID": "4BDC2567465948A2796BBB0C518CFC4B29ECC6A56B7612B8117F0657AE01061F",
+      "PreviousTxnLgrSeq": 23614,
+      "Sequence": 12,
+      "index": "DF0655EF90944FD111C1D5E5BCD6A0A9D2A8FD36DD976A0293B847D1CB8AC163"
+    },
+    "ledger_current_index": 24984,
+    "queue_data": {
+      "txn_count": 0
+    },
+    "validated": false
+  },
+  "status": "success",
+  "type": "response"
+}

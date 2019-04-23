@@ -1,0 +1,16 @@
+{
+  "source": {
+    "address": "cwCSmrz5xMT1KARuM2QwfeJz7ASDSYm2CJ",
+    "amount": {
+      "value": "1000002",
+      "currency": "USD"
+    }
+  },
+  "destination": {
+    "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+    "amount": {
+      "value": "1000002",
+      "currency": "USD"
+    }
+  }
+}

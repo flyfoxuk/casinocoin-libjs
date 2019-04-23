@@ -1,0 +1,48 @@
+{
+  "type": "payment",
+  "address": "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc",
+  "sequence": 13,
+  "id": "6492041D3002CC9D76928ACD4641DA2202EA23CDBBA535F68FC84E7C9DFFB6A5",
+  "specification": {
+    "source": {
+      "address": "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc",
+      "maxAmount": {
+        "currency": "CSC",
+        "value": "50000"
+      }
+    },
+    "destination": {
+      "address": "cnKwvH78cUTAvZbm8TWZXqdsWhmjcok1Xm",
+      "amount": {
+        "currency": "CSC",
+        "value": "50000"
+      }
+    }
+  },
+  "outcome": {
+    "result": "tesSUCCESS",
+    "timestamp": "2019-01-28T10:44:10.000Z",
+    "fee": "0.01",
+    "balanceChanges": {
+      "cnKwvH78cUTAvZbm8TWZXqdsWhmjcok1Xm": [
+        {
+          "currency": "CSC",
+          "value": "50000"
+        }
+      ],
+      "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc": [
+        {
+          "currency": "CSC",
+          "value": "-50000.01"
+        }
+      ]
+    },
+    "orderbookChanges": {},
+    "ledgerVersion": 25889,
+    "indexInLedger": 0,
+    "deliveredAmount": {
+      "currency": "CSC",
+      "value": "50000"
+    }
+  }
+}

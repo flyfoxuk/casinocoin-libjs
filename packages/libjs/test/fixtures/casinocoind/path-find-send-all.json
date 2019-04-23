@@ -1,0 +1,316 @@
+{
+  "result": {
+    "alternatives": [
+      {
+        "destination_amount": {
+          "currency": "USD",
+          "issuer": "cn6GRVhmnkJ5WK2qeCAdzud8vsiy2onQMF",
+          "value": "4.93463759481038"
+        },
+        "paths_computed": [
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "currency": "CSC",
+              "type": 16,
+              "type_hex": "0000000000000010"
+            },
+            {
+              "currency": "USD",
+              "issuer": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "account": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "account": "c4UyCDN8WUG6tNtYbSfDkUaZXo9xxNWfBu",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ],
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "currency": "CSC",
+              "type": 16,
+              "type_hex": "0000000000000010"
+            },
+            {
+              "currency": "USD",
+              "issuer": "cJVNBA8yoebpbQRoThLGB4xMFzAHdhYHPa",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "account": "cJVNBA8yoebpbQRoThLGB4xMFzAHdhYHPa",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "account": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ]
+        ],
+        "source_amount": {
+          "currency": "USD",
+          "issuer": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+          "value": "5"
+        }
+      },
+      {
+        "destination_amount": {
+          "currency": "USD",
+          "issuer": "cn6GRVhmnkJ5WK2qeCAdzud8vsiy2onQMF",
+          "value": "4.93463759481038"
+        },
+        "paths_computed": [
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "currency": "CSC",
+              "type": 16,
+              "type_hex": "0000000000000010"
+            },
+            {
+              "currency": "USD",
+              "issuer": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "account": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "account": "c4UyCDN8WUG6tNtYbSfDkUaZXo9xxNWfBu",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ],
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "currency": "EUR",
+              "issuer": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "currency": "USD",
+              "issuer": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "account": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ],
+          [
+            {
+              "account": "cEt8uwuBZJJNiSxbcK6sTHNadZUzUswa8k",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "currency": "USD",
+              "issuer": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ]
+        ],
+        "source_amount": {
+          "currency": "USD",
+          "issuer": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+          "value": "5"
+        }
+      },
+      {
+        "destination_amount": {
+          "currency": "USD",
+          "issuer": "cn6GRVhmnkJ5WK2qeCAdzud8vsiy2onQMF",
+          "value": "4.93463759481038"
+        },
+        "paths_computed": [
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "currency": "CSC",
+              "type": 16,
+              "type_hex": "0000000000000010"
+            },
+            {
+              "currency": "USD",
+              "issuer": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "account": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "account": "c4UyCDN8WUG6tNtYbSfDkUaZXo9xxNWfBu",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ],
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "currency": "CSC",
+              "type": 16,
+              "type_hex": "0000000000000010"
+            },
+            {
+              "currency": "USD",
+              "issuer": "cJVNBA8yoebpbQRoThLGB4xMFzAHdhYHPa",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "account": "cJVNBA8yoebpbQRoThLGB4xMFzAHdhYHPa",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "account": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ],
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "currency": "JPY",
+              "issuer": "rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "currency": "USD",
+              "issuer": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "account": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ]
+        ],
+        "source_amount": {
+          "currency": "USD",
+          "issuer": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+          "value": "5"
+        }
+      },
+      {
+        "destination_amount": {
+          "currency": "USD",
+          "issuer": "cn6GRVhmnkJ5WK2qeCAdzud8vsiy2onQMF",
+          "value": "4.990019960079841"
+        },
+        "paths_computed": [
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ],
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "account": "c4UyCDN8WUG6tNtYbSfDkUaZXo9xxNWfBu",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ],
+          [
+            {
+              "account": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            },
+            {
+              "currency": "USD",
+              "issuer": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 48,
+              "type_hex": "0000000000000030"
+            },
+            {
+              "account": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+              "type": 1,
+              "type_hex": "0000000000000001"
+            }
+          ]
+        ],
+        "source_amount": {
+          "currency": "USD",
+          "issuer": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+          "value": "5"
+        }
+      }
+    ],
+    "destination_account": "cn6GRVhmnkJ5WK2qeCAdzud8vsiy2onQMF",
+    "destination_amount": {
+      "currency": "USD",
+      "issuer": "cn6GRVhmnkJ5WK2qeCAdzud8vsiy2onQMF",
+      "value": "-1"
+    },
+    "full_reply": true,
+    "source_account": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT"
+  },
+  "type": "response",
+  "status": "success",
+  "id": 1
+}

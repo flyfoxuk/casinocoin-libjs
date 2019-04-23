@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "../../dist/@casinocoin/libjs",
+    "typeRoots": [
+      "node_modules/@types",
+      "../../node_modules/@types"
+    ],
+    "rootDirs": [
+      "src"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

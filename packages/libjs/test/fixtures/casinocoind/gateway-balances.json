@@ -1,0 +1,52 @@
+{
+  "id": 0,
+  "status": "success",
+  "type": "response",
+  "result": {
+    "account": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+    "assets": {
+      "cGiUfdaHsQDvZVs4RCW34xXLUWKcA5Ptya": [
+        {
+        "currency": "BTC",
+        "value": "5444166510000000e-26"
+      },
+        {
+        "currency": "USD",
+        "value": "100.0"
+      }
+      ],
+      "cM3Nqc57kyTK8ZR9A3NWTTb71vKUGJHe6j": [
+        {
+        "currency": "BTC",
+        "value": "8700000000000000e-30"
+      }
+      ]
+    },
+    "balances": {
+      "cLMNC3zE9VhHnzYv6ESWhQ8ygfuS2bcHnr": [
+        {
+        "currency": "EUR",
+        "value": "29826.1965999999"
+      },
+        {
+        "currency": "USD",
+        "value": "10.0"
+      }
+      ],
+      "cPw9QnEfwurLg2p4huYh42VoRQxur2ZAyY": [
+        {
+        "currency": "USD",
+        "value": "13857.70416"
+      }
+      ]
+    },
+    "obligations": {
+      "BTC": "5908.324927635318",
+      "EUR": "992471.7419793958",
+      "GBP": "4991.38706013193",
+      "USD": "1997134.20229482"
+    },
+    "ledger_current_index": 9592219,
+    "validated": true
+  }
+}

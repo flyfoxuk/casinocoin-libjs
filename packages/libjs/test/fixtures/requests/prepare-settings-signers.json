@@ -1,0 +1,19 @@
+{
+  "signers": {
+    "threshold": 2,
+    "weights": [
+      {
+        "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+        "weight": 1
+      },
+      {
+        "address": "cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb",
+        "weight": 1
+      },
+      {
+        "address": "cwCSmrz5xMT1KARuM2QwfeJz7ASDSYm2CJ",
+        "weight": 1
+      }
+    ]
+  }
+}

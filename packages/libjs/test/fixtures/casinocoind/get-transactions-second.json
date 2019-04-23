@@ -1,0 +1,91 @@
+{
+  "id": 2,
+  "result": {
+    "account": "chwQSi2KV8hJEWSGL9cG32dviNp6LFqUKQ",
+    "ledger_index_max": 23600,
+    "ledger_index_min": 23600,
+    "limit": 1,
+    "transactions": [
+      {
+        "meta": {
+          "AffectedNodes": [
+            {
+              "ModifiedNode": {
+                "FinalFields": {
+                  "Account": "chwQSi2KV8hJEWSGL9cG32dviNp6LFqUKQ",
+                  "Balance": "10002573057050000",
+                  "Flags": 0,
+                  "OwnerCount": 0,
+                  "Sequence": 363
+                },
+                "LedgerEntryType": "AccountRoot",
+                "LedgerIndex": "3519E4E00E054D1361FC0533E05A946F1EAFC28265DBEBD1A08ABF7771E606F0",
+                "PreviousFields": {
+                  "Balance": "10002073057050000"
+                },
+                "PreviousTxnID": "1CB83A3A07AA9F3A59582129F48E21880C5D34549DA1AA231C649F03B0E08505",
+                "PreviousTxnLgrSeq": 23563
+              }
+            },
+            {
+              "ModifiedNode": {
+                "FinalFields": {
+                  "Account": "cUaPEyS9mM419NFGqt7F3yH7oWTJiEzeGY",
+                  "Balance": "1000000000",
+                  "Flags": 16777216,
+                  "KYC": {
+                    "Date": 601328590,
+                    "Verifications": [
+                      "24CD91D885C7490298577D627CF0A6A5"
+                    ]
+                  },
+                  "OwnerCount": 0,
+                  "Sequence": 2
+                },
+                "LedgerEntryType": "AccountRoot",
+                "LedgerIndex": "4876A1D9070ABE0EEE0B257DC6F836122D7F99113BE58C7DE4EC7C49D48CBAAC",
+                "PreviousFields": {
+                  "Balance": "501001000000",
+                  "Sequence": 1
+                },
+                "PreviousTxnID": "06198CA2AA7DB6A932FC241244B75F6D603724BF2FC99D87166C4471A40CA6DD",
+                "PreviousTxnLgrSeq": 23599
+              }
+            }
+          ],
+          "TransactionIndex": 0,
+          "TransactionResult": "tesSUCCESS",
+          "delivered_amount": "500000000000"
+        },
+        "tx": {
+          "Account": "cUaPEyS9mM419NFGqt7F3yH7oWTJiEzeGY",
+          "Amount": "500000000000",
+          "Destination": "chwQSi2KV8hJEWSGL9cG32dviNp6LFqUKQ",
+          "DestinationTag": 637152545,
+          "Fee": "1000000",
+          "Flags": 2147483648,
+          "LastLedgerSequence": 23609,
+          "Memos": [
+            {
+              "Memo": {
+                "MemoData": "53656E64696E6720746F204F70657261746F72204163636F756E74204944",
+                "MemoFormat": "706C61696E2F74657874"
+              }
+            }
+          ],
+          "Sequence": 1,
+          "SigningPubKey": "03522C79AF40F45CAF856528CEC65C12DB821746756D3CB710E5A2BB6FC42FB67A",
+          "TransactionType": "Payment",
+          "TxnSignature": "304402204A6CC2532ED37590E615A2A19FE90324DCB77DA01E65656DB6D4BDCC2505CC690220760129BF826199277BCB52701033A9D2277522C1CC97F2AB2F705297CBED88CB",
+          "date": 601328711,
+          "hash": "9069B2B78EDDD9F630292D703730BDD28D3CE5DA2C1936706FCCC7E6257DD468",
+          "inLedger": 23600,
+          "ledger_index": 23600
+        },
+        "validated": true
+      }
+    ]
+  },
+  "status": "success",
+  "type": "response"
+}

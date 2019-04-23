@@ -1,0 +1,334 @@
+[
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "ASP",
+      "counterparty": "cLBCrCrUjQsS7ikPKpAxhyhJFrwYrLwwQW",
+      "qualityIn": 1
+    },
+    "counterparty": {
+      "limit": "10"
+    },
+    "state": {
+      "balance": "0"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "XAU",
+      "counterparty": "cLBCrCrUjQsS7ikPKpAxhyhJFrwYrLwwQW",
+      "ripplingDisabled": true,
+      "frozen": true
+    },
+    "counterparty": {
+      "limit": "0",
+      "ripplingDisabled": true
+    },
+    "state": {
+      "balance": "0"
+    }
+  },
+  {
+    "specification": {
+      "limit": "5",
+      "currency": "USD",
+      "counterparty": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+      "ripplingDisabled": true,
+      "frozen": true
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "2.497605752725159"
+    }
+  },
+  {
+    "specification": {
+      "limit": "1000",
+      "currency": "MXN",
+      "counterparty": "cfCUs78SKWoe4W7ThZ4LLG65SR4gyhT9ib"
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "481.992867407479"
+    }
+  },
+  {
+    "specification": {
+      "limit": "1",
+      "currency": "EUR",
+      "counterparty": "cEt8uwuBZJJNiSxbcK6sTHNadZUzUswa8k",
+      "ripplingDisabled": true
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "0.793598266778297"
+    }
+  },
+  {
+    "specification": {
+      "limit": "3",
+      "currency": "CNY",
+      "counterparty": "c35n94SkL3HJVKCSXmnDFoLcFMPCUAwMvS",
+      "ripplingDisabled": true
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "0"
+    }
+  },
+  {
+    "specification": {
+      "limit": "3",
+      "currency": "DYM",
+      "counterparty": "c3WHSLPbenT2UJwWB6j4hUzCzAqo33ewFh"
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "1.294889190631542"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "CHF",
+      "counterparty": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs"
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "0.3488146605801446"
+    }
+  },
+  {
+    "specification": {
+      "limit": "3",
+      "currency": "BTC",
+      "counterparty": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs"
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "2.114103174931847"
+    }
+  },
+  {
+    "specification": {
+      "limit": "5000",
+      "currency": "USD",
+      "counterparty": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs"
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "0"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "BTC",
+      "counterparty": "c4D8RPYNxohiSgtmDwj1JebW9xzWaRsSBd"
+    },
+    "counterparty": {
+      "limit": "10"
+    },
+    "state": {
+      "balance": "-0.00111"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "BTC",
+      "counterparty": "cMYaEjWCr13cdS8kekM1r6VqX5LcVb2ZJo"
+    },
+    "counterparty": {
+      "limit": "10"
+    },
+    "state": {
+      "balance": "-0.1010780000080207"
+    }
+  },
+  {
+    "specification": {
+      "limit": "1",
+      "currency": "USD",
+      "counterparty": "cEt8uwuBZJJNiSxbcK6sTHNadZUzUswa8k"
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "1"
+    }
+  },
+  {
+    "specification": {
+      "limit": "100",
+      "currency": "CNY",
+      "counterparty": "ciXjUfQWu2ZS5fKTHUZqL5HNqAVE86ZjQ",
+      "ripplingDisabled": true
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "8.07619790068559"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "JPY",
+      "counterparty": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+      "ripplingDisabled": true
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "7.292695098901099"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "AUX",
+      "counterparty": "cLBCrCrUjQsS7ikPKpAxhyhJFrwYrLwwQW",
+      "ripplingDisabled": true
+    },
+    "counterparty": {
+      "limit": "0",
+      "ripplingDisabled": true
+    },
+    "state": {
+      "balance": "0"
+    }
+  },
+  {
+    "specification": {
+      "limit": "1",
+      "currency": "USD",
+      "counterparty": "cKLQcYKPwoNBqu85UGSN38tcMuDK5UjjiQ",
+      "ripplingDisabled": true
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "0"
+    }
+  },
+  {
+    "specification": {
+      "limit": "100",
+      "currency": "EUR",
+      "counterparty": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs",
+      "ripplingDisabled": true
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "12.41688780720394"
+    }
+  },
+  {
+    "specification": {
+      "limit": "500",
+      "currency": "USD",
+      "counterparty": "cEAndYQ8LQ8zZ9qncNLnL3jrNjCyfhrKim",
+      "ripplingDisabled": true
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "35"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "JOE",
+      "counterparty": "c3sC4sUHGHY6E6rftFxWVBGbGoqtTP6RnX"
+    },
+    "counterparty": {
+      "limit": "50",
+      "ripplingDisabled": true
+    },
+    "state": {
+      "balance": "-5"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "USD",
+      "counterparty": "c4Ra1ZXmj437mqkrwPXqw5BpBEVb9qqBn5"
+    },
+    "counterparty": {
+      "limit": "100",
+      "ripplingDisabled": true
+    },
+    "state": {
+      "balance": "0"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "JOE",
+      "counterparty": "c4Ra1ZXmj437mqkrwPXqw5BpBEVb9qqBn5"
+    },
+    "counterparty": {
+      "limit": "100",
+      "ripplingDisabled": true
+    },
+    "state": {
+      "balance": "0"
+    }
+  },
+  {
+    "specification": {
+      "limit": "10.01037626125837",
+      "currency": "015841551A748AD2C1F76FF6ECB0CCCD00000000",
+      "counterparty": "cauGAPTc6b4zqnYg3MaH2iQSWvf74nub2S",
+      "ripplingDisabled": true
+    },
+    "counterparty": {
+      "limit": "0"
+    },
+    "state": {
+      "balance": "0"
+    }
+  },
+  {
+    "specification": {
+      "limit": "0",
+      "currency": "USD",
+      "counterparty": "c9vqAaCmaUSAehUrpAnnbBQtLfWo8ZgF8L",
+      "frozen": true
+    },
+    "counterparty": {
+      "limit": "1"
+    },
+    "state": {
+      "balance": "0"
+    }
+  }
+]

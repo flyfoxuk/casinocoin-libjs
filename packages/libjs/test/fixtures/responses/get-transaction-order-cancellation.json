@@ -1,0 +1,43 @@
+{
+  "type": "orderCancellation",
+  "address": "cLHJt881gvgRmocApjZCawBgseeGkrxfvG",
+  "id": "809335DD3B0B333865096217AA2F55A4DF168E0198080B3A090D12D88880FF0E",
+  "sequence": 466,
+  "specification": {
+    "orderSequence": 465
+  },
+  "outcome": {
+    "result": "tesSUCCESS",
+    "timestamp": "2014-09-24T21:21:50.000Z",
+    "fee": "0.012",
+    "balanceChanges": {
+      "cLHJt881gvgRmocApjZCawBgseeGkrxfvG": [
+        {
+          "currency": "CSC",
+          "value": "-0.012"
+        }
+      ]
+    },
+    "orderbookChanges": {
+      "cLHJt881gvgRmocApjZCawBgseeGkrxfvG": [
+        {
+          "direction": "buy",
+          "quantity": {
+            "currency": "USD",
+            "counterparty": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+            "value": "237"
+          },
+          "totalPrice": {
+            "currency": "CSC",
+            "value": "0.0002"
+          },
+          "makerExchangeRate": "1185000",
+          "sequence": 465,
+          "status": "cancelled"
+        }
+      ]
+    },
+    "ledgerVersion": 14661789,
+    "indexInLedger": 4
+  }
+}

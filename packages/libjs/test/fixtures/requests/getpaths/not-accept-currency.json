@@ -1,0 +1,12 @@
+{
+  "source": {
+    "address": "cwCSmrz5xMT1KARuM2QwfeJz7ASDSYm2CJ"
+  },
+  "destination": {
+    "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+    "amount": {
+      "value": "0.000002",
+      "currency": "GBP"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "txJSON": "{\"Flags\":2147483648,\"TransactionType\":\"SetRegularKey\",\"Account\":\"cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT\",\"RegularKey\":\"cQw6KZ7CyvNmdBtjfdj15puULG3rCBXXvV\",\"LastLedgerSequence\":8820051,\"Fee\":\"1200\",\"Sequence\":23}",
+  "instructions": {
+    "fee": "0.000012",
+    "sequence": 23,
+    "maxLedgerVersion": 8820051
+  }
+}

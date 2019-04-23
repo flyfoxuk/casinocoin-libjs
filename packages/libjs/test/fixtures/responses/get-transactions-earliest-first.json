@@ -1,0 +1,105 @@
+[
+  {
+    "type": "payment",
+    "address": "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc",
+    "sequence": 1,
+    "id": "8292B0BCC4E95D846DB4C3DCCAFEAF3F2EBD8B05D912234CACAE1171290B6563",
+    "specification": {
+      "source": {
+        "address": "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc",
+        "maxAmount": {
+          "currency": "CSC",
+          "value": "10000"
+        }
+      },
+      "destination": {
+        "address": "cLxE6Jix2hFbWCVMi4Fuy7eP4Xqrf4xgyE",
+        "amount": {
+          "currency": "CSC",
+          "value": "10000"
+        },
+        "tag": 888
+      },
+      "memos": [
+        {
+          "format": "plain/text",
+          "data": "HoneyByte BRM Test"
+        }
+      ]
+    },
+    "outcome": {
+      "result": "tesSUCCESS",
+      "timestamp": "2019-01-15T20:28:20.000Z",
+      "fee": "0.01",
+      "balanceChanges": {
+        "cLxE6Jix2hFbWCVMi4Fuy7eP4Xqrf4xgyE": [
+          {
+            "currency": "CSC",
+            "value": "10000"
+          }
+        ],
+        "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc": [
+          {
+            "currency": "CSC",
+            "value": "-10000.01"
+          }
+        ]
+      },
+      "orderbookChanges": {},
+      "ledgerVersion": 21897,
+      "indexInLedger": 0,
+      "deliveredAmount": {
+        "currency": "CSC",
+        "value": "10000"
+      }
+    }
+  },
+  {
+    "type": "payment",
+    "address": "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc",
+    "sequence": 2,
+    "id": "A8F07740A0E5A6F87015F94E18F5DEA486B73AB13386714ACD6C5E47B36DD08B",
+    "specification": {
+      "source": {
+        "address": "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc",
+        "maxAmount": {
+          "currency": "CSC",
+          "value": "100"
+        }
+      },
+      "destination": {
+        "address": "cDbaP6wtBUSmn2CAYoH9mX67DmzBmzmBAT",
+        "amount": {
+          "currency": "CSC",
+          "value": "100"
+        }
+      }
+    },
+    "outcome": {
+      "result": "tesSUCCESS",
+      "timestamp": "2019-01-17T12:46:10.000Z",
+      "fee": "10000",
+      "balanceChanges": {
+        "cDbaP6wtBUSmn2CAYoH9mX67DmzBmzmBAT": [
+          {
+            "currency": "CSC",
+            "value": "100"
+          }
+        ],
+        "c4v5PSpwhijU3aESumooTTHSLd25v4FzSc": [
+          {
+            "currency": "CSC",
+            "value": "-10100"
+          }
+        ]
+      },
+      "orderbookChanges": {},
+      "ledgerVersion": 22594,
+      "indexInLedger": 0,
+      "deliveredAmount": {
+        "currency": "CSC",
+        "value": "100"
+      }
+    }
+  }
+]

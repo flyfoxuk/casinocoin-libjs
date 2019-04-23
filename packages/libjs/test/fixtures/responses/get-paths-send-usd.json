@@ -1,0 +1,19 @@
+[
+  {
+    "source": {
+      "address": "cnUJVtBZfrWL7aianLkq3S2SpnQg2XiKHb",
+      "maxAmount": {
+        "currency": "USD",
+        "value": "0.000001002"
+      }
+    },
+    "destination": {
+      "address": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+      "amount": {
+        "value": "0.000001",
+        "currency": "USD"
+      }
+    },
+    "paths": "[[{\"account\":\"cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs\"}],[{\"account\":\"cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs\"},{\"account\":\"rLMJ4db4uwHcd6NHg6jvTaYb8sH5Gy4tg5\"},{\"account\":\"cEt8uwuBZJJNiSxbcK6sTHNadZUzUswa8k\"}],[{\"account\":\"cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs\"},{\"currency\":\"USD\",\"issuer\":\"cEt8uwuBZJJNiSxbcK6sTHNadZUzUswa8k\"},{\"account\":\"cEt8uwuBZJJNiSxbcK6sTHNadZUzUswa8k\"}],[{\"account\":\"cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs\"},{\"account\":\"rLMJ4db4uwHcd6NHg6jvTaYb8sH5Gy4tg5\"},{\"account\":\"cKLQcYKPwoNBqu85UGSN38tcMuDK5UjjiQ\"}]]"
+  }
+]
