@@ -8,13 +8,13 @@ const buildCommonConfig = require("./build.common.config");
 module.exports = webpackMerge(buildCommonConfig, {
 
   entry: path.resolve(__dirname, "../src/index.ts"),
-  target: "node",
+  target: "web",
   output: {
     path: path.resolve(__dirname, "../../../dist/@casinocoin/libjs"),
     filename: "index.js",
     sourceMapFilename: "index.js.map",
     library: "casinocoin-libjs",
-    libraryTarget: "commonjs",
+    libraryTarget: "umd",
     publicPath: "/"
   },
   plugins: [

@@ -25,11 +25,16 @@ The following package-specific commands can be executed from the root directory,
 
 ### @casinocoin/libjs
 
+For a Node client, see this [README.md](./packages/libjs/README.md) for peer dependencies.
+
 ```bash
 # starts Webpack development console and watches packages/libjs/src directory
 $ npm run libjs:dev
 
-# builds package in root dist/@casinocoin/libjs directory
+# builds Web-targeted package in root dist/@casinocoin/libjs directory
+$ npm run libjs:web
+
+# builds Node-targeted package in root dist/@casinocoin/libjs directory
 $ npm run libjs:build
 
 # generates tarball in root tgz directory (strictly for testing)

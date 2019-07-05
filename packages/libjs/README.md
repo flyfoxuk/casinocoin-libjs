@@ -19,13 +19,19 @@ A JavaScript API for interacting with casinocoind using a Node or browser client
 $ npm i @casinocoin/libjs --save
 ```
 
-### Node.js
+### Client Environment
 
-If libjs is utilized in Node.js server-side solution, please install the following required peer dependencies:
+#### Node.js
+
+If libjs is utilized in a Node.js server-side solution (Commonjs format), please install the following required peer dependencies:
 
 ```bash
 $ npm i bufferutil utf-8-validate --save
 ```
+
+#### Web
+
+If libjs is utilized within the browser (UMD format), no additional peer dependencies are required.
 
 ## For Project Contributors
 
@@ -59,7 +65,10 @@ This project is driven by 3 Webpack configurations:
 # starts Webpack development console and watches packages/libjs/src directory
 $ npm run dev
 
-# builds package in top-level dist/@casinocoin/libjs directory
+# builds Web-targeted (UMD) package in top-level dist/@casinocoin/libjs directory
+$ npm run web
+
+# builds Node-targeted (Commonjs) package in top-level dist/@casinocoin/libjs directory
 $ npm run build
 
 # test (server)

@@ -66,6 +66,7 @@
     "test:sauce": "ts-node scripts/sauce-runner.ts",
     "test:web": "npm run clean && node_modules/.bin/webpack --config webpack/web.test.config.js",
     "build": "npm run clean && webpack --config webpack/build.config.js",
+    "web": "npm run clean && webpack --config webpack/web.config.js",
     "test": "node ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "start": "ts-node scripts/http.ts"
