@@ -92,7 +92,7 @@ class CasinocoinAPI extends EventEmitter {
   constructor(options: APIOptions = {}) {
     super()
     validate.apiOptions(options)
-    this._feeCushion = options.feeCushion || 1.2
+    this._feeCushion = options.feeCushion || 1
     const serverURL = options.server
     if (serverURL !== undefined) {
       this.connection = new RestrictedConnection(serverURL, options)

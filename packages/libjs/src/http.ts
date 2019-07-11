@@ -1,6 +1,5 @@
 /* eslint-disable new-cap */
 
-import * as assert from 'assert'
 import * as _ from 'lodash'
 import * as jayson from 'jayson'
 import {CasinocoinAPI} from './api'
@@ -21,18 +20,18 @@ function createHTTPServer(options, httpPort) {
   function applyPromiseWithCallback(fnName, callback, args_) {
     try {
       let args = args_
-      if (!_.isArray(args_)) {
-        const fnParameters = jayson.Utils.getParameterNames(
-            casinocoinAPI[fnName]
-        )
-        args = fnParameters.map(name => args_[name])
-        const defaultArgs = _.omit(args_, fnParameters)
-        assert(_.size(defaultArgs) <= 1,
-          'Function must have no more than one default argument')
-        if (_.size(defaultArgs) > 0) {
-          args.push(defaultArgs[_.keys(defaultArgs)[0]])
-        }
-      }
+      // if (!_.isArray(args_)) {
+      //   const fnParameters = jayson.Utils.getParameterNames(
+      //       casinocoinAPI[fnName]
+      //   )
+      //   args = fnParameters.map(name => args_[name])
+      //   const defaultArgs = _.omit(args_, fnParameters)
+      //   assert(_.size(defaultArgs) <= 1,
+      //     'Function must have no more than one default argument')
+      //   if (_.size(defaultArgs) > 0) {
+      //     args.push(defaultArgs[_.keys(defaultArgs)[0]])
+      //   }
+      // }
       Promise.resolve(casinocoinAPI[fnName](...args))
         .then(res => callback(null, res))
         .catch(err => {
@@ -45,12 +44,12 @@ function createHTTPServer(options, httpPort) {
 
   const methods = {}
   _.forEach(methodNames, fn => {
-    methods[fn] = jayson.Method((args, cb) => {
+    methods[fn] = new jayson.Method((args, cb) => {
       applyPromiseWithCallback(fn, cb, args)
-    }, {collect: true})
+    })
   })
 
-  const server = jayson.server(methods)
+  const server = new jayson.Server(methods)
   let httpServer = null
 
   return {
