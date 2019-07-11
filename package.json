@@ -19,14 +19,14 @@
   ],
   "scripts": {
     "lerna:bootstrap": "lerna bootstrap",
-    "=== libjs ===": "",
     "libjs:dev": "npm run --prefix packages/libjs dev",
     "libjs:test": "npm run --prefix packages/libjs test",
     "libjs:build": "npm run --prefix packages/libjs build",
     "libjs:build:web": "npm run --prefix packages/libjs build:web",
     "libjs:build:react": "npm run --prefix packages/libjs build:react",
-    "libjs:pack": "npm run libjs:build && cd dist/@casinocoin/libjs && npm pack && mv casinocoin-libjs-2.0.0.tgz ../../../tgz/casinocoin-libjs-2.0.0.tgz",
-    "libjs:pack:web": "npm run libjs:build:web && cd dist/@casinocoin/libjs && npm pack && mv casinocoin-libjs-2.0.0.tgz ../../../tgz/casinocoin-libjs-web-2.0.0.tgz",
-    "libjs:pack:react": "npm run libjs:build:react && cd dist/@casinocoin/libjs && npm pack && mv casinocoin-libjs-2.0.0.tgz ../../../tgz/casinocoin-libjs-react-2.0.0.tgz"
+    "libjs:pack": "npm run libjs:build && cd dist/@casinocoin/libjs && npm pack && mv casinocoin-libjs-*.tgz ../../../tgz",
+    "libjs:pack:web": "npm run libjs:build:web && cd dist/@casinocoin/libjs && npm pack && mv casinocoin-libjs-*.tgz ../../../tgz",
+    "libjs:pack:react": "npm run libjs:build:react && cd dist/@casinocoin/libjs && npm pack && mv casinocoin-libjs-*.tgz ../../../tgz",
+    "libjs:publish": "npm run libjs:build && cd dist/@casinocoin/libjs && npm publish --access public"
   }
 }
