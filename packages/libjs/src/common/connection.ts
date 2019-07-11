@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import {EventEmitter} from 'events'
-import {parse as parseUrl} from 'url'
-import * as WebSocket from 'ws'
+// import {parse as parseUrl} from 'url'
+import WSWrapper from './wswrapper'
 import RangeSet from './rangeset'
 import {
   CasinocoindError, DisconnectedError, NotConnectedError,
@@ -32,8 +32,8 @@ class Connection extends EventEmitter {
   private _url: string
   private _trace: boolean
   private _console?: Console
-  private _proxyURL?: string
-  private _proxyAuthorization?: string
+  // private _proxyURL?: string
+  // private _proxyAuthorization?: string
   private _authorization?: string
   private _trustedCertificates?: string[]
   private _key?: string
@@ -41,7 +41,7 @@ class Connection extends EventEmitter {
   private _certificate?: string
   private _timeout: number
   private _isReady: boolean = false
-  private _ws: null|WebSocket = null
+  private _ws: null|WSWrapper = null
   protected _ledgerVersion: null|number = null
   private _availableLedgerVersions = new RangeSet()
   private _nextRequestID: number = 1
@@ -61,8 +61,8 @@ class Connection extends EventEmitter {
       // for easier unit testing
       this._console = console
     }
-    this._proxyURL = options.proxy
-    this._proxyAuthorization = options.proxyAuthorization
+    // this._proxyURL = options.proxy
+    // this._proxyAuthorization = options.proxyAuthorization
     this._authorization = options.authorization
     this._trustedCertificates = options.trustedCertificates
     this._key = options.key
@@ -214,14 +214,6 @@ class Connection extends EventEmitter {
 
       this._retry = 0
       this._ws.on('error', error => {
-        // TODO: "type" does not exist on official error type, safe to remove?
-        if (typeof window !== undefined &&
-          error &&
-          (<any>error).type === 'error') {
-          // we are in browser, ignore error - `close` event will be fired
-          // after error
-          return
-        }
         this.emit('error', 'websocket', error.message, error)
       })
 
@@ -251,32 +243,32 @@ class Connection extends EventEmitter {
   _onOpenError(reject, error) {
     this._onOpenErrorBound = null
     this._unbindOnUnxpectedClose()
-    reject(new NotConnectedError(error && error.message))
+    reject(new NotConnectedError(error.code, error))
   }
 
-  _createWebSocket(): WebSocket {
-    const options: WebSocket.ClientOptions = {}
-    if (this._proxyURL !== undefined) {
-      const parsedURL = parseUrl(this._url)
-      const parsedProxyURL = parseUrl(this._proxyURL)
-      const proxyOverrides = _.omitBy({
-        secureEndpoint: (parsedURL.protocol === 'wss:'),
-        secureProxy: (parsedProxyURL.protocol === 'https:'),
-        auth: this._proxyAuthorization,
-        ca: this._trustedCertificates,
-        key: this._key,
-        passphrase: this._passphrase,
-        cert: this._certificate
-      }, _.isUndefined)
-      const proxyOptions = _.assign({}, parsedProxyURL, proxyOverrides)
-      let HttpsProxyAgent
-      try {
-        HttpsProxyAgent = require('https-proxy-agent')
-      } catch (error) {
-        throw new Error('"proxy" option is not supported in the browser')
-      }
-      options.agent = new HttpsProxyAgent(proxyOptions)
-    }
+  _createWebSocket(): WSWrapper {
+    const options: any = {}
+    // if (this._proxyURL !== undefined) {
+    //   const parsedURL = parseUrl(this._url)
+    //   const parsedProxyURL = parseUrl(this._proxyURL)
+    //   const proxyOverrides = _.omitBy({
+    //     secureEndpoint: (parsedURL.protocol === 'wss:'),
+    //     secureProxy: (parsedProxyURL.protocol === 'https:'),
+    //     auth: this._proxyAuthorization,
+    //     ca: this._trustedCertificates,
+    //     key: this._key,
+    //     passphrase: this._passphrase,
+    //     cert: this._certificate
+    //   }, _.isUndefined)
+    //   const proxyOptions = _.assign({}, parsedProxyURL, proxyOverrides)
+    //   let HttpsProxyAgent
+    //   try {
+    //     HttpsProxyAgent = require('https-proxy-agent')
+    //   } catch (error) {
+    //     throw new Error('"proxy" option is not supported in the browser')
+    //   }
+    //   options.agent = new HttpsProxyAgent(proxyOptions)
+    // }
     if (this._authorization !== undefined) {
       const base64 = Buffer.from(this._authorization).toString('base64')
       options.headers = {Authorization: `Basic ${base64}`}
@@ -288,13 +280,13 @@ class Connection extends EventEmitter {
       cert: this._certificate
     }, _.isUndefined)
     const websocketOptions = _.assign({}, options, optionsOverrides)
-    const websocket = new WebSocket(this._url, null, websocketOptions)
+    const mySocket = new WSWrapper(this._url, null, websocketOptions)
     // we will have a listener for each outstanding request,
     // so we have to raise the limit (the default is 10)
-    if (typeof websocket.setMaxListeners === 'function') {
-      websocket.setMaxListeners(Infinity)
+    if (typeof mySocket.setMaxListeners === 'function') {
+      mySocket.setMaxListeners(Infinity)
     }
-    return websocket
+    return mySocket
   }
 
   connect() {
@@ -406,14 +398,9 @@ class Connection extends EventEmitter {
     if (this._trace) {
       this._console.log(message)
     }
-    return new Promise((resolve, reject) => {
-      this._ws.send(message, undefined, error => {
-        if (error) {
-          reject(new DisconnectedError(error.message))
-        } else {
-          resolve()
-        }
-      })
+    return new Promise(resolve => {
+      this._ws.send(message)
+      resolve()
     })
   }
 
@@ -421,9 +408,9 @@ class Connection extends EventEmitter {
     return this._url
   }
 
-  getProxyUrl() {
-    return this._proxyURL
-  }
+  // getProxyUrl() {
+  //   return this._proxyURL
+  // }
 
   getAuthorization() {
     return this._authorization

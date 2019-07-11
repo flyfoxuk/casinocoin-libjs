@@ -240,7 +240,7 @@ describe('CasinocoinAPI', () => {
   })
 
   it('prepareSettings - fee for multisign', () => {
-    this.api._feeCushion = 1000000
+    this.api._feeCushion = 1
     const localInstructions = _.defaults({
       signersCount: 4
     }, instructions)
@@ -1224,7 +1224,7 @@ describe('CasinocoinAPI', () => {
     /* eslint-disable no-unused-vars */
     it('CasinocoinAPI - implicit server port', () => {
       const api = new CasinocoinAPI({server: 'wss://ws.casinocoin.org'})
-      assert.equal(api._feeCushion, 1.2);
+      assert.equal(api._feeCushion, 1);
     })
 
     it('CasinocoinAPI valid options', () => {

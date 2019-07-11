@@ -228,7 +228,7 @@ describe('CasinocoinAPI', function () {
     });
 
     it('prepareSettings - fee for multisign', function () {
-        this.api._feeCushion = 1000000;
+        this.api._feeCushion = 1;
         const localInstructions = _.defaults({
             signersCount: 4
         }, instructions);
@@ -739,14 +739,14 @@ describe('CasinocoinAPI', function () {
 
     it('getFee', function () {
         return this.api.getFee().then(fee => {
-            assert.strictEqual(fee, '0.000012');
+            assert.strictEqual(fee, '0.0001');
         });
     });
 
     it('getFee default', function () {
         this.api._feeCushion = undefined;
         return this.api.getFee().then(fee => {
-            assert.strictEqual(fee, '0.000012');
+            assert.strictEqual(fee, '0.0001');
         });
     });
 

@@ -10,7 +10,7 @@
     "feeCushion": {
       "type": "number",
       "minimum": 1,
-      "description": "Factor to multiply estimated fee by to provide a cushion in case the required fee rises during submission of a transaction. Defaults to `1.2`."
+      "description": "Factor to multiply estimated fee by to provide a cushion in case the required fee rises during submission of a transaction. Defaults to `1` as we now have a flat fee."
     },
     "server": {
       "type": "string",

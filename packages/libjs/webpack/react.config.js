@@ -1,6 +1,7 @@
 const path = require("path");
 const webpackMerge = require("webpack-merge");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const Webpack = require("webpack");
 //const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const buildCommonConfig = require("./build.common.config");
@@ -9,13 +10,16 @@ module.exports = webpackMerge(buildCommonConfig, {
   mode: "production",
   target: "node",
   entry: path.resolve(__dirname, "../src/index.ts"),
+  // target: "node",
   output: {
     path: path.resolve(__dirname, "../../../dist/@casinocoin/libjs"),
     filename: "index.js",
     library: "casinocoin",
-    libraryTarget: "umd"
+    libraryTarget: "commonjs2"
   },
   plugins: [
+    // Use native websocket
+    new Webpack.NormalModuleReplacementPlugin(/^\.\/wswrapper$/, path.resolve(__dirname, '../src/common/wswrapper-native')),
     // copy static assets
     new CopyWebpackPlugin(
       [

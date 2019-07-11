@@ -1,4 +1,5 @@
 const path = require("path");
+const Webpack = require("webpack");
 const webpackMerge = require("webpack-merge");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 //const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
@@ -7,15 +8,22 @@ const buildCommonConfig = require("./build.common.config");
 
 module.exports = webpackMerge(buildCommonConfig, {
   mode: "production",
-  target: "node",
+  target: "web",
   entry: path.resolve(__dirname, "../src/index.ts"),
   output: {
     path: path.resolve(__dirname, "../../../dist/@casinocoin/libjs"),
     filename: "index.js",
-    library: "casinocoin",
-    libraryTarget: "umd"
+    library: "casinocoin"
   },
+  cache: true,
+  externals: [{
+      'lodash': '_'
+  }],
   plugins: [
+    // browser replacements
+    new Webpack.NormalModuleReplacementPlugin(/^\.\/wswrapper$/, path.resolve(__dirname, '../src/common/wswrapper-native')),
+    new Webpack.NormalModuleReplacementPlugin(/^\.\/wallet$/, './wallet-web'),
+    new Webpack.NormalModuleReplacementPlugin(/^.*setup-api$/, './setup-api-web'),
     // copy static assets
     new CopyWebpackPlugin(
       [

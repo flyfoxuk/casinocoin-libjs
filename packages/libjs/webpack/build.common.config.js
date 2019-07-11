@@ -1,55 +1,46 @@
-const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
-
   mode: "production",
-  devtool: "source-map",
   resolve: {
-    extensions: [".ts", ".js", ".json"],
-    modules: [path.resolve(__dirname, "../node_modules")]
+    extensions: [".ts", ".js", ".json"]
   },
-
-  externals: [
-    /node_modules/,
-    'bufferutil',
-    'utf-8-validate'
-  ],
-
   module: {
-
     rules: [
-
       {
         test: /jayson/,
         use: 'null',
       },
       {
         test: /\.ts$/,
-        loader: "ts-loader",
-        exclude: "/node_modules/"
+        use: [{
+          loader: 'ts-loader',
+          options: {
+            compilerOptions: {
+              composite: false,
+              declaration: false,
+              declarationMap: false
+            }
+          },
+        }]
       }
-
     ]
-
   },
 
-  plugins: [],
+  plugins: [ ],
 
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserPlugin({
         test: /\.js(\?.*)?$/i,
-        exclude: ["_", "CasinocoinError", "CasinocoindError", "UnexpectedError",
-          "LedgerVersionError", "ConnectionError", "NotConnectedError",
-          "DisconnectedError", "TimeoutError", "ResponseFormatError",
-          "ValidationError", "NotFoundError", "MissingLedgerHistoryError",
-          "PendingLedgerVersionError"
-        ],
         cache: false,
         parallel: true,
         sourceMap: true,
         extractComments: true,
+        terserOptions: {
+          keep_classnames: true
+        }
       })
     ],
   },

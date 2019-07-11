@@ -8,7 +8,6 @@ import {validate, errors} from '../common'
 import {Connection} from '../common'
 import {TransactionType} from './transaction-types'
 
-
 type TransactionsOptions = {
   start?: string,
   limit?: number,

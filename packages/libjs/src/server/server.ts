@@ -22,7 +22,7 @@ function getServerInfo(): Promise<GetServerInfoResponse> {
 }
 
 function getFee(): Promise<string> {
-  const cushion = this._feeCushion || 1.2
+  const cushion = this._feeCushion || 1
   return common.serverInfo.getFee(this.connection, cushion)
 }
 
