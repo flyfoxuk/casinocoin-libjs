@@ -1,0 +1,52 @@
+{
+  "type": "order",
+  "address": "cLHJt881gvgRmocApjZCawBgseeGkrxfvG",
+  "id": "5D9B0B246255815B63983C188B4C23325B3544F605CDBE3004769EE9E990D2F2",
+  "sequence": 465,
+  "specification": {
+    "direction": "buy",
+    "quantity": {
+      "currency": "USD",
+      "value": "237",
+      "counterparty": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G"
+    },
+    "totalPrice": {
+      "currency": "CSC",
+      "value": "0.0002"
+    }
+  },
+  "outcome": {
+    "result": "tesSUCCESS",
+    "timestamp": "2014-09-24T21:21:50.000Z",
+    "fee": "0.012",
+    "balanceChanges": {
+      "cLHJt881gvgRmocApjZCawBgseeGkrxfvG": [
+        {
+          "currency": "CSC",
+          "value": "-0.012"
+        }
+      ]
+    },
+    "orderbookChanges": {
+      "cLHJt881gvgRmocApjZCawBgseeGkrxfvG": [
+        {
+          "direction": "buy",
+          "quantity": {
+            "currency": "USD",
+            "counterparty": "cDEDNoEfjywwdyGNgPXXsQ679iYoA8Lm6G",
+            "value": "237"
+          },
+          "totalPrice": {
+            "currency": "CSC",
+            "value": "0.0002"
+          },
+          "makerExchangeRate": "1185000",
+          "sequence": 465,
+          "status": "created"
+        }
+      ]
+    },
+    "ledgerVersion": 14661788,
+    "indexInLedger": 2
+  }
+}

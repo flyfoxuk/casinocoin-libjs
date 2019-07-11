@@ -1,0 +1,14 @@
+{
+  "direction": "buy",
+  "quantity": {
+    "currency": "USD",
+    "counterparty": "cEe3dBYFwGEZ385ogF5ALyDtpp4R4aQuWx",
+    "value": "10.1"
+  },
+  "totalPrice": {
+    "currency": "CSC",
+    "value": "2"
+  },
+  "immediateOrCancel": true,
+  "expirationTime": "2015-01-14T18:36:52.000Z"
+}

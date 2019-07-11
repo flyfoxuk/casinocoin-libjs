@@ -1,0 +1,20 @@
+{
+  "error": "srcActNotFound",
+  "error_code": 58,
+  "error_message": "Source account not found.",
+  "id": 0,
+  "request": {
+    "command": "path_find",
+    "destination_account": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+    "destination_amount": {
+      "currency": "USD",
+      "issuer": "cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT",
+      "value": "5"
+    },
+    "id": 1,
+    "source_account": "cs1bHzrBvEGpssqqf8RQC85rT33ZmfbSnp",
+    "subcommand": "create"
+  },
+  "status": "error",
+  "type": "response"
+}

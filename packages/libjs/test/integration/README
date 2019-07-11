@@ -1,0 +1,11 @@
+To run integration tests:
+1. Replace 'describe.skip' with 'describe' in test/integration/integration-test.js
+2. Create a file at ~/.casinocoin_wallet containing a JSON object like this with
+   your own test address and secret.
+    {
+      "test": {
+        "address": "r3GgMwvgvP8h4yVWvjH1dPZNvC37TjzBBE",
+        "secret": "ssfk8HUiBSCJ17R99GbYcTZS6ASpY"
+      }
+    }
+3. Run "mocha test/integration/integration-test.js"

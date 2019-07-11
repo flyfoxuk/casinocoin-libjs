@@ -1,0 +1,22 @@
+{
+  "requireDestinationTag": true,
+  "disallowIncomingCSC": true,
+  "emailHash": "23463B99B62A72F26ED677CC556C44E8",
+  "domain": "example.com",
+  "transferRate": 1.002,
+  "signers": {
+    "threshold": 3,
+    "weights": [
+      {
+        "address": "c9vMhctRZtVkcuJboCXDXF7jrzhC7RdYxC",
+        "weight": 1
+      }, {
+        "address": "cDQdVfrM6GPuAAC87hUDCjqjQDsBfG26xr",
+        "weight": 1
+      }, {
+        "address": "cLcJdbwjrcmzyrUDjEhz2stf1WmJaP3egS",
+        "weight": 1
+      }
+    ]
+  }
+}

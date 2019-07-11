@@ -1,0 +1,25 @@
+{
+  "type": "settings",
+  "address": "cLHJt881gvgRmocApjZCawBgseeGkrxfvG",
+  "sequence": 468,
+  "id": "278E6687C1C60C6873996210A6523564B63F2844FB1019576C157353B1813E60",
+  "specification": {
+    "regularKey": "cEqnXroJEo2Jnte8tkWZtgfqBCRQ2G5u5K"
+  },
+  "outcome": {
+    "result": "tesSUCCESS",
+    "timestamp": "2015-07-27T15:30:50.000Z",
+    "fee": "0.01",
+    "balanceChanges": {
+      "cLHJt881gvgRmocApjZCawBgseeGkrxfvG": [
+        {
+          "currency": "CSC",
+          "value": "-0.01"
+        }
+      ]
+    },
+    "orderbookChanges": {},
+    "ledgerVersion": 14892648,
+    "indexInLedger": 0
+  }
+}

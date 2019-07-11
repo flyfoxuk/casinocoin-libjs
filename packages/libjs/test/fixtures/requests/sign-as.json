@@ -1,0 +1,8 @@
+{
+  "Account": "c9MUzbWe4WaG88b6ErNJVdm376FnTofNyp",
+  "Amount": "1000000000",
+  "Destination": "ch6BULZAU4qrQaWQccJSwcFgEYhz2Ysz4a",
+  "Fee": "50",
+  "Sequence": 2,
+  "TransactionType": "Payment"
+}

@@ -1,0 +1,10 @@
+{
+  "base": {
+    "currency": "USD",
+    "counterparty": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs"
+  },
+  "counter": {
+    "currency": "BTC",
+    "counterparty": "cHgi1NnXELNYchbFpAVXdoX22iWJti2Kgs"
+  }
+}

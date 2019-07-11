@@ -1,0 +1,8 @@
+{
+  "txJSON": "{\"TransactionType\":\"AccountSet\",\"Account\":\"cBEJmMrsFG3X3YKUzBdK3NvhBaYEhq3HxT\",\"Memos\":[{\"Memo\":{\"MemoData\":\"7465787465642064617461\",\"MemoType\":\"74657374\",\"MemoFormat\":\"706C61696E2F74657874\"}}],\"Domain\":\"636173696E6F636F696E2E6F7267\",\"Flags\":2147483648,\"Fee\":\"1200\",\"Sequence\":23}",
+  "instructions": {
+    "fee": "0.000012",
+    "sequence": 23,
+    "maxLedgerVersion": null
+  }
+}
