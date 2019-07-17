@@ -6,13 +6,17 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const buildCommonConfig = require("./build.common.config");
 
+var pkg = require('../package.json');
+
 module.exports = webpackMerge(buildCommonConfig, {
   mode: "production",
   target: "web",
   entry: path.resolve(__dirname, "../src/index.ts"),
   output: {
     path: path.resolve(__dirname, "../../../dist/@casinocoin/libjs"),
-    filename: "index.js",
+    // generated filename: remove @ and other unwanted chars from project name, split on slash then join with hyphen, append pkg version number and make it a .js file
+    // end result: @casinocoin/libjs => casinocoin-libjs-2.0.1.js
+    filename: pkg.name.replace(/([^a-z0-9\/]+)/gi, '').split('/').concat([pkg.version]).join('-') + '.js',  
     library: "casinocoin"
   },
   cache: true,
