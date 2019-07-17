@@ -12,6 +12,22 @@
       "format": "secret",
       "description": "The secret of the account that is initiating the transaction."
     },
+    "keypair": {
+      "type": "object",
+      "properties": {
+          "privateKey": {
+          "type": "string",
+          "description": "The uppercase hexadecimal representation of the secp256k1 or Ed25519 private key."
+          },
+          "publicKey": {
+          "type": "string",
+          "description": "The uppercase hexadecimal representation of the secp256k1 or Ed25519 public key."
+          }
+      },
+      "description": "The private and public key of the account that is initiating the transaction. (This field is exclusive with secret).",
+      "required": ["privateKey", "publicKey"],
+      "additionalProperties": false
+    },
     "options": {
       "type": "object",
       "description": "Options that control the type of signature that will be generated.",
@@ -25,5 +41,15 @@
     }
   },
   "additionalProperties": false,
-  "required": ["txJSON", "secret"]
+  "required": ["txJSON"],
+  "oneOf": [
+    {
+      "required": ["secret"],
+      "not": {"required": ["keypair"]}
+    },
+    {
+      "required": ["keypair"],
+      "not": {"required": ["secret"]}
+    }
+  ]
 }

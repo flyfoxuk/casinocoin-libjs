@@ -2,6 +2,7 @@ import * as utils from './utils'
 import * as keypairs from 'casinocoin-libjs-keypairs'
 import * as binary from 'casinocoin-libjs-binary-codec'
 import {computeBinaryTransactionHash} from 'casinocoin-libjs-hashes'
+import {KeyPair} from './../common/types'
 const validate = utils.common.validate
 
 function computeSignature(tx: Object, privateKey: string, signAs?: string) {
@@ -10,19 +11,20 @@ function computeSignature(tx: Object, privateKey: string, signAs?: string) {
   return keypairs.sign(signingData, privateKey)
 }
 
-function sign(txJSON: string, secret: string, options: {signAs?: string} = {}
-): {signedTransaction: string; id: string} {
-  validate.sign({txJSON, secret})
-  // we can't validate that the secret matches the account because
-  // the secret could correspond to the regular key
+function signWithKeypair(
+  txJSON: string,
+  keypair: KeyPair,
+  options: {signAs: ''}
+): { signedTransaction: string; id: string } {
+  validate.sign({txJSON, keypair})
 
   const tx = JSON.parse(txJSON)
   if (tx.TxnSignature || tx.Signers) {
     throw new utils.common.errors.ValidationError(
-      'txJSON must not contain "TxnSignature" or "Signers" properties')
+      'txJSON must not contain "TxnSignature" or "Signers" properties'
+    )
   }
 
-  const keypair = keypairs.deriveKeypair(secret)
   tx.SigningPubKey = options.signAs ? '' : keypair.publicKey
 
   if (options.signAs) {
@@ -42,5 +44,38 @@ function sign(txJSON: string, secret: string, options: {signAs?: string} = {}
     id: computeBinaryTransactionHash(serialized)
   }
 }
+
+
+function sign(
+  txJSON: string,
+  secret?: any,
+  options?: {signAs: ''},
+  keypair?: KeyPair
+): { signedTransaction: string; id: string } {
+  if (typeof secret === 'string') {
+    // we can't validate that the secret matches the account because
+    // the secret could correspond to the regular key
+    validate.sign({txJSON, secret})
+    return signWithKeypair(
+      txJSON,
+      keypairs.deriveKeypair(secret),
+      options
+    )
+  } else {
+
+    if (!keypair && !secret) {
+      // Clearer message than 'ValidationError: instance is not exactly one from [subschema 0],[subschema 1]'
+      throw new utils.common.errors.ValidationError(
+        'sign: Missing secret or keypair.'
+      )
+    }
+
+    return signWithKeypair(
+      txJSON,
+      keypair ? keypair : secret,
+      options)
+  }
+}
+
 
 export default sign

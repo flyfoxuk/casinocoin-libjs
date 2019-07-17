@@ -39,7 +39,7 @@ import sign from './transaction/sign'
 import combine from './transaction/combine'
 import submit from './transaction/submit'
 import {generateAddressAPI} from './offline/generate-address'
-import {deriveKeypair, deriveAddress} from './offline/derive'
+import {deriveKeypair, deriveAddress, generateSeed} from './offline/derive'
 import computeLedgerHash from './offline/ledgerhash'
 import signPaymentChannelClaim from './offline/sign-payment-channel-claim'
 import verifyPaymentChannelClaim from './offline/verify-payment-channel-claim'
@@ -160,6 +160,7 @@ class CasinocoinAPI extends EventEmitter {
   generateAddress = generateAddressAPI
   deriveKeypair = deriveKeypair
   deriveAddress = deriveAddress
+  generateSeed = generateSeed
   computeLedgerHash = computeLedgerHash
   signPaymentChannelClaim = signPaymentChannelClaim
   verifyPaymentChannelClaim = verifyPaymentChannelClaim

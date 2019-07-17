@@ -1,6 +1,7 @@
-import {deriveKeypair, deriveAddress} from 'casinocoin-libjs-keypairs'
+import {deriveKeypair, deriveAddress, generateSeed} from 'casinocoin-libjs-keypairs'
 
 export {
   deriveKeypair,
-  deriveAddress
+  deriveAddress,
+  generateSeed
 }
