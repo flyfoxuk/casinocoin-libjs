@@ -61,7 +61,3 @@ export type ApiMemo = {
   MemoFormat?: string
 }
 
-export type KeyPair = {
-  publicKey: string,
-  privateKey: string
-}

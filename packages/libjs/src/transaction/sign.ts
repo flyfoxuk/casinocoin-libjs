@@ -2,7 +2,7 @@ import * as utils from './utils'
 import * as keypairs from 'casinocoin-libjs-keypairs'
 import * as binary from 'casinocoin-libjs-binary-codec'
 import {computeBinaryTransactionHash} from 'casinocoin-libjs-hashes'
-import {KeyPair} from './../common/types'
+import {SignOptions, KeyPair} from './types'
 const validate = utils.common.validate
 
 function computeSignature(tx: Object, privateKey: string, signAs?: string) {
@@ -14,7 +14,9 @@ function computeSignature(tx: Object, privateKey: string, signAs?: string) {
 function signWithKeypair(
   txJSON: string,
   keypair: KeyPair,
-  options: {signAs: ''}
+  options: SignOptions = {
+    signAs: ''
+  }
 ): { signedTransaction: string; id: string } {
   validate.sign({txJSON, keypair})
 
@@ -49,7 +51,7 @@ function signWithKeypair(
 function sign(
   txJSON: string,
   secret?: any,
-  options?: {signAs: ''},
+  options?: SignOptions,
   keypair?: KeyPair
 ): { signedTransaction: string; id: string } {
   if (typeof secret === 'string') {

@@ -25,3 +25,12 @@ export type Submit = {
   txBlob?: string,
   txJson?: Object
 }
+
+export type KeyPair = {
+  publicKey: string,
+  privateKey: string
+}
+
+export type SignOptions = {
+  signAs: string
+}
