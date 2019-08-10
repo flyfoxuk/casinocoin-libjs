@@ -1,4 +1,5 @@
 const path = require("path");
+const Webpack = require("webpack");
 const webpackMerge = require("webpack-merge");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 //const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
@@ -16,6 +17,11 @@ module.exports = webpackMerge(buildCommonConfig, {
     libraryTarget: "umd"
   },
   plugins: [
+
+    // CMB:  needed otherwise websocket for CasinoCoin does not connect (CORS problems)
+    new Webpack.NormalModuleReplacementPlugin(/^\.\/wswrapper$/, path.resolve(__dirname, '../src/common/wswrapper-native')),
+
+
     // copy static assets
     new CopyWebpackPlugin(
       [
